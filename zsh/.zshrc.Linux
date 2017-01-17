@@ -1,0 +1,14 @@
+export PROTOC_HOME=/usr/local/bin
+export JAVA_HOME=/opt/jdk1.8.0_51
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/llvm-3.5/lib
+
+alias pbcopy='xclip -selection clipboard'
+
+if [[ -f "${DIRCOLORS}" ]]; then
+    eval $(dircolors -b ${DIRCOLORS})
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+    alias ls="ls --color=auto -p"
+fi
+
+alias tmux-attach='tmux new-session -A -D -s'

@@ -1,0 +1,56 @@
+[color]
+	ui = true
+[merge]
+	ff = false
+	tool = gvimdiff
+	stat = true
+	conflictstyle = diff3
+[diff]
+	tool = vimdiff
+#  external = ~/bin/git_vimdiff_wrapper
+#[mergetool "vimdiff"]
+#  cmd = vimdiff -c \"wincmd l\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
+[core]
+	editor = nvim
+	pager = less -x4
+[branch]
+	autosetuprebase = always
+[alias]
+	outgoing = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\2..\\1/;tx;d;:x')"
+	incoming = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\1..\\2/;tx;d;:x')"
+	lg = "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+	logr = "log --graph --full-history --all --color --pretty=format:\"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s\""
+	standup = "!git log --since yesterday --author `git config user.email` --pretty=short"
+	st = "status -sb"
+	contained = "!git rev-list $2 | ack $(git rev-parse $1)"
+
+	# list all ignored files
+	ignored = "ls-files --others -i --exclude-standard"
+
+	# start interactive rebase to prepare local commits to be pushed
+	ready = "rebase -i @{u}"
+
+	# temporary ignore a file
+	assume	 = "update-index --assume-unchanged"
+	# stop ignoring a file
+	unassume = "update-index --no-assume-unchanged"
+	# list temp ignored files
+	assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
+[user]
+	name = leeor
+	email = leeor.aharon@gmail.com
+[push]
+	default = current
+[pull]
+	ff = true
+[diff]
+	algorithm = patience
+#[mergetool "gvimdiff3"]
+#	cmd = gvim -f -d -c \"wincmd J\" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+#[mergetool "vimdiff3"]
+#	cmd = vim -f -d -c \"wincmd J\" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+[mergetool]
+	prompt = false
+	keepBackup = false
+[mergetool "gvimdiff"]
+	trustExitCode = true

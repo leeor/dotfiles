@@ -1,0 +1,19 @@
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin:$HOME/Library/Python/2.7/bin
+
+alias vim='mvim -v'
+
+notify() {
+    terminal-notifier -activate com.googlecode.iterm2 -title "iTerm2" -message "$@"
+}
+
+if [[ -f "${DIRCOLORS}" ]]; then
+    eval $(gdircolors -b $DIRCOLORS)
+    zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+    alias ls="/usr/local/bin/gls --color=auto -p"
+fi
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+# Homebrew GitHub access token
+export HOMEBREW_GITHUB_API_TOKEN=***REMOVED***
