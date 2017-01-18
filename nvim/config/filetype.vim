@@ -141,7 +141,6 @@ let g:markdown_fenced_languages = [
 " function: f
 let g:vimsyn_folding = 'af'
 let g:tex_fold_enabled = 1
-let g:xml_syntax_folding = 1
 let g:php_folding = 2
 let g:php_phpdoc_folding = 1
 let g:perl_fold = 1
