@@ -93,6 +93,7 @@ brew 'saltstack'
 brew 'scala', args: ['with-docs', 'with-src']
 brew 'scons'
 brew 'sdl'
+brew 'source-highlight'
 brew 'ssh-copy-id'
 brew 'swig'
 brew 'szip'
