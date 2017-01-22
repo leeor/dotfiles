@@ -65,6 +65,7 @@
 [pager]
 	diff = diff-so-fancy | less --tabs=2 -RFX
 	show = diff-so-fancy | less --tabs=2 -RFX
+	log = less --tabs=2 -RFX
 
 [branch]
 	autosetuprebase = always
