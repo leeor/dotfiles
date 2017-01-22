@@ -17,3 +17,7 @@ then
   export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 fi
 ```
+
+# References
+
+[nicksp/dotfiles](https://github.com/nicksp/dotfiles)
