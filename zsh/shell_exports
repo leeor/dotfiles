@@ -25,9 +25,16 @@ export DIRCOLORS=$(dirname "${(%):-%x}")/dircolors/dircolors.ansi-dark
 LESSPIPE=`which src-hilite-lesspipe.sh`
 [ -n "$LESSPIPE" ] && export LESSOPEN="| ${LESSPIPE} %s"
 less_options=(
+  # keeping the first two options inactive as defining them globally feels too
+	# much, as it is causing side effects for everything using less (e.g., git
+	# log)
+	#
   # If the entire text fits on one screen, just show it and quit. (Be more
   # like "cat" and less like "more".)
-  --quit-if-one-screen
+  #--quit-if-one-screen
+
+  # Do not clear the screen first.
+  #--no-init
 
   # Like "smartcase" in Vim: ignore case unless the search pattern is mixed.
   --ignore-case
