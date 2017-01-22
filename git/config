@@ -1,56 +1,90 @@
-[color]
-	ui = true
-[merge]
-	ff = false
-	tool = gvimdiff
-	stat = true
-	conflictstyle = diff3
-[diff]
-	tool = vimdiff
-#  external = ~/bin/git_vimdiff_wrapper
-#[mergetool "vimdiff"]
-#  cmd = vimdiff -c \"wincmd l\" \"$LOCAL\" \"$MERGED\" \"$REMOTE\"
-[core]
-	editor = nvim
-	pager = less -x4
-[branch]
-	autosetuprebase = always
 [alias]
 	outgoing = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\2..\\1/;tx;d;:x')"
 	incoming = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\1..\\2/;tx;d;:x')"
-	lg = "log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-	logr = "log --graph --full-history --all --color --pretty=format:\"%x1b[31m%h%x09%x1b[32m%d%x1b[0m%x20%s\""
-	standup = "!git log --since yesterday --author `git config user.email` --pretty=short"
+	lg = "log --pretty=custom"
+	logr = "log --graph --full-history --pretty=custom"
 	st = "status -sb"
-	contained = "!git rev-list $2 | ack $(git rev-parse $1)"
+	contained = "!git rev-list $2 | ag $(git rev-parse $1)"
 
 	# list all ignored files
 	ignored = "ls-files --others -i --exclude-standard"
 
 	# start interactive rebase to prepare local commits to be pushed
-	ready = "rebase -i @{u}"
+	prep = "rebase -i @{u}"
 
-	# temporary ignore a file
-	assume	 = "update-index --assume-unchanged"
-	# stop ignoring a file
-	unassume = "update-index --no-assume-unchanged"
-	# list temp ignored files
-	assumed  = "!git ls-files -v | grep ^h | cut -c 3-"
-[user]
-	name = leeor
-	email = leeor.aharon@gmail.com
-[push]
-	default = current
-[pull]
-	ff = true
-[diff]
-	algorithm = patience
-#[mergetool "gvimdiff3"]
-#	cmd = gvim -f -d -c \"wincmd J\" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
-#[mergetool "vimdiff3"]
-#	cmd = vim -f -d -c \"wincmd J\" \"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+	# Merge GitHub pull request on top of the current branch or,
+	# if a branch name is specified, on top of the specified branch
+
+	mpr = "!f() { \
+			declare currentBranch=\"$(git symbolic-ref --short HEAD)\"; \
+			declare branch=\"${2:-$currentBranch}\"; \
+			if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+					git fetch origin refs/pull/$1/head:pr/$1 && \
+					git checkout -B $branch && \
+					git rebase $branch pr/$1 && \
+					git checkout -B $branch && \
+					git merge pr/$1 && \
+					git branch -D pr/$1 && \
+					git commit --amend -m \"$(git log -1 --pretty=%B)\n\nClose #$1\"; \
+			fi \
+	}; f"
+
+	# Remove the tag with the specified tag name if
+	# exists and tag the latest commit with that name
+
+	retag = "!f() { \
+			git tag -d "$1" &> /dev/null; \
+			git tag $1; \
+	}; f"
+
+[color]
+	ui = true
+
+[merge]
+	ff = false
+	tool = vimdiff
+	stat = true
+	conflictstyle = diff3
+
 [mergetool]
 	prompt = false
 	keepBackup = false
-[mergetool "gvimdiff"]
-	trustExitCode = true
+
+[diff]
+	algorithm = patience
+	tool = vimdiff
+
+[diff "bin"]
+	# Use `hexdump` to diff binary files
+	textconv = hexdump -v -C
+
+[core]
+	editor = nvim
+	abbrev = 12
+
+[pager]
+	diff = diff-so-fancy | less --tabs=2 -RFX
+	show = diff-so-fancy | less --tabs=2 -RFX
+
+[branch]
+	autosetuprebase = always
+
+[user]
+	name = leeor
+	email = leeor.aharon@gmail.com
+
+[push]
+	followTags = true
+	default = current
+
+[pull]
+	ff = true
+
+[pretty]
+	custom = "%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(blue)<%an>%C(reset) %C(green)(%ar)%C(reset)"
+	#									|											 |					 |					 |											 |
+	#									|											 |					 |					 |											 └─ date, relative
+	#									|											 |					 |					 └─ author name
+	#									|											 |					 └─ message
+	#									|											 └─ decorations (branch, tag, pointers)
+	#									└─ hash (abbreviated)
