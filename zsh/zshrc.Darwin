@@ -1,13 +1,10 @@
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOPATH/bin:$HOME/Library/Python/2.7/bin
-
-alias vim='mvim -v'
+export PATH=$PATH:$HOME/Library/Python/2.7/bin
 
 notify() {
     terminal-notifier -activate com.googlecode.iterm2 -title "iTerm2" -message "$@"
 }
 
-if [[ -f "${DIRCOLORS}" ]]; then
+if [[ -a "${DIRCOLORS}" ]]; then
     eval $(gdircolors -b $DIRCOLORS)
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
     alias ls="/usr/local/bin/gls --color=auto -p"

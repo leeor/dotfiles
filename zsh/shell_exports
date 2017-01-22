@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+export XDG_CONFIG_HOME=${HOME}/.config
+export XDG_CACHE_HOME=${HOME}/.cache
+
 # You may need to manually set your language environment
 export LANG=en_GB.UTF-8
 export LC_ALL=en_GB.UTF-8
@@ -14,12 +17,14 @@ export DEFAULT_USER=leeor
 export EDITOR=nvim
 export VISUAL=nvim
 
-# less {{{
-
 # define right prompt, if it wasn't defined by a theme
 RPROMPT='$(vi_mode_prompt_info) $(build_rprompt)'
 
-export DIRCOLORS=$(dirname "${(%):-%x}")/dircolors/dircolors.ansi-dark
+export DIRCOLORS=${HOME}/.dircolors
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+# less {{{
 
 # Make less the default pager, add some options and enable syntax highlight using source-highlight
 LESSPIPE=`which src-hilite-lesspipe.sh`

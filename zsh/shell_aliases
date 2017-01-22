@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+alias vim='nvim'
+
 autoload zmv
 alias mmv='noglob zmv -W'
 

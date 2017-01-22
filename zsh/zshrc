@@ -22,15 +22,16 @@ HIST_STAMPS="dd.mm.yyyy"
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-if [[ ! -d "$XDG_CACHE_HOME/zsh" ]]; then
-	mkdir -p $XDG_CACHE_HOME/zsh
-fi
-
 # Load the shell dotfiles
-for file in $(dirname ${(%):-%x})/{shell_exports,shell_aliases,shell_functions,shell_config}; do
+for file in $(dirname ${(%):-%x})/.{shell_exports,shell_aliases,shell_functions,shell_config}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done
 unset file
+
+# this is where completion and history will be saved
+if [[ ! -d "$XDG_CACHE_HOME/zsh" ]]; then
+	mkdir -p $XDG_CACHE_HOME/zsh
+fi
 
 # antigen {{{
 
@@ -79,12 +80,12 @@ antigen apply
 
 # }}}
 
-# source platform specific settings
-if [[ -f "${(%):-%x}.$(uname)" ]]; then
+# source platform-specific settings
+if [[ -a "${(%):-%x}.$(uname)" ]]; then
 	source ${(%):-%x}.$(uname)
 fi
 
 # source local settings
-if [[ -f "${HOME}/.zshrc.local" ]]; then
+if [[ -a "${HOME}/.zshrc.local" ]]; then
 	source ${HOME}/.zshrc.local
 fi
