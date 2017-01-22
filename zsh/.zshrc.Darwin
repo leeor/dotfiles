@@ -14,6 +14,3 @@ if [[ -f "${DIRCOLORS}" ]]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# Homebrew GitHub access token
-export HOMEBREW_GITHUB_API_TOKEN=***REMOVED***
