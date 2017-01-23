@@ -47,9 +47,11 @@ rcfiles=(
 	zsh/shell_config
 	zsh/shell_exports
 	zsh/shell_functions
-	"zsh/dircolors/dircolors.ansi-dark=>dircolors"
+	"zsh/dircolors/dircolors.ansi-dark=>.dircolors"
+	git/gitconfig
+	"nvim=>.config/nvim"
 	wget/wgetrc
-	"nvim/init.vim=>vimrc"
+	"nvim/init.vim=>.vimrc"
 	tmuxifier
 	tmux/tmux.conf
 )
@@ -57,7 +59,7 @@ rcfiles=(
 for rcf in ${rcfiles[@]}; do
 	src=$(pwd)/${rcf}
 	dest=~/.$(basename ${rcf})
-	[[ "${rcf#*=>}" != "" ]] && src=$(pwd)/${rcf%=>*} && dest=~/.$(basename ${rcf#*=>})
+	[[ "${rcf}" == *"=>"* ]] && src=$(pwd)/${rcf%=>*} && dest=~/${rcf#*=>}
 	rm -f ${dest} && ln -s ${src} ${dest}
 	unset src dest
 done

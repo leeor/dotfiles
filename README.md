@@ -1,7 +1,8 @@
 # Set up
 
 ```
-cd ~/.config
+git clone <repo-url> ~/.dotfiles
+cd ~/.dotfiles
 ./setup.sh
 ```
 
