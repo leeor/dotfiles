@@ -45,7 +45,7 @@ fi
 antigen use oh-my-zsh
 
 # set theme
-antigen theme robbyrussell/oh-my-zsh themes/nanotech
+antigen theme --loc=themes/pico --url=$(dirname $(readlink ${(%):-%x})) --no-local-clone
 
 antigen bundles <<ENDBUNDLES
 	git
