@@ -45,9 +45,9 @@ fi
 antigen use oh-my-zsh
 
 # set theme
-antigen theme leeor/oh-my-zsh-custom themes/agnoster
+antigen theme robbyrussell/oh-my-zsh themes/nanotech
 
-antigen_plugins=(
+antigen bundles <<ENDBUNDLES
 	git
 	gem
 	node
@@ -58,25 +58,25 @@ antigen_plugins=(
 	web-search
 	docker
 	go
-	'leeor/oh-my-zsh-custom plugins/vi-mode'
-	'leeor/oh-my-zsh-custom plugins/tmuxifier'
+
+	# local plugins
+	$(dirname $(readlink ${(%):-%x}))/plugins/vi-mode
+	$(dirname $(readlink ${(%):-%x}))/plugins/tmuxifier
+
+	# nvm/npm
 	lukechilds/zsh-nvm
 	lukechilds/zsh-better-npm-completion
-)
+
+	# syntax highlighting
+	zsh-users/zsh-syntax-highlighting
+ENDBUNDLES
 
 if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then
 	for plugin in $(cat ${(%):-%x}.plugins.$(uname)); do
-		antigen_plugins+=(${plugin})
+		antigen bundle ${plugin}
 	done
 fi
 
-for plugin in $antigen_plugins; do
-	antigen bundle ${plugin}
-done
-unset antigen_plugins
-
-# syntax highlighting
-antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen apply
 
