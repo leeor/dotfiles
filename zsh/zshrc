@@ -60,6 +60,8 @@ antigen_plugins=(
 	go
 	'leeor/oh-my-zsh-custom plugins/vi-mode'
 	'leeor/oh-my-zsh-custom plugins/tmuxifier'
+	lukechilds/zsh-nvm
+	lukechilds/zsh-better-npm-completion
 )
 
 if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then

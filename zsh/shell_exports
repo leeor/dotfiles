@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+export SHELL=$(which zsh)
+
 export XDG_CONFIG_HOME=${HOME}/.config
 export XDG_CACHE_HOME=${HOME}/.cache
 
@@ -60,3 +62,5 @@ export LESS="${less_options[*]}"
 export PAGER='less'
 
 # }}}
+
+export NVM_LAZY_LOAD=true
