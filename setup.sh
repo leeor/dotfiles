@@ -23,6 +23,9 @@ if [[ "${platform}" == 'Darwin' ]]; then
 
 	# install Solarized Dark colors for iTerm2
 	open "iterm2/Solarized Dark.itermcolors"
+
+	# set some nice defaults
+	osx/defaults.sh
 elif [[ "${platform}" == 'Linux' ]]; then
 	if [[ -f /etc/redhat-release ]]; then
 		sudo yum install zsh
