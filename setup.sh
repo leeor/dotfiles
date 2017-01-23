@@ -51,6 +51,7 @@ rcfiles=(
 	wget/wgetrc
 	"nvim/init.vim=>vimrc"
 	tmuxifier
+	tmux/tmux.conf
 )
 
 for rcf in ${rcfiles[@]}; do
