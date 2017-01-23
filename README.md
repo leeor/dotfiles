@@ -1,10 +1,10 @@
-# Set up XDG configuration structure
+# Set up
 
 ```
 cd ~/.config
 ./setup.sh
 ```
 
-# References
+# References and inspiration
 
 [nicksp/dotfiles](https://github.com/nicksp/dotfiles)
