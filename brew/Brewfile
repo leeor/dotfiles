@@ -113,7 +113,5 @@ brew 'yasm'
 brew 'zsh'
 brew 'zsh-completions'
 brew 'homebrew/dupes/grep', args: ['with-default-names']
-brew 'homebrew/science/hdf5'
 brew 'homebrew/science/r'
-brew 'homebrew/science/vtk'
 brew 'neovim/neovim/neovim'
