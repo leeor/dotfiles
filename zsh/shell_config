@@ -22,4 +22,9 @@
 HISTFILE=$XDG_CACHE_HOME/zsh/zsh_history
 ZGEN_CUSTOM_COMPDUMP=${XDG_CACHE_HOME}/zsh/zcompdump
 
+# define right prompt
+RPROMPT='$(vi_mode_prompt_info)'
+
+PICO_DEFAULT_USER='leeor'
+
 unsetopt share_history

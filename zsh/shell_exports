@@ -19,9 +19,6 @@ export DEFAULT_USER=leeor
 export EDITOR=nvim
 export VISUAL=nvim
 
-# define right prompt, if it wasn't defined by a theme
-RPROMPT='$(vi_mode_prompt_info) $(build_rprompt)'
-
 export DIRCOLORS=${HOME}/.dircolors
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin

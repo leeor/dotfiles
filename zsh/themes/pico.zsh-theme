@@ -52,8 +52,13 @@ prompt_time() {
 	echo -n '%F{green}%D{%K:%M} '
 }
 
+prompt_context() {
+  local user="$(whoami)"
+	[[ "$user" != "$PICO_DEFAULT_USER" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && echo -n '%F{blue}%n@%m%f '
+}
+
 prompt_dir() {
-	echo -n '%F{green}[%2c]%f '
+	echo -n '%F{green}[%2~]%f '
 }
 
 prompt_git() {
@@ -69,17 +74,25 @@ prompt_end() {
 	echo -n "%F{${pcol}}»%f "
 }
 
+prompt_custom() {
+	echo -n "$(eval ${RPROMPT_CUSTOM}) "
+}
+
 build_prompt() {
   RETVAL=$?
 	prompt_symbols
 	prompt_time
+	prompt_context
 	prompt_dir
 	prompt_git
 	prompt_cmd_exec_time
 	prompt_end
 }
 
+build_rprompt() { }
+
 PROMPT='$(build_prompt)'
+RPROMPT="$RPROMPT"' $(build_rprompt)'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%F{yellow}\ue0a0 "
 ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
