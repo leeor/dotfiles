@@ -53,7 +53,7 @@ prompt_time() {
 }
 
 prompt_dir() {
-	echo -n '%F{green}%2c '
+	echo -n '%F{green}[%2c]%f '
 }
 
 prompt_git() {
