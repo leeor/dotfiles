@@ -20,6 +20,6 @@
 # ENABLE_CORRECTION="true"
 
 HISTFILE=$XDG_CACHE_HOME/zsh/zsh_history
-ANTIGEN_COMPDUMPFILE=${XDG_CACHE_HOME}/zsh/zcompdump
+ZGEN_CUSTOM_COMPDUMP=${XDG_CACHE_HOME}/zsh/zcompdump
 
 unsetopt share_history

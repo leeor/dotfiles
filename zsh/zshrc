@@ -33,52 +33,54 @@ if [[ ! -d "$XDG_CACHE_HOME/zsh" ]]; then
 	mkdir -p $XDG_CACHE_HOME/zsh
 fi
 
-# antigen {{{
+# zgen {{{
 
-if [[ ! -f $XDG_CACHE_HOME/antigen/antigen.zsh ]]; then
-	git clone https://github.com/zsh-users/antigen.git $XDG_CACHE_HOME/antigen
+if [[ ! -f $XDG_CACHE_HOME/zgen/zgen.zsh ]]; then
+	git clone https://github.com/tarjoilija/zgen.git "${XDG_CACHE_HOME}/zgen"
 fi
 
-. $XDG_CACHE_HOME/antigen/antigen.zsh
+ZGEN_DIR=${XDG_CACHE_HOME}/zgen.repos
+. $XDG_CACHE_HOME/zgen/zgen.zsh
 
-# Load oh-my-zsh
-antigen use oh-my-zsh
+if ! zgen saved; then
+	# Load oh-my-zsh
+	zgen oh-my-zsh
 
-# set theme
-antigen theme --loc=themes/pico --url=$(dirname $(readlink ${(%):-%x})) --no-local-clone
+	zgen oh-my-zsh plugins/git
+	zgen oh-my-zsh plugins/gem
+	zgen oh-my-zsh plugins/node
+	zgen oh-my-zsh plugins/npm
+	zgen oh-my-zsh plugins/ruby
+	zgen oh-my-zsh plugins/pip
+	zgen oh-my-zsh plugins/python
+	zgen oh-my-zsh plugins/web-search
+	zgen oh-my-zsh plugins/docker
+	zgen oh-my-zsh plugins/go
 
-antigen bundles <<ENDBUNDLES
-	git
-	gem
-	node
-	npm
-	ruby
-	pip
-	python
-	web-search
-	docker
-	go
+	zgen loadall <<ENDBUNDLES
+		# local plugins
+		$(dirname $(readlink ${(%):-%x}))/plugins/vi-mode
+		$(dirname $(readlink ${(%):-%x}))/plugins/tmuxifier
 
-	# local plugins
-	$(dirname $(readlink ${(%):-%x}))/plugins/vi-mode
-	$(dirname $(readlink ${(%):-%x}))/plugins/tmuxifier
+		# nvm/npm
+		lukechilds/zsh-nvm
+		lukechilds/zsh-better-npm-completion
 
-	# nvm/npm
-	lukechilds/zsh-nvm
-	lukechilds/zsh-better-npm-completion
+		# syntax highlighting
+		zsh-users/zsh-syntax-highlighting
 
-	# syntax highlighting
-	zsh-users/zsh-syntax-highlighting
+		# theme
+		$(dirname $(readlink ${(%):-%x}))/themes/pico
 ENDBUNDLES
 
-if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then
-	for plugin in $(cat ${(%):-%x}.plugins.$(uname)); do
-		antigen bundle ${plugin}
-	done
+	if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then
+		for plugin in $(cat ${(%):-%x}.plugins.$(uname)); do
+			zgen ${plugin}
+		done
+	fi
+
+	zgen save
 fi
-
-
-antigen apply
 
 # }}}
 

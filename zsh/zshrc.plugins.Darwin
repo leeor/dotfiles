@@ -1,1 +1,2 @@
-brew osx
+oh-my-zsh plugins/brew
+oh-my-zsh plugins/osx
