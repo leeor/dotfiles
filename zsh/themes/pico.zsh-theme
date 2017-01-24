@@ -1,5 +1,44 @@
 # vim:ft=zsh
 
+# A theme with a minimalist prompt, even more so than nanotech's prompt!
+# It is inspired by both the agnoster and bullet-train themes, and borrows from
+# both while striving to keep screen real-estate usage at a bare minimum (both
+# horizontal and vertical).
+
+# command execution time
+if [ ! -n "${PICO_EXEC_TIME_ELAPSED+1}" ]; then
+  PICO_EXEC_TIME_ELAPSED=5
+fi
+
+# Based on http://stackoverflow.com/a/32164707/3859566
+function displaytime {
+  local T=$1
+  local D=$((T/60/60/24))
+  local H=$((T/60/60%24))
+  local M=$((T/60%60))
+  local S=$((T%60))
+  [[ $D > 0 ]] && printf '%dd' $D
+  [[ $H > 0 ]] && printf '%dh' $H
+  [[ $M > 0 ]] && printf '%dm' $M
+  printf '%ds' $S
+}
+
+# Prompt previous command execution time (from bullet-train theme)
+preexec() {
+  cmd_timestamp=`date +%s`
+}
+
+precmd() {
+  local stop=`date +%s`
+  local start=${cmd_timestamp:-$stop}
+  let PICO_last_exec_duration=$stop-$start
+  cmd_timestamp=''
+}
+
+prompt_cmd_exec_time() {
+  [ $PICO_last_exec_duration -gt $PICO_EXEC_TIME_ELAPSED ] && echo -n "%F{yellow}$(displaytime $PICO_last_exec_duration)%f "
+}
+
 prompt_symbols() {
 	local syms
 	syms=()
@@ -36,6 +75,7 @@ build_prompt() {
 	prompt_time
 	prompt_dir
 	prompt_git
+	prompt_cmd_exec_time
 	prompt_end
 }
 
