@@ -21,7 +21,7 @@ call denite#custom#option('mpc', 'winheight', 10)
 
 " MATCHERS
 call denite#custom#source('file_mru,file_old,file_rec,grep', 'matchers',
-	\ ['matcher_cpsm', 'matcher_fuzzy'])
+	\ ['matcher_fuzzy'])
 
 call denite#custom#source('mark', 'matchers',
 	\ ['matcher_fuzzy', 'matcher_project_files'])

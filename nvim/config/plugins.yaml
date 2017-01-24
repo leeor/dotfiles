@@ -354,9 +354,6 @@
   hook_post_source: source $VIMPATH/config/menus.vim
 
 - { repo: chemzqm/unite-location, on_source: denite.nvim }
-- repo: nixprime/cpsm
-  build: PY3=ON ./install.sh
-  on_source: denite.vim
 
 # ==========================================
 # Unite
