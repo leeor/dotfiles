@@ -77,6 +77,8 @@ precmd() {
   local start=${cmd_timestamp:-$stop}
   let PICO_last_exec_duration=$stop-$start
   cmd_timestamp=''
+
+	vcs_info
 }
 
 prompt_cmd_exec_time() {
@@ -112,8 +114,32 @@ prompt_dir() {
 }
 
 prompt_git() {
+  local PL_BRANCH_CHAR
+  () {
+    local LC_ALL="" LC_CTYPE="en_US.UTF-8"
+    PL_BRANCH_CHAR=$'\ue0a0'         # 
+  }
+  local ref dirty mode repo_path
+  repo_path=$(git rev-parse --git-dir 2>/dev/null)
+
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-		echo -n $(git_prompt_info)$(git_prompt_status)' '
+    dirty=$(parse_git_dirty)
+    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
+    if [[ -n $dirty ]]; then
+      prompt_segment NONE yellow
+		else
+      prompt_segment NONE green
+    fi
+
+    if [[ -e "${repo_path}/BISECT_LOG" ]]; then
+      mode=" <B>"
+    elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
+      mode=" >M<"
+    elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
+      mode=" >R>"
+    fi
+
+    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode} "
 	fi
 }
 
@@ -134,16 +160,18 @@ build_rprompt() { }
 PROMPT='$(build_prompt)'
 RPROMPT="$RPROMPT"' $(build_rprompt)'
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%F{yellow}\ue0a0 "
-ZSH_THEME_GIT_PROMPT_SUFFIX="%f"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %F{red}✘%f"
-ZSH_THEME_GIT_PROMPT_CLEAN=" %F{green}✔%F{black}"
-ZSH_THEME_GIT_PROMPT_ADDED=" %F{green}✚%F{black}"
-ZSH_THEME_GIT_PROMPT_MODIFIED=" %F{blue}✹%F{black}"
-ZSH_THEME_GIT_PROMPT_DELETED=" %F{red}✖%F{black}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED=" %F{yellow}✭%F{black}"
-ZSH_THEME_GIT_PROMPT_RENAMED=" ➜"
-ZSH_THEME_GIT_PROMPT_UNMERGED=" ═"
-ZSH_THEME_GIT_PROMPT_AHEAD=" ⬆"
-ZSH_THEME_GIT_PROMPT_BEHIND=" ⬇"
-ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
+prompt_pico_setup() {
+	autoload -Uz vcs_info
+
+	setopt promptsubst
+
+	zstyle ':vcs_info:*' enable git
+	zstyle ':vcs_info:*' get-revision true
+	zstyle ':vcs_info:*' check-for-changes true
+	zstyle ':vcs_info:*' stagedstr '✚'
+	zstyle ':vcs_info:*' unstagedstr '●'
+	zstyle ':vcs_info:*' formats ' %u%c'
+	zstyle ':vcs_info:*' actionformats ' %u%c'
+}
+
+prompt_pico_setup
