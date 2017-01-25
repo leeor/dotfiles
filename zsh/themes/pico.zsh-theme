@@ -185,7 +185,9 @@ prompt_time() {
 }
 
 prompt_custom() {
-	prompt_segment ${PICO_PROMPT_CUSTOM_BG} ${PICO_PROMPT_CUSTOM_FG} "${PICO_PROMPT_CUSTOM_MSG}"
+	if [[ -n ${PICO_PROMPT_CUSTOM_MSG+1} ]]; then
+		prompt_segment ${PICO_CUSTOM_BG} ${PICO_CUSTOM_FG} ${PICO_PROMPT_CUSTOM_MSG}
+	fi
 }
 
 prompt_symbols() {
