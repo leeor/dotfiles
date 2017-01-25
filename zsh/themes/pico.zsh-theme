@@ -154,8 +154,8 @@ prompt_custom() {
 prompt_symbols() {
 	local syms
 	syms=()
-	[[ $UID -eq 0 ]] && syms+="%{%F{yellow}%}⚡ "
-	[[ $(jobs -l | wc -l) -gt 0 ]] && syms+="%{%F{cyan}%}⚙ "
+	[[ $UID -eq 0 ]] && syms+="⚡ "
+	[[ $(jobs -l | wc -l) -gt 0 ]] && syms+="⚙ "
 
 	prompt_segment ${PICO_SYMBOLS_BG} ${PICO_SYMBOLS_FG} $syms
 }
