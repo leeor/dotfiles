@@ -10,7 +10,7 @@ if [[ -z ${PICO_PROMPT_ORDER+1} ]]; then
 	PICO_PROMPT_ORDER=(symbols time context dir git cmd_exec_time)
 fi
 if [[ -z ${PICO_RPROMPT_ORDER+1} ]]; then
-	PICO_RPROMPT_ORDER=()
+	PICO_RPROMPT_ORDER=(nvm)
 fi
 
 # Prompt character
@@ -73,6 +73,16 @@ if [[ -z ${PICO_GIT_CLEAN_BG+1} ]]; then
 fi
 if [[ -z ${PICO_GIT_CLEAN_FG+1} ]]; then
 	PICO_GIT_CLEAN_FG=green
+fi
+
+if [ ! -n "${PICO_NVM_BG+1}" ]; then
+  PICO_NVM_BG=default
+fi
+if [ ! -n "${PICO_NVM_FG+1}" ]; then
+  PICO_NVM_FG=green
+fi
+if [ ! -n "${PICO_NVM_PREFIX+1}" ]; then
+  PICO_NVM_PREFIX="⬡ "
 fi
 
 # }}}
@@ -224,6 +234,19 @@ prompt_git() {
 
 		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }$(git_prompt_status)${mode} "
 	fi
+}
+
+# NVM: Node version manager
+prompt_nvm() {
+  local nvm_prompt
+  if type nvm >/dev/null 2>&1; then
+    nvm_prompt=$(nvm current 2>/dev/null)
+    [[ "${nvm_prompt}x" == "x" ]] && return
+  else
+    nvm_prompt="$(node --version)"
+  fi
+  nvm_prompt=${nvm_prompt}
+  prompt_segment $PICO_NVM_BG $PICO_NVM_FG $PICO_NVM_PREFIX$nvm_prompt
 }
 
 prompt_chars() {
