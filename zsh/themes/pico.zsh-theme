@@ -5,6 +5,10 @@
 # both while striving to keep screen real-estate usage at a bare minimum (both
 # horizontal and vertical).
 
+if [[ -z ${PICO_PROMPT_CHAR+1} ]]; then
+	PICO_PROMPT_CHAR='»'
+fi
+
 if [[ -z ${PICO_CMD_TIME_BG+1} ]]; then
 	PICO_CMD_TIME_BG=default
 fi
@@ -116,14 +120,6 @@ prompt_end() {
 
 # }}}
 
-PROMPT_CHAR='»'
-prompt_chars() {
-	local pcol
-	pcol='blue'
-	[[ $RETVAL -ne 0 ]] && pcol='red'
-	echo -n "%F{${pcol}}${PROMPT_CHAR}%f "
-}
-
 # execution time {{{
 
 # Based on http://stackoverflow.com/a/32164707/3859566
@@ -213,6 +209,13 @@ prompt_git() {
 
 		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}$(git_prompt_status) "
 	fi
+}
+
+prompt_chars() {
+	local pcol
+	pcol='blue'
+	[[ $RETVAL -ne 0 ]] && pcol='red'
+	echo -n "%F{${pcol}}${PICO_PROMPT_CHAR}%f "
 }
 
 build_prompt() {
