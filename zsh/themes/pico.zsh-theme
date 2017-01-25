@@ -222,7 +222,7 @@ prompt_git() {
       mode=" >R>"
     fi
 
-		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}$(git_prompt_status) "
+		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }$(git_prompt_status)${mode} "
 	fi
 }
 
