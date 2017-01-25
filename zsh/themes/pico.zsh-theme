@@ -61,6 +61,22 @@ if [[ -z ${PICO_GIT_CLEAN_FG+1} ]]; then
 	PICO_GIT_CLEAN_FG=green
 fi
 
+if [ ! -n "${PICO_GIT_AHEAD+1}" ]; then
+  ZSH_THEME_GIT_PROMPT_AHEAD=" ⬆"
+else
+  ZSH_THEME_GIT_PROMPT_AHEAD=$PICO_GIT_AHEAD
+fi
+if [ ! -n "${PICO_GIT_BEHIND+1}" ]; then
+  ZSH_THEME_GIT_PROMPT_BEHIND=" ⬇"
+else
+  ZSH_THEME_GIT_PROMPT_BEHIND=$PICO_GIT_BEHIND
+fi
+if [ ! -n "${PICO_GIT_DIVERGED+1}" ]; then
+  ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
+else
+  ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
+fi
+
 CURRENT_BG='NONE'
 SEGMENT_SEPARATOR=''
 
@@ -195,7 +211,7 @@ prompt_git() {
       mode=" >R>"
     fi
 
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode} "
+		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode}$(git_prompt_status) "
 	fi
 }
 
