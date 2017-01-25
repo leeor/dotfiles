@@ -5,10 +5,20 @@
 # both while striving to keep screen real-estate usage at a bare minimum (both
 # horizontal and vertical).
 
+# Enabled prompt segments
+if [[ -z ${PICO_PROMPT_ORDER+1} ]]; then
+	PICO_PROMPT_ORDER=(symbols time context dir git cmd_exec_time)
+fi
+if [[ -z ${PICO_RPROMPT_ORDER+1} ]]; then
+	PICO_RPROMPT_ORDER=()
+fi
+
+# Prompt character
 if [[ -z ${PICO_PROMPT_CHAR+1} ]]; then
 	PICO_PROMPT_CHAR='»'
 fi
 
+# Segment colors {{{
 if [[ -z ${PICO_CMD_TIME_BG+1} ]]; then
 	PICO_CMD_TIME_BG=default
 fi
@@ -65,6 +75,9 @@ if [[ -z ${PICO_GIT_CLEAN_FG+1} ]]; then
 	PICO_GIT_CLEAN_FG=green
 fi
 
+# }}}
+
+# Additional Git status indicators {{{
 if [ ! -n "${PICO_GIT_AHEAD+1}" ]; then
   ZSH_THEME_GIT_PROMPT_AHEAD=" ⬆"
 else
@@ -80,6 +93,8 @@ if [ ! -n "${PICO_GIT_DIVERGED+1}" ]; then
 else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
 fi
+
+# }}}
 
 CURRENT_BG='NONE'
 SEGMENT_SEPARATOR=''
@@ -107,7 +122,7 @@ prompt_segment() {
   [[ -n $3 ]] && echo -n $3' '
 }
 
-# End the prompt, closing any open segments
+# End the prompt, closing any open PICO_PROMPT_ORDER
 prompt_end() {
   if [[ -n $CURRENT_BG ]]; then
     echo -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
@@ -220,17 +235,20 @@ prompt_chars() {
 
 build_prompt() {
   RETVAL=$?
-	prompt_symbols
-	prompt_time
-	prompt_context
-	prompt_dir
-	prompt_git
-	prompt_cmd_exec_time
+
+	for segment in ${PICO_PROMPT_ORDER}; do
+		prompt_$segment
+	done
+
 	prompt_end
 	prompt_chars
 }
 
-build_rprompt() { }
+build_rprompt() {
+	for segment in ${PICO_RPROMPT_ORDER}; do
+		prompt_$segment
+	done
+}
 
 PROMPT='$(build_prompt)'
 RPROMPT="$RPROMPT"' $(build_rprompt)'
