@@ -5,6 +5,62 @@
 # both while striving to keep screen real-estate usage at a bare minimum (both
 # horizontal and vertical).
 
+if [[ -z ${PICO_CMD_TIME_BG+1} ]]; then
+	PICO_CMD_TIME_BG=default
+fi
+if [[ -z ${PICO_CMD_TIME_FG+1} ]]; then
+	PICO_CMD_TIME_FG=yellow
+fi
+
+if [[ -z ${PICO_TIME_BG+1} ]]; then
+	PICO_TIME_BG=default
+fi
+if [[ -z ${PICO_TIME_FG+1} ]]; then
+	PICO_TIME_FG=green
+fi
+
+if [[ -z ${PICO_CUSTOM_BG+1} ]]; then
+	PICO_CUSTOM_BG=default
+fi
+if [[ -z ${PICO_CUSTOM_FG+1} ]]; then
+	PICO_CUSTOM_FG=default
+fi
+
+if [[ -z ${PICO_SYMBOLS_BG+1} ]]; then
+	PICO_SYMBOLS_BG=default
+fi
+if [[ -z ${PICO_SYMBOLS_FG+1} ]]; then
+	PICO_SYMBOLS_FG=default
+fi
+
+if [[ -z ${PICO_CONTEXT_BG+1} ]]; then
+	PICO_CONTEXT_BG=default
+fi
+if [[ -z ${PICO_CONTEXT_FG+1} ]]; then
+	PICO_CONTEXT_FG=blue
+fi
+
+if [[ -z ${PICO_DIR_BG+1} ]]; then
+	PICO_DIR_BG=default
+fi
+if [[ -z ${PICO_DIR_FG+1} ]]; then
+	PICO_DIR_FG=gree
+fi
+
+if [[ -z ${PICO_GIT_DIRTY_BG+1} ]]; then
+	PICO_GIT_DIRTY_BG=default
+fi
+if [[ -z ${PICO_GIT_DIRTY_FG+1} ]]; then
+	PICO_GIT_DIRTY_FG=yellow
+fi
+
+if [[ -z ${PICO_GIT_CLEAN_BG+1} ]]; then
+	PICO_GIT_CLEAN_BG=default
+fi
+if [[ -z ${PICO_GIT_CLEAN_FG+1} ]]; then
+	PICO_GIT_CLEAN_FG=green
+fi
+
 CURRENT_BG='NONE'
 SEGMENT_SEPARATOR=''
 
@@ -82,13 +138,13 @@ precmd() {
 }
 
 prompt_cmd_exec_time() {
-  [ $PICO_last_exec_duration -gt $PICO_EXEC_TIME_ELAPSED ] && prompt_segment 'NONE' 'yellow' "$(displaytime $PICO_last_exec_duration)"
+  [ $PICO_last_exec_duration -gt $PICO_EXEC_TIME_ELAPSED ] && prompt_segment ${PICO_CMD_TIME_BG} ${PICO_CMD_TIME_FG} "$(displaytime $PICO_last_exec_duration)"
 }
 
 # }}}
 
 prompt_time() {
-	prompt_segment 'NONE' 'green' '%D{%K:%M}'
+	prompt_segment ${PICO_TIME_BG} ${PICO_TIME_FG} '%D{%K:%M}'
 }
 
 prompt_custom() {
@@ -101,16 +157,16 @@ prompt_symbols() {
 	[[ $UID -eq 0 ]] && syms+="%{%F{yellow}%}⚡ "
 	[[ $(jobs -l | wc -l) -gt 0 ]] && syms+="%{%F{cyan}%}⚙ "
 
-	prompt_segment 'NONE' 'black' $syms
+	prompt_segment ${PICO_SYMBOLS_BG} ${PICO_SYMBOLS_FG} $syms
 }
 
 prompt_context() {
   local user="$(whoami)"
-	[[ "$user" != "$PICO_DEFAULT_USER" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && prompt_segment 'NONE' 'blue' '%n@%m'
+	[[ "$user" != "$PICO_DEFAULT_USER" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && prompt_segment ${PICO_CONTEXT_BG} ${PICO_CONTEXT_FG} '%n@%m'
 }
 
 prompt_dir() {
-	prompt_segment 'NONE' 'green' '[%2~]'
+	prompt_segment ${PICO_DIR_BG} ${PICO_DIR_FG} '[%2~]'
 }
 
 prompt_git() {
@@ -126,9 +182,9 @@ prompt_git() {
     dirty=$(parse_git_dirty)
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
     if [[ -n $dirty ]]; then
-      prompt_segment NONE yellow
+      prompt_segment ${PICO_GIT_DIRTY_BG} ${PICO_GIT_DIRTY_FG}
 		else
-      prompt_segment NONE green
+      prompt_segment ${PICO_GIT_CLEAN_BG} ${PICO_GIT_CLEAN_FG}
     fi
 
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
