@@ -241,7 +241,7 @@ nnoremap <silent> [Window]o  :<C-u>only<CR>
 nnoremap <silent> [Window]b  :b#<CR>
 nnoremap <silent> [Window]c  :close<CR>
 nnoremap <silent> [Window]x  :<C-u>call <SID>BufferEmpty()<CR>
-nnoremap <silent><expr> q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
+nnoremap <silent><expr> Q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
 
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
