@@ -44,7 +44,7 @@ if [[ -z ${PICO_DIR_BG+1} ]]; then
 	PICO_DIR_BG=default
 fi
 if [[ -z ${PICO_DIR_FG+1} ]]; then
-	PICO_DIR_FG=gree
+	PICO_DIR_FG=cyan
 fi
 
 if [[ -z ${PICO_GIT_DIRTY_BG+1} ]]; then
