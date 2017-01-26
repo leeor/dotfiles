@@ -74,9 +74,9 @@ if ! zgen saved; then
 ENDBUNDLES
 
 	if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then
-		for plugin in $(cat ${(%):-%x}.plugins.$(uname)); do
-			zgen ${plugin}
-		done
+		while read -r line; do
+			zgen ${=line}
+		done < "${(%):-%x}.plugins.$(uname)"
 	fi
 
 	zgen save
