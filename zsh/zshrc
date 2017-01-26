@@ -70,7 +70,7 @@ if ! zgen saved; then
 		zsh-users/zsh-syntax-highlighting
 
 		# theme
-		$(dirname $(readlink ${(%):-%x}))/themes/pico
+		$(dirname $(readlink ${(%):-%x}))/themes/pico/pico
 ENDBUNDLES
 
 	if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then
