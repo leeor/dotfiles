@@ -60,6 +60,7 @@ rcfiles="
 	git/gitconfig
 	wget/wgetrc
 	nvim/init.vim=>.vimrc
+	nvim=>.config/nvim
 	tmuxifier
 	tmux/tmux.conf
 "
