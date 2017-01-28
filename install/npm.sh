@@ -1,12 +1,17 @@
-#!/bin/sh
+#!/usr/bin/env zsh
+
+# Using zsh so that we have nvm available through a plugin
 
 #
 # This script configures my Node.js development setup. Note that
 # nvm is installed by the zsh-nvm plugin.
 #
 
-if test ! $(which nvm)
-then
+if ! command -v nvm 2>&1 > /dev/null; then
+	# nvm is provided through a ZSH plugin
+	echo >&2 "Please install the ZSH nvm plugin: lukechilds/zsh-nvm"
+	return 1
+else
   echo "Installing a stable version of Node..."
 
   # Install the latest stable version of node
