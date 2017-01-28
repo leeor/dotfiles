@@ -44,3 +44,4 @@ packages=(
 )
 
 npm install -g "${packages[@]}"
+unset packages
