@@ -9,7 +9,7 @@ set -e
 platform=$(uname)
 if [ "${platform}" = "Darwin" ]; then
 	# install brew (and zsh through it)
-	if test ! $(which brew); then
+	if test ! $(command -v brew); then
 		/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	fi
 
@@ -17,8 +17,13 @@ if [ "${platform}" = "Darwin" ]; then
 	brew bundle --file=brew/Brewfile
 
 	# change the current user's shell to zsh, if it isn't already
-	if [ "$SHELL" != $(which zsh) ]; then
-		chsh -s $(which zsh)
+	if [ "$SHELL" != $(command -v zsh) ]; then
+		# need to make which the path return by command -v zsh is in /etc/shells
+		if ! grep $SHELL /etc/shells; then
+			echo "Need to add $(command -v zsh) to /etc/shells"
+			sudo echo $(command -v zsh) >> /etc/shells
+		fi
+		chsh -s $(command -v zsh)
 	fi
 
 	# install Solarized Dark colors for iTerm2
@@ -27,14 +32,14 @@ if [ "${platform}" = "Darwin" ]; then
 	# set some nice defaults
 	osx/defaults.sh
 elif [ "${platform}" = 'Linux' ]; then
-	if [ "$SHELL" != $(which zsh) ]; then
+	if [ "$SHELL" != $(command -v zsh) ]; then
 		if [ -f /etc/redhat-release ]; then
 			sudo yum install zsh
 		elif [ -f /etc/debian_version ]; then
 			sudo apt-get install zsh
 		fi
 
-		chsh -s $(which zsh)
+		chsh -s $(command -v zsh)
 	fi
 fi
 unset platform
