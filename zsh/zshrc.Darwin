@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/Library/Python/2.7/bin
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 notify() {
     terminal-notifier -activate com.googlecode.iterm2 -title "iTerm2" -message "$@"
