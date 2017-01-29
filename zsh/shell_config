@@ -27,3 +27,4 @@ RPROMPT='$(vi_mode_prompt_info)'
 PICO_PROMPT_SYMBOLS_INCLUDE_JOBS=0
 
 unsetopt share_history
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :
