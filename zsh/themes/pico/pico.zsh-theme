@@ -104,6 +104,10 @@ else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
 fi
 
+if [ -z "${PICO_PROMPT_SYMBOLS_INCLUDE_JOBS+1}" ]; then
+	PICO_PROMPT_SYMBOLS_INCLUDE_JOBS=1
+fi
+
 # }}}
 
 CURRENT_BG='NONE'
@@ -194,7 +198,7 @@ prompt_symbols() {
 	local syms
 	syms=()
 	[[ $UID -eq 0 ]] && syms+="⚡ "
-	[[ $(jobs -l | wc -l) -gt 0 ]] && syms+="⚙ "
+	[[ $PICO_PROMPT_SYMBOLS_INCLUDE_JOBS = 1 ]] && [[ $(jobs -l | wc -l) -gt 0 ]] && syms+="⚙ "
 
 	prompt_segment ${PICO_SYMBOLS_BG} ${PICO_SYMBOLS_FG} $syms
 }
