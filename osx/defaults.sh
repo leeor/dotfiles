@@ -51,7 +51,7 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 # }}}
 
 # Set a really fast keyboard repeat rate.
-defaults write -g KeyRepeat -int 0
+defaults write -g KeyRepeat -int 2
 
 # Require password immediately after sleep or screen saver.
 defaults write com.apple.screensaver askForPassword -int 1
