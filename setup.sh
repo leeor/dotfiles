@@ -16,12 +16,13 @@ if [ "${platform}" = "Darwin" ]; then
 	brew tap homebrew/bundle
 	brew bundle --file=brew/Brewfile
 
+	ZSH_BINARY=$(command -v zsh)
 	# change the current user's shell to zsh, if it isn't already
-	if [ "$SHELL" != $(command -v zsh) ]; then
+	if [ "$SHELL" != "$ZSH_BINARY" ]; then
 		# need to make which the path return by command -v zsh is in /etc/shells
-		if ! grep $SHELL /etc/shells; then
-			echo "Need to add $(command -v zsh) to /etc/shells"
-			sudo echo $(command -v zsh) >> /etc/shells
+		if ! grep "$ZSH_BINARY" /etc/shells; then
+			echo "Need to add $ZSH_BINARY to /etc/shells"
+			echo $ZSH_BINARY | sudo tee -a /etc/shells
 		fi
 		chsh -s $(command -v zsh)
 	fi
