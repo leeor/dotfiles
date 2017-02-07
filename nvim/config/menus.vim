@@ -12,11 +12,11 @@ let s:menus.dein.command_candidates = [
 	\ ]
 let s:menus.files = { 'description': 'File tools (rafi/vim-config)' }
 let s:menus.files.command_candidates = [
-	\   ['Denite: Find in files…', 'Denite grep:.'],
-	\   ['Denite: Find files', 'Denite file_rec'],
-	\   ['Denite: Buffers', 'Denite buffer'],
-	\   ['Denite: MRU', 'Denite file_mru'],
-	\   ['Denite: Line', 'Denite line'],
+	\   ['Unite: Find in files…', 'Unite grep:.'],
+	\   ['Unite: Find files', 'Unite file_rec'],
+	\   ['Unite: Buffers', 'Unite buffer'],
+	\   ['Unite: MRU', 'Unite file_mru'],
+	\   ['Unite: Line', 'Unite line'],
 	\   ['Unite: Bookmarks', 'Unite bookmark'],
 	\   ['Unite: Tags', 'Unite tag -start-insert'],
 	\   ['Unite: Outline', 'Unite outline'],

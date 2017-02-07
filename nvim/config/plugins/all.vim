@@ -3,25 +3,25 @@
 "---------------------------------------------------------
 
 if dein#tap('denite.nvim') "{{{
-	nnoremap <silent> [unite]r  :<C-u>Denite -resume<CR>
-	nnoremap <silent> [unite]f  :<C-u>Denite file_rec<CR>
-	nnoremap <silent> [unite]d  :<C-u>Denite directory_rec -default-action=cd<CR>
-	nnoremap <silent> [unite]b  :<C-u>Denite buffer file_old<CR>
-	nnoremap <silent> [unite]l  :<C-u>Denite location_list -buffer-name=list<CR>
-	nnoremap <silent> [unite]q  :<C-u>Denite quickfix -buffer-name=list<CR>
-	nnoremap <silent> [unite]n  :<C-u>Denite dein -no-quit<CR>
-	nnoremap <silent> [unite]g  :<C-u>Denite grep -buffer-name=grep<CR>
-	nnoremap <silent> [unite]j  :<C-u>Denite file_point<CR>
-	nnoremap <silent> [unite]h  :<C-u>Denite neoyank -default-action=cd<CR>
-	nnoremap <silent> [unite]k  :<C-u>Denite mark -buffer-name=list<CR>
-	nnoremap <silent> [unite]/  :<C-u>Denite line<CR>
-	nnoremap <silent> [unite]*  :<C-u>DeniteCursorWord line<CR>
+	nnoremap <silent> [unite]r  :<C-u>UniteResume<CR>
+	nnoremap <silent> [unite]f  :<C-u>Unite file_rec<CR>
+	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec -default-action=cd<CR>
+	nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+	nnoremap <silent> [unite]l  :<C-u>Unite location_list -buffer-name=list<CR>
+	nnoremap <silent> [unite]q  :<C-u>Unite quickfix -buffer-name=list<CR>
+	nnoremap <silent> [unite]n  :<C-u>Unite dein -no-quit<CR>
+	nnoremap <silent> [unite]g  :<C-u>Unite grep -buffer-name=grep<CR>
+	nnoremap <silent> [unite]j  :<C-u>Unite file_point<CR>
+	nnoremap <silent> [unite]h  :<C-u>Unite neoyank -default-action=cd<CR>
+	nnoremap <silent> [unite]k  :<C-u>Unite mark -buffer-name=list<CR>
+	nnoremap <silent> [unite]/  :<C-u>Unite line<CR>
+	nnoremap <silent> [unite]*  :<C-u>UniteWithCursorWord line<CR>
 
 	" Open Unite with word under cursor or selection
-	nnoremap <silent> <Leader>gf :DeniteCursorWord file_rec<CR>
-	nnoremap <silent> <Leader>gg :DeniteCursorWord grep -buffer-name=grep<CR><CR>
+	nnoremap <silent> <Leader>gf :UniteWithCursorWord file_rec<CR>
+	nnoremap <silent> <Leader>gg :UniteWithCursorWord grep -buffer-name=grep<CR><CR>
 	vnoremap <silent> <Leader>gg
-		\ :<C-u>call VSetSearch('/')<CR>:execute 'Denite grep -buffer-name=grep -input='.@/<CR><CR>
+		\ :<C-u>call VSetSearch('/')<CR>:execute 'Unite grep -buffer-name=grep -input='.@/<CR><CR>
 endif
 
 " }}}
@@ -106,8 +106,8 @@ if dein#tap('vimfiler.vim') "{{{
 		silent! nunmap <buffer> gf
 		silent! nunmap <buffer> -
 
-		nnoremap <silent><buffer> gr  :<C-u>Denite grep:<C-R>=<SID>selected()<CR> -buffer-name=grep<CR>
-		nnoremap <silent><buffer> gf  :<C-u>Denite file_rec:<C-R>=<SID>selected()<CR><CR>
+		nnoremap <silent><buffer> gr  :<C-u>Unite grep:<C-R>=<SID>selected()<CR> -buffer-name=grep<CR>
+		nnoremap <silent><buffer> gf  :<C-u>Unite file_rec:<C-R>=<SID>selected()<CR><CR>
 		nnoremap <silent><buffer> gd  :<C-u>call <SID>change_vim_current_dir()<CR>
 		nnoremap <silent><buffer><expr> sg  vimfiler#do_action('vsplit')
 		nnoremap <silent><buffer><expr> sv  vimfiler#do_action('split')
