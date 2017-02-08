@@ -25,7 +25,7 @@ let g:deoplete#omni#functions.css = 'csscomplete#CompleteCSS'
 
 let g:deoplete#omni#input_patterns = get(g:, 'deoplete#omni#input_patterns', {})
 let g:deoplete#omni#input_patterns.python = ''
-let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\%\(\h\w*\)\?'
+let g:deoplete#omni#input_patterns.javascript = '[^. \t]\.\%\([ \t]\w*\)\?'
 "let g:deoplete#omni#input_patterns.html = '.+'
 let g:deoplete#omni#input_patterns.php =
 	\ '\w+|[^. \t]->\w*|\w+::\w*'
