@@ -2,7 +2,18 @@
 " Plugin Settings
 "---------------------------------------------------------
 
-if dein#tap('denite.nvim') "{{{
+" }}}
+if dein#tap('tagbar') "{{{
+	let g:tagbar_iconchars = ['▷', '◢']
+
+	let g:tagbar_map_openfold = ['l', '+', 'zo']
+	let g:tagbar_map_closefold = ['h', '-', 'zc']
+
+	nnoremap <silent> <Leader>o   :<C-u>TagbarOpenAutoClose<CR>
+endif
+
+" }}}
+if dein#tap('unite.vim') "{{{
 	nnoremap <silent> [unite]r  :<C-u>UniteResume<CR>
 	nnoremap <silent> [unite]f  :<C-u>Unite file_rec<CR>
 	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec -default-action=cd<CR>
@@ -22,20 +33,7 @@ if dein#tap('denite.nvim') "{{{
 	nnoremap <silent> <Leader>gg :UniteWithCursorWord grep -buffer-name=grep<CR><CR>
 	vnoremap <silent> <Leader>gg
 		\ :<C-u>call VSetSearch('/')<CR>:execute 'Unite grep -buffer-name=grep -input='.@/<CR><CR>
-endif
 
-" }}}
-if dein#tap('tagbar') "{{{
-	let g:tagbar_iconchars = ['▷', '◢']
-
-	let g:tagbar_map_openfold = ['l', '+', 'zo']
-	let g:tagbar_map_closefold = ['h', '-', 'zc']
-
-	nnoremap <silent> <Leader>o   :<C-u>TagbarOpenAutoClose<CR>
-endif
-
-" }}}
-if dein#tap('unite.vim') "{{{
 	nnoremap <silent> [unite]u   :<C-u>Unite source<CR>
 	nnoremap <silent> [unite]t   :<C-u>Unite tag -start-insert<CR>
 	nnoremap <silent> [unite]T   :<C-u>Unite tag/include<CR>
