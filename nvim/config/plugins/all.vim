@@ -2,7 +2,6 @@
 " Plugin Settings
 "---------------------------------------------------------
 
-" }}}
 if dein#tap('tagbar') "{{{
 	let g:tagbar_iconchars = ['▷', '◢']
 
@@ -82,6 +81,7 @@ if dein#tap('unite.vim') "{{{
 			nnoremap <silent><buffer><expr> r unite#do_action('rename')
 		endif
 	endfunction "}}}
+	"}}}
 endif
 
 "}}}
