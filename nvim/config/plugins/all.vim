@@ -15,21 +15,20 @@ endif
 " }}}
 if dein#tap('unite.vim') "{{{
 	nnoremap <silent> [unite]r  :<C-u>UniteResume<CR>
-	nnoremap <silent> [unite]f  :<C-u>Unite file_rec<CR>
-	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec -default-action=cd<CR>
+	nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async<CR>
+	nnoremap <silent> [unite]R  :<C-u>Unite file_mru<CR>
+	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec/async -default-action=cd<CR>
 	nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
 	nnoremap <silent> [unite]l  :<C-u>Unite location_list -buffer-name=list<CR>
 	nnoremap <silent> [unite]q  :<C-u>Unite quickfix -buffer-name=list<CR>
 	nnoremap <silent> [unite]n  :<C-u>Unite dein -no-quit<CR>
 	nnoremap <silent> [unite]g  :<C-u>Unite grep -buffer-name=grep<CR>
 	nnoremap <silent> [unite]j  :<C-u>Unite file_point<CR>
-	nnoremap <silent> [unite]h  :<C-u>Unite neoyank -default-action=cd<CR>
-	nnoremap <silent> [unite]k  :<C-u>Unite mark -buffer-name=list<CR>
 	nnoremap <silent> [unite]/  :<C-u>Unite line<CR>
 	nnoremap <silent> [unite]*  :<C-u>UniteWithCursorWord line<CR>
 
 	" Open Unite with word under cursor or selection
-	nnoremap <silent> <Leader>gf :UniteWithCursorWord file_rec<CR>
+	nnoremap <silent> <Leader>gf :UniteWithCursorWord file_rec/async<CR>
 	nnoremap <silent> <Leader>gg :UniteWithCursorWord grep -buffer-name=grep<CR><CR>
 	vnoremap <silent> <Leader>gg
 		\ :<C-u>call VSetSearch('/')<CR>:execute 'Unite grep -buffer-name=grep -input='.@/<CR><CR>
