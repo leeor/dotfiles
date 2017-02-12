@@ -62,15 +62,15 @@ if ! zgen saved; then
 		$(dirname $(readlink ${(%):-%x}))/plugins/vi-mode
 		$(dirname $(readlink ${(%):-%x}))/plugins/tmuxifier
 
+		# theme
+		$(dirname $(readlink ${(%):-%x}))/themes/pico/pico
+
 		# nvm/npm
 		lukechilds/zsh-nvm
 		lukechilds/zsh-better-npm-completion
 
 		# syntax highlighting
 		zsh-users/zsh-syntax-highlighting
-
-		# theme
-		$(dirname $(readlink ${(%):-%x}))/themes/pico/pico
 ENDBUNDLES
 
 	if [[ -f "${(%):-%x}.plugins.$(uname)" ]]; then

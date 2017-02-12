@@ -108,6 +108,10 @@ if [ -z "${PICO_PROMPT_SYMBOLS_INCLUDE_JOBS+1}" ]; then
 	PICO_PROMPT_SYMBOLS_INCLUDE_JOBS=1
 fi
 
+if [ -z "${PICO_AUTO_SWITCH_NVMRC+1}" ]; then
+	PICO_AUTO_SWITCH_NVMRC=1
+fi
+
 # }}}
 
 CURRENT_BG='NONE'
@@ -297,3 +301,20 @@ prompt_pico_setup() {
 }
 
 prompt_pico_setup
+
+# automatic nvm switch
+function nvm_switch() {
+	if [[ -f .nvmrc ]]; then
+		nvm use $(<.nvmrc)
+	fi
+}
+
+# automatic nvm switch
+function nvm_find_nvmrc() {
+	if [[ -f .nvmrc ]]; then
+		return ".nvrc"
+	fi
+}
+export NVM_AUTO_USE=true
+
+#[[ $PICO_AUTO_SWITCH_NVMRC = 1 ]] && autoload -Uz add-zsh-hook && add-zsh-hook chpwd nvm_switch
