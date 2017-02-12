@@ -2,7 +2,7 @@
 	outgoing = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\2..\\1/;tx;d;:x')"
 	incoming = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\1..\\2/;tx;d;:x')"
 	lg = "log --pretty=custom"
-	logr = "log --graph --full-history --pretty=custom"
+	logr = "log --graph --all --full-history --pretty=custom"
 	st = "status -sb"
 	contained = "!git rev-list $2 | ag $(git rev-parse $1)"
 
