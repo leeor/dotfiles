@@ -16,9 +16,15 @@ endfunction
 
 " JAVASCRIPT / JSX
 " ----------------
-let g:neomake_javascript_eslint_exe = $PWD.'/node_modules/.bin/eslint'
-let g:neomake_jsx_enabled_makers = ['eslint']
-let g:neomake_javascript_enabled_makers = ['eslint']
+autocmd FileType javascript,javascript.jsx call s:find_eslint()
+function! s:find_eslint()
+	exec "let l:eslint=fnamemodify(findfile('node_modules/.bin/eslint','" . expand('%:p') . ";/'), ':p')"
+	if l:eslint != ""
+		let g:neomake_javascript_eslint_exe = l:eslint
+		let g:neomake_jsx_enabled_makers = ['eslint']
+		let g:neomake_javascript_enabled_makers = ['eslint']
+	endif
+endfunction
 
 " YAML / ANSIBLE
 " --------------
