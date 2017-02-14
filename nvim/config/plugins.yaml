@@ -359,12 +359,12 @@
 - repo: Shougo/neoyank.vim
   on_if: 1
   on_event: TextYankPost
-  on_source: [ unite.vim ]
+  on_source: unite.vim
   hook_add: let g:neoyank#file = $VARPATH.'/history/yank'
 
 - repo: Shougo/neomru.vim
   on_if: 1
-  on_source: [ unite.vim ]
+  on_source: unite.vim
   hook_add:
     let g:neomru#file_mru_path = $VARPATH.'/history/mru_file'
     | let g:neomru#directory_mru_path = $VARPATH.'/history/mru_dir'
