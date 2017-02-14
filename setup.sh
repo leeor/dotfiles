@@ -46,9 +46,20 @@ fi
 unset platform
 
 #
+# Make sure some needed forlders are available
+#
+directories="
+	~/.config
+	~/.cache/vim/swap
+"
+for dir in ${directories}; do
+	mkdir -p $dir
+done
+unset dir directories
+
+#
 # Set up rcfiles symlinks
 #
-
 rcfiles="
 	zsh/zshrc
 	zsh/zshrc.$(uname)
