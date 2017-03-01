@@ -145,6 +145,8 @@ if exists('+inccommand')
 	set inccommand=nosplit
 endif
 
+set nofixendofline			" do not restore missing newlines at end of file
+
 " }}}
 " Editor UI Appearance {{{
 " --------------------
