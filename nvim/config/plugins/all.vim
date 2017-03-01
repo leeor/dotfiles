@@ -17,7 +17,7 @@ if dein#tap('unite.vim') "{{{
 	nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async<CR>
 	nnoremap <silent> [unite]R  :<C-u>Unite file_mru<CR>
 	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec/async -default-action=cd<CR>
-	nnoremap <silent> [unite]b  :<C-u>Unite buffer<CR>
+	nnoremap <silent> [unite]b  :<C-u>Unite buffer file_mru<CR>
 	nnoremap <silent> [unite]l  :<C-u>Unite location_list -buffer-name=list<CR>
 	nnoremap <silent> [unite]q  :<C-u>Unite quickfix -buffer-name=list<CR>
 	nnoremap <silent> [unite]n  :<C-u>Unite dein -no-quit<CR>
