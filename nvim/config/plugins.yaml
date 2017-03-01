@@ -254,7 +254,7 @@
 - repo: Shougo/deoplete.nvim
   depends: context_filetype.vim
   if: has('nvim')
-  on_i: 1
+  on_event: InsertEnter
   hook_add: let g:deoplete#enable_at_startup = 1
   hook_source: source $VIMPATH/config/plugins/deoplete.vim
 
@@ -278,7 +278,7 @@
     | let g:neosnippet#expand_word_boundary = 1
 
 - repo: mattn/emmet-vim
-  on_i: 1
+  on_event: InsertEnter
   on_ft: [ css, html, jsx, javascript.jsx ]
   hook_source:
     let g:use_emmet_complete_tag = 0
@@ -291,7 +291,7 @@
   hook_post_source: call echodoc#enable()
 
 - repo: Raimondi/delimitMate
-  on_i: 1
+  on_event: InsertEnter
   hook_source: let g:delimitMate_expand_cr = 1
 
 - { repo: Shougo/neosnippet-snippets }
@@ -314,31 +314,31 @@
     | let g:jedi#max_doc_height = 45
 
 - repo: wellle/tmux-complete.vim
-  on_i: 1
+  on_event: InsertEnter
   hook_add: let g:tmuxcomplete#trigger = ''
 
 # Only NeoVim
 - repo: zchee/deoplete-go
   if: has('nvim') && empty($VIM_MINIMAL)
   on_ft: go
-  on_i: 1
+  on_event: InsertEnter
 
 - repo: zchee/deoplete-jedi
   if: has('nvim') && empty($VIM_MINIMAL)
   on_ft: python
-  on_i: 1
+  on_event: InsertEnter
   hook_source: autocmd MyAutoCmd FileType python setlocal omnifunc=
 
 - repo: carlitux/deoplete-ternjs
   if: executable('tern') && has('nvim') && empty($VIM_MINIMAL)
   on_ft: javascript
-  on_i: 1
+  on_event: InsertEnter
 
 # Only Vim
 - repo: ternjs/tern_for_vim
   build: npm install
   if: executable('npm') && ! has('nvim') && empty($VIM_MINIMAL)
-  on_i: 1
+  on_event: InsertEnter
   on_ft: javascript
   hook_add: let g:tern_show_signature_in_pum = 1
   hook_post_source:
