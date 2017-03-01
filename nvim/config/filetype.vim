@@ -55,6 +55,8 @@ augroup MyAutoCmd " {{{
 	" https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
 	autocmd FileType html,css,jsx,javascript.jsx setlocal backupcopy=yes
 
+	autocmd FileType jsx,javascript.js* setlocal foldmethod=syntax
+
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 
 	" Improved HTML include pattern
