@@ -15,6 +15,7 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 let g:unite_source_rec_unit = 3000
 let g:unite_source_rec_min_cache_files = 200
 let g:unite_source_rec_max_cache_files = 25000
+call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 
 " file_rec/async: Use the_silver_searcher or ack
 if executable('ag')
