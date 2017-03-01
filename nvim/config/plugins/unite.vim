@@ -20,7 +20,7 @@ call unite#custom#source('file_rec,file_rec/async', 'max_candidates', 0)
 " file_rec/async: Use the_silver_searcher or ack
 if executable('ag')
 	let g:unite_source_rec_async_command =
-		\ [ 'ag', '--vimgrep', '--smart-case', '--hidden', '--follow', '-g', '' ]
+		\ [ 'ag', '--vimgrep', '--smart-case', '--hidden', '--follow', '--ignore', '"dist/"', '--ignore', '"node_modules/"', '-g', '' ]
 elseif executable('ack')
 	let g:unite_source_rec_async_command = [ 'ack', '-f', '--nofilter' ]
 endif
@@ -38,7 +38,7 @@ let g:unite_source_tag_fname_footer_length = 25
 " Use the_silver_searcher or ack or default grep
 if executable('ag')
 	let g:unite_source_grep_command = 'ag'
-	let g:unite_source_grep_default_opts = '--vimgrep --smart-case --hidden'
+	let g:unite_source_grep_default_opts = '--vimgrep --smart-case --hidden --ignore "dist/" --ignore "node_modules/"'
 	let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
 	let g:unite_source_grep_command = 'ack'
