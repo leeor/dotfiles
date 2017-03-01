@@ -188,11 +188,11 @@
     | let g:markology_include = 'abcdefghijklmnopqrstuvwxyz'
         .'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-- repo: lambdalisue/vim-findent
-  on_cmd: Findent
+- repo: ciaranm/detectindent
+  on_cmd: DetectIndent
   hook_add:
     autocmd MyAutoCmd BufEnter *.js*,*.html,*.css,.tern*
-      execute 'Findent! --no-warnings'
+      execute 'DetectIndent'
 
 - repo: rhysd/committia.vim
   on_path: COMMIT_EDITMSG
