@@ -17,7 +17,7 @@ function! s:theme_reload(name) abort
 	endif
 endfunction
 
-let g:theme_name = 'rafi-2016'
+let g:theme_name = 'rafi-2017'
 set background=dark
 autocmd MyAutoCmd ColorScheme * call s:theme_reload(g:theme_name)
 colorscheme hybrid

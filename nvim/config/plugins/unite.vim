@@ -53,7 +53,7 @@ endif
 
 call unite#custom#profile('default', 'context', {
 	\   'safe': 0,
-	\   'start_insert': 1,
+	\   'start_insert': 0,
 	\   'short_source_names': 1,
 	\   'prompt_direction': 'top',
 	\   'direction': 'botright',
@@ -63,11 +63,13 @@ call unite#custom#profile('default', 'context', {
 	\   'cursor_line_time': '0.10',
 	\   'max_candidates': 100,
 	\   'no_auto_resize': 1,
-	\   'vertical_preview': 1,
+	\   'no_vertical_preview': 1,
+	\   'auto_preview': 0,
 	\   'hide_icon': 0,
 	\   'candidate-icon': ' ',
 	\   'marked_icon': '✓',
-	\   'prompt' : 'λ: ',
+	\   'prompt': 'λ: ',
+	\   'prompt_focus': 1,
 	\ })
 
 " Conveniently set settings globally per-source

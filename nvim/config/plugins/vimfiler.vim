@@ -22,7 +22,7 @@ endif
 call vimfiler#custom#profile('default', 'context', {
 	\  'safe': 0,
 	\  'explorer': 1,
-	\  'winwidth': 25,
+	\  'winwidth': 45,
 	\  'split': 1,
 	\  'direction': 'topleft',
 	\  'auto_expand': 1,

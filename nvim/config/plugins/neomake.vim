@@ -18,7 +18,7 @@ endfunction
 " ----------------
 autocmd FileType javascript,javascript.jsx call s:find_eslint()
 function! s:find_eslint()
-	exec "let l:eslint=fnamemodify(findfile('node_modules/.bin/eslint','" . expand('%:p') . ";/'), ':p')"
+	exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p')"
 	if l:eslint != ""
 		let g:neomake_javascript_eslint_exe = l:eslint
 		let g:neomake_jsx_enabled_makers = ['eslint']

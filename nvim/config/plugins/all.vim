@@ -44,7 +44,7 @@ if dein#tap('unite.vim') "{{{
 	vnoremap <silent> <Leader>gt :<C-u>call VSetSearch('/')<CR>:execute 'Unite tag -input='.@/<CR>
 
 	autocmd MyAutoCmd BufEnter *
-		\  if empty(&buftype) && &ft != 'go'
+		\  if empty(&buftype) && &ft != 'go' && &ft != 'javascript.jsx'
 		\|   nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord tag -immediately<CR>
 		\| endif
 
@@ -56,6 +56,8 @@ if dein#tap('unite.vim') "{{{
 		silent! nunmap <buffer> <C-k>
 		silent! nunmap <buffer> <C-l>
 		silent! nunmap <buffer> <C-r>
+		nmap <silent><buffer><expr> o unite#do_action('persist_open')
+		nmap <silent><buffer><expr> p unite#do_action('preview')
 		nmap <silent><buffer> <C-r> <Plug>(unite_redraw)
 		imap <silent><buffer> <C-j> <Plug>(unite_select_next_line)
 		imap <silent><buffer> <C-k> <Plug>(unite_select_previous_line)
@@ -72,7 +74,7 @@ if dein#tap('unite.vim') "{{{
 		imap <buffer> <C-z>         <Plug>(unite_toggle_transpose_window)
 		nmap <buffer> <C-w>         <Plug>(unite_delete_backward_path)
 		nmap <buffer> <C-g>         <Plug>(unite_print_candidate)
-		nmap <buffer> x             <Plug>(unite_quick_match_jump)
+		nmap <buffer> x             <Plug>(unite_quick_match_default_action)
 
 		let unite = unite#get_current_unite()
 		if unite.profile_name ==# '^search'
@@ -87,9 +89,9 @@ endif
 "}}}
 if dein#tap('vimfiler.vim') "{{{
 	nnoremap <silent> [unite]e        :<C-u>execute
-		\ 'VimFiler -winwidth=25 -direction=topleft -buffer-name='.block#project()<CR>
+		\ 'VimFiler -winwidth=45 -direction=topleft -buffer-name='.badge#project()<CR>
 	nnoremap <silent> [unite]a        :<C-u>execute
-		\ 'VimFiler -find -winwidth=25 -direction=topleft -buffer-name='.block#project()<CR>
+		\ 'VimFiler -find -winwidth=45 -direction=topleft -buffer-name='.badge#project()<CR>
 
 	autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
 
@@ -146,19 +148,10 @@ endif
 
 "}}}
 if dein#tap('neosnippet.vim') "{{{
-	imap <expr><C-o> neosnippet#expandable_or_jumpable()
-		\ ? "\<Plug>(neosnippet_expand_or_jump)" : "\<ESC>o"
 	xmap <silent><C-s>      <Plug>(neosnippet_register_oneshot_snippet)
 	imap <silent><C-Space>  <Plug>(neosnippet_start_unite_snippet)
 	smap <silent>L          <Plug>(neosnippet_jump_or_expand)
 	xmap <silent>L          <Plug>(neosnippet_expand_target)
-endif
-
-"}}}
-if dein#tap('emmet-vim') "{{{
-	autocmd MyAutoCmd FileType html,css,jsx,javascript.jsx
-		\ EmmetInstall
-		\ | imap <buffer> <C-Return> <Plug>(emmet-expand-abbr)
 endif
 
 "}}}
@@ -189,12 +182,6 @@ if dein#tap('vim-niceblock') "{{{
 endif
 
 "}}}
-if dein#tap('accelerated-jk') "{{{
-	nmap <silent>j <Plug>(accelerated_jk_gj)
-	nmap <silent>k <Plug>(accelerated_jk_gk)
-endif
-
-"}}}
 if dein#tap('vim-markology') "{{{
 	noremap <silent> mm :MarkologyPlaceMark<CR>
 	noremap <silent> mp :MarkologyPrevLocalMarkPos<CR>
@@ -214,14 +201,6 @@ if dein#tap('committia.vim') "{{{
 		resize 10
 		startinsert
 	endfunction
-endif
-
-"}}}
-if dein#tap('vim-peekaboo') "{{{
-	nnoremap <buffer> <silent> " :<c-u>call peekaboo#peek(v:count1, 'quote',  0)<cr>
-	xnoremap <buffer> <silent> " :<c-u>call peekaboo#peek(v:count1, 'quote',  1)<cr>
-	nnoremap <buffer> <silent> @ :<c-u>call peekaboo#peek(v:count1, 'replay', 0)<cr>
-	inoremap <buffer> <silent> <c-r> <c-o>:call peekaboo#peek(1, 'ctrl-r',  0)<cr>
 endif
 
 "}}}
@@ -266,52 +245,53 @@ if dein#tap('vim-go') "{{{
 endif
 
 "}}}
-if dein#tap('vim-fugitive') "{{{
+if dein#tap('tern_for_vim') "{{{
+	autocmd MyAutoCmd FileType jsx,javascript.js*
+		\   nmap <C-]> :TernDef<CR>
+		\ | nmap <leader>gr :TernRefs<CR>
+		\ | nmap <C-S-]> :TernDefSplit<CR>
+		\ | nmap <C-\> :TernRename<CR>
 
-nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gw :Gwrite<CR>
-nnoremap <Leader>go :Gread<CR>
-nnoremap <Leader>gR :Gremove<CR>
-nnoremap <Leader>gm :Gmove<Space>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>ga :Gcommit --amend<CR>
-nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gB :Gbrowse<CR>
-nnoremap <Leader>gp :Git! push<CR>
-nnoremap <Leader>gP :Git! pull<CR>
-nnoremap <Leader>gi :Git!<Space>
-nnoremap <Leader>ge :Gedit<CR>
-nnoremap <Leader>gE :Gedit<Space>
-nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
-            \ quickfix"<CR>:redraw!<CR>
-nnoremap <Leader>gL :exe "silent Glog -- <Bar> Unite -no-quit
-            \ quickfix"<CR>:redraw!<CR>
-"nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
-"            \ quickfix -no-quit<CR>
-"nnoremap <Leader>ggm :exe 'silent Glog --grep='.input("Pattern: ").' <Bar>
-"            \Unite -no-quit quickfix'<CR>
-"nnoremap <Leader>ggt :exe 'silent Glog -S='.input("Pattern: ").' <Bar>
-"            \Unite -no-quit quickfix'<CR>
-"
-"nnoremap <Leader>ggc :silent! Ggrep -i<Space>
-
-" for diffmode
-"noremap <localleader>du :diffupdate<CR>
-endif
-
-" }}}
-if dein#tap('caw.vim') "{{{
-	nmap gc <Plug>(caw:prefix)
-	xmap gc <Plug>(caw:prefix)
-	nmap <Leader>V <Plug>(caw:tildepos:toggle)
-	xmap <Leader>V <Plug>(caw:tildepos:toggle)
-	nmap <Leader>v <Plug>(caw:zeropos:toggle)
-	xmap <Leader>v <Plug>(caw:zeropos:toggle)
+	let g:tern_show_signature_in_pum = 1
 endif
 
 "}}}
+if dein#tap('vim-fugitive') "{{{
+
+	nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
+	nnoremap <Leader>gs :Gstatus<CR>
+	nnoremap <Leader>gw :Gwrite<CR>
+	nnoremap <Leader>go :Gread<CR>
+	nnoremap <Leader>gR :Gremove<CR>
+	nnoremap <Leader>gm :Gmove<Space>
+	nnoremap <Leader>gc :Gcommit<CR>
+	nnoremap <Leader>ga :Gcommit --amend<CR>
+	nnoremap <Leader>gd :Gdiff<CR>
+	nnoremap <Leader>gb :Gblame<CR>
+	nnoremap <Leader>gB :Gbrowse<CR>
+	nnoremap <Leader>gp :Git! push<CR>
+	nnoremap <Leader>gP :Git! pull<CR>
+	nnoremap <Leader>gi :Git!<Space>
+	nnoremap <Leader>ge :Gedit<CR>
+	nnoremap <Leader>gE :Gedit<Space>
+	nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
+							\ quickfix"<CR>:redraw!<CR>
+	nnoremap <Leader>gL :exe "silent Glog -- <Bar> Unite -no-quit
+							\ quickfix"<CR>:redraw!<CR>
+	"nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
+	"            \ quickfix -no-quit<CR>
+	"nnoremap <Leader>ggm :exe 'silent Glog --grep='.input("Pattern: ").' <Bar>
+	"            \Unite -no-quit quickfix'<CR>
+	"nnoremap <Leader>ggt :exe 'silent Glog -S='.input("Pattern: ").' <Bar>
+	"            \Unite -no-quit quickfix'<CR>
+	"
+	"nnoremap <Leader>ggc :silent! Ggrep -i<Space>
+
+	" for diffmode
+	"noremap <localleader>du :diffupdate<CR>
+endif
+
+" }}}
 if dein#tap('vim-anzu') "{{{
 	nmap n n<Plug>(anzu-update-search-status)
 	nmap N N<Plug>(anzu-update-search-status)

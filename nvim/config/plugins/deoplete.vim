@@ -4,7 +4,7 @@
 autocmd MyAutoCmd CompleteDone * pclose!
 
 let g:deoplete#auto_complete_delay = 0
-let g:deoplete#auto_refresh_delay = 1000
+let g:deoplete#auto_refresh_delay = 500
 let g:deoplete#enable_camel_case = 1
 "let g:deoplete#auto_complete_start_length = 3
 
@@ -39,6 +39,8 @@ let g:deoplete#member#prefix_patterns.javascript = ['\.']
 
 let g:deoplete#tag#cache_limit_size = 5000000
 
+ call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
+ call deoplete#custom#set('_', 'min_pattern_length', 0)
 " call deoplete#custom#set('buffer', 'mark', '')
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 " call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])
@@ -49,6 +51,21 @@ let g:deoplete#tag#cache_limit_size = 5000000
 " call deoplete#custom#set('_', 'converters',
 "		\ ['converter_auto_paren',
 "		\  'converter_auto_delimiter', 'remove_overlap'])
+
+" Use deoplete.
+let g:tern_request_timeout = 1
+let g:tern_show_signature_in_pum = '1'  " This do disable full signature type on autocomplete
+
+"Add extra filetypes
+let g:tern#filetypes = [
+                \ 'jsx',
+                \ 'javascript.jsx',
+                \ 'vue'
+                \ ]
+
+" Use tern_for_vim.
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
 
 call deoplete#custom#set('_', 'converters', [
 	\ 'converter_remove_paren',
@@ -90,9 +107,10 @@ imap <silent><expr><CR> pumvisible() ?
 " 3. Otherwise, if preceding chars are whitespace, insert tab char
 " 4. Otherwise, start manual autocomplete
 imap <silent><expr><Tab> pumvisible() ? "\<C-n>"
+	\ : (neosnippet#expandable() ? "\<Plug>(neosnippet_expand)"
 	\ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
 	\ : (<SID>is_whitespace() ? "\<Tab>"
-	\ : deoplete#manual_complete()))
+	\ : deoplete#manual_complete())))
 
 smap <silent><expr><Tab> pumvisible() ? "\<C-n>"
 	\ : (neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)"
