@@ -1,4 +1,4 @@
-export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH:/usr/local/opt/coreutils/libexec/gnubin"
 
 notify() {
     terminal-notifier -activate com.googlecode.iterm2 -title "iTerm2" -message "$@"
