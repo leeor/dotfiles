@@ -76,16 +76,14 @@ augroup MyAutoCmd " {{{
 				\ match goErr /\<err\>/
 
 	" Open Quickfix window automatically
-	autocmd QuickFixCmdPost [^l]* leftabove copen
+	autocmd QuickFixCmdPost [^l]* bel copen
 		\ | wincmd p | redraw!
-	autocmd QuickFixCmdPost l* leftabove lopen
+	autocmd QuickFixCmdPost l* bel lopen
 		\ | wincmd p | redraw!
 
 	" Fix window position of help/quickfix
 	autocmd FileType help if &l:buftype ==# 'help'
 		\ | wincmd L | endif
-	autocmd FileType qf   if &l:buftype ==# 'quickfix'
-		\ | wincmd J | endif
 
 augroup END " }}}
 

@@ -20,6 +20,18 @@
 - repo: junegunn/vim-peekaboo
   if: empty($VIM_MINIMAL)
   hook_post_source: silent! augroup! peekaboo_init
+- repo: majutsushi/tagbar
+- repo: vim-airline/vim-airline-themes
+- repo: vim-airline/vim-airline
+  hook_source:
+    let g:airline_theme='solarized'
+    | let g:airline#extensions#branch#enabled = 1
+- repo: ryanoasis/vim-devicons
+- repo: bagrat/vim-workspace
+  hook_source:
+    let g:workspace_tab_icon = "\uf00a"
+    | let g:workspace_left_trunc_icon = "\uf0a8"
+    | let g:workspace_right_trunc_icon = "\uf0a9"
 
 # Lazy Loading
 # ==========================================
@@ -100,7 +112,6 @@
   hook_add: let g:vimfiler_data_directory = $VARPATH.'/vimfiler'
   hook_post_source: source $VIMPATH/config/plugins/vimfiler.vim
 
-- { repo: majutsushi/tagbar, on_cmd: TagbarToggle }
 - { repo: Shougo/neossh.vim, on_ft: vimfiler, sources: ssh }
 - { repo: t9md/vim-choosewin, on_map: { n: <Plug> }}
 - { repo: Shougo/vinarise.vim, on_cmd: Vinarise }
@@ -131,6 +142,10 @@
   on_cmd: [ OnlineThesaurusCurrentWord, Thesaurus ]
   hook_source: let g:online_thesaurus_map_keys = 0
   hook_add: nnoremap <silent> <Leader>K :<C-u>OnlineThesaurusCurrentWord<CR>
+
+- repo: mtth/scratch.vim
+  on_cmd: Scratch
+  on_map: [[ gs, gS ]]
 
 # ==========================================
 # Interface
@@ -206,7 +221,8 @@
     autocmd MyAutoCmd BufWritePost *
     if index(g:neomake_do_filetypes, &filetype) > -1 && empty(&buftype)
     | Neomake
-    | endif
+    | endif |
+    autocmd User NeomakeFinished if (empty(getloclist(0))) | lclose | endif
 
 - repo: junegunn/goyo.vim
   if: empty($VIM_MINIMAL)

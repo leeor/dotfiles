@@ -40,7 +40,7 @@ let g:deoplete#member#prefix_patterns.javascript = ['\.']
 let g:deoplete#tag#cache_limit_size = 5000000
 
  call deoplete#custom#set('_', 'matchers', ['matcher_fuzzy'])
- call deoplete#custom#set('_', 'min_pattern_length', 0)
+ call deoplete#custom#set('_', 'min_pattern_length', 2)
 " call deoplete#custom#set('buffer', 'mark', '')
 " call deoplete#custom#set('_', 'matchers', ['matcher_head'])
 " call deoplete#custom#set('_', 'matchers', ['matcher_full_fuzzy'])

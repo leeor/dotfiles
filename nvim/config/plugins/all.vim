@@ -14,7 +14,7 @@ endif
 " }}}
 if dein#tap('unite.vim') "{{{
 	nnoremap <silent> [unite]r  :<C-u>UniteResume<CR>
-	nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async<CR>
+	nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async -start-insert<CR>
 	nnoremap <silent> [unite]R  :<C-u>Unite file_mru<CR>
 	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec/async -default-action=cd<CR>
 	nnoremap <silent> [unite]b  :<C-u>Unite buffer file_mru<CR>
