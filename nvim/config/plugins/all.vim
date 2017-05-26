@@ -89,9 +89,9 @@ endif
 "}}}
 if dein#tap('vimfiler.vim') "{{{
 	nnoremap <silent> [unite]e        :<C-u>execute
-		\ 'VimFiler -winwidth=45 -direction=topleft -buffer-name='.badge#project()<CR>
+		\ 'VimFiler -winwidth=45 -direction=topleft'<CR>
 	nnoremap <silent> [unite]a        :<C-u>execute
-		\ 'VimFiler -find -winwidth=45 -direction=topleft -buffer-name='.badge#project()<CR>
+		\ 'VimFiler -find -winwidth=45 -direction=topleft'<CR>
 
 	autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
 
@@ -231,6 +231,7 @@ endif
 
 "}}}
 if dein#tap('vim-go') "{{{
+	let g:go_fmt_command = 'goimports'
 	autocmd MyAutoCmd FileType go
 		\   nmap <C-]> <Plug>(go-def)
 		\ | nmap <Leader>god  <Plug>(go-describe)
@@ -355,6 +356,14 @@ if dein#tap('vim-textobj-function') "{{{
 	omap if <Plug>(textobj-function-i)
 	xmap af <Plug>(textobj-function-a)
 	xmap if <Plug>(textobj-function-i)
+endif
+"}}}
+
+if dein#tap('vim-airline') "{{{
+	if !exists("g:airline_symbols")
+		let g:airline_symbols={}
+		let g:airline_symbols.branch = ''
+	endif
 endif
 "}}}
 

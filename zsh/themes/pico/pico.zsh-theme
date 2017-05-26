@@ -89,19 +89,24 @@ fi
 
 # Additional Git status indicators {{{
 if [ ! -n "${PICO_GIT_AHEAD+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_AHEAD=" ⬆"
+  ZSH_THEME_GIT_PROMPT_AHEAD=" "
 else
   ZSH_THEME_GIT_PROMPT_AHEAD=$PICO_GIT_AHEAD
 fi
 if [ ! -n "${PICO_GIT_BEHIND+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_BEHIND=" ⬇"
+  ZSH_THEME_GIT_PROMPT_BEHIND=" "
 else
   ZSH_THEME_GIT_PROMPT_BEHIND=$PICO_GIT_BEHIND
 fi
 if [ ! -n "${PICO_GIT_DIVERGED+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_DIVERGED=" ⬍"
+  ZSH_THEME_GIT_PROMPT_DIVERGED=" "
 else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
+fi
+if [ ! -n "${PICO_GIT_DIRTY+1}" ]; then
+  ZSH_THEME_GIT_PROMPT_DIRTY=" "
+else
+  ZSH_THEME_GIT_PROMPT_DIRTY=$PICO_GIT_PROMPT_DIRTY
 fi
 
 if [ -z "${PICO_PROMPT_SYMBOLS_INCLUDE_JOBS+1}" ]; then
@@ -198,7 +203,7 @@ prompt_symbols() {
 	local syms
 	syms=()
 	[[ $UID -eq 0 ]] && syms+="⚡ "
-	[[ $PICO_PROMPT_SYMBOLS_INCLUDE_JOBS = 1 ]] && [[ $(jobs -l | wc -l) -gt 0 ]] && syms+="⚙ "
+	[[ $PICO_PROMPT_SYMBOLS_INCLUDE_JOBS = 1 ]] && [[ $(jobs -l | wc -l) -gt 0 ]] && syms+=""
 
 	prompt_segment ${PICO_SYMBOLS_BG} ${PICO_SYMBOLS_FG} $syms
 }
@@ -216,7 +221,7 @@ prompt_git() {
   local PL_BRANCH_CHAR
   () {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
-    PL_BRANCH_CHAR=$'\ue0a0'         # 
+    PL_BRANCH_CHAR=$'\uf418'         # 
   }
   local ref dirty mode repo_path
   repo_path=$(git rev-parse --git-dir 2>/dev/null)
@@ -233,9 +238,9 @@ prompt_git() {
     if [[ -e "${repo_path}/BISECT_LOG" ]]; then
       mode=" <B>"
     elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
-      mode=" >M<"
+      mode=" "
     elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
-      mode=" >R>"
+      mode=" "
     fi
 
 		echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }$(git_prompt_status)${mode} "

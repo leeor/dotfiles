@@ -5,6 +5,7 @@
 # Startup
 # -------
 - repo: Shougo/dein.vim
+- repo: majutsushi/tagbar
 - repo: w0ng/vim-hybrid
 - repo: rafi/vim-blocks
 - repo: rafi/vim-tagabana
@@ -20,18 +21,14 @@
 - repo: junegunn/vim-peekaboo
   if: empty($VIM_MINIMAL)
   hook_post_source: silent! augroup! peekaboo_init
-- repo: majutsushi/tagbar
-- repo: vim-airline/vim-airline-themes
 - repo: vim-airline/vim-airline
-  hook_source:
-    let g:airline_theme='solarized'
+  hook_post_source:
+    let g:airline_theme='hybrid'
     | let g:airline#extensions#branch#enabled = 1
+    | let g:airline#extensions#tabline#enabled = 1
+    | let g:airline#extensions#tagbar#enabled = 0
+- repo: vim-airline/vim-airline-themes
 - repo: ryanoasis/vim-devicons
-- repo: bagrat/vim-workspace
-  hook_source:
-    let g:workspace_tab_icon = "\uf00a"
-    | let g:workspace_left_trunc_icon = "\uf0a8"
-    | let g:workspace_right_trunc_icon = "\uf0a9"
 
 # Lazy Loading
 # ==========================================
@@ -113,7 +110,6 @@
   hook_post_source: source $VIMPATH/config/plugins/vimfiler.vim
 
 - { repo: Shougo/neossh.vim, on_ft: vimfiler, sources: ssh }
-- { repo: t9md/vim-choosewin, on_map: { n: <Plug> }}
 - { repo: Shougo/vinarise.vim, on_cmd: Vinarise }
 - { repo: kana/vim-niceblock, on_map: { x: <Plug> }}
 - { repo: guns/xterm-color-table.vim, on_cmd: XtermColorTable }
@@ -234,19 +230,6 @@
 - repo: junegunn/limelight.vim
   if: empty($VIM_MINIMAL)
   on_cmd: Limelight
-
-- repo: vimwiki/vimwiki
-  if: empty($VIM_MINIMAL)
-  on_cmd: [ VimwikiIndex, VimwikiTabIndex, VimwikiUISelect
-    VimwikiMakeDiaryNote, VimwikiTabMakeDiaryNote, VimwikiDiaryIndex ]
-  hook_add: nnoremap <silent> <Leader>W :<C-u>VimwikiIndex<CR>
-  hook_source:
-    let wiki = {}
-    | let wiki.diary_header = 'Diary'
-    | let wiki.diary_link_fmt = '%Y-%m/%d'
-    | let wiki.path = '~/Documents/wiki/'
-    | let wiki.path_html = '~/Documents/wiki/html/'
-    | let g:vimwiki_list = [ wiki ]
 
 # ==========================================
 # Completion

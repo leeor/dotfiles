@@ -163,7 +163,6 @@ Name           | Description
 [quickrun] | Run commands quickly
 [ref] | Integrated reference viewer
 [dictionary] | Dictionary.app interface
-[vimwiki] | Personal Wiki for Vim
 [thesaurus] | Look up words in an online thesaurus
 
 ### Commands
@@ -266,7 +265,6 @@ Name           | Description
 [quickrun]: https://github.com/thinca/vim-quickrun
 [ref]: https://github.com/thinca/vim-ref
 [dictionary]: https://github.com/itchyny/dictionary.vim
-[vimwiki]: https://github.com/vimwiki/vimwiki
 [thesaurus]: https://github.com/beloglazov/vim-online-thesaurus
 
 [goyo]: https://github.com/junegunn/goyo.vim
@@ -529,7 +527,6 @@ Key   | Mode | Action
 `<leader>`+`i` | Normal | Toggle indentation lines
 `<leader>`+`r` | Normal | Quickrun
 `<leader>`+`?` | Normal | Dictionary
-`<leader>`+`W` | Normal | Wiki
 `<leader>`+`K` | Normal | Thesaurus
 
 ## Credits & Contribution
