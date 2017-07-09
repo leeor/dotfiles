@@ -64,6 +64,8 @@ augroup MyAutoCmd " {{{
 		\ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
 		\ setlocal path+=./;/
 
+	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
 	autocmd FileType markdown
 		\ setlocal spell expandtab autoindent
 			\ formatoptions=tcroqn comments=n:>
@@ -132,7 +134,10 @@ let g:markdown_fenced_languages = [
 	\  'sh',
 	\  'sass',
 	\  'xml',
-	\  'vim'
+	\  'vim',
+	\  'git',
+	\  'diff',
+  \  'html'
 	\]
 
 " }}}

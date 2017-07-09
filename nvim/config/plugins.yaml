@@ -5,22 +5,11 @@
 # Startup
 # -------
 - repo: Shougo/dein.vim
-- repo: majutsushi/tagbar
 - repo: w0ng/vim-hybrid
-- repo: rafi/vim-blocks
-- repo: rafi/vim-tagabana
-- repo: itchyny/vim-gitbranch
 - repo: itchyny/vim-parenmatch
 - repo: thinca/vim-localrc
 - repo: christoomey/vim-tmux-navigator
-- repo: osyo-manga/vim-anzu
-  hook_source: let g:anzu_status_format = 'match %i of %l'
 - repo: tpope/vim-fugitive
-- repo: fboender/bexec
-  hook_source: let bexec_splitdir = "ver"
-- repo: junegunn/vim-peekaboo
-  if: empty($VIM_MINIMAL)
-  hook_post_source: silent! augroup! peekaboo_init
 - repo: vim-airline/vim-airline
   hook_post_source:
     let g:airline_theme='hybrid'
@@ -29,6 +18,16 @@
     | let g:airline#extensions#tagbar#enabled = 0
 - repo: vim-airline/vim-airline-themes
 - repo: ryanoasis/vim-devicons
+- repo: easymotion/vim-easymotion
+- repo: ctrlpvim/ctrlp.vim
+- repo: haya14busa/incsearch.vim
+- repo: scrooloose/nerdtree
+- repo: Xuyuanp/nerdtree-git-plugin
+- repo: tpope/vim-unimpaired
+- repo: w0rp/ale.git
+- repo: sbdchd/neoformat
+  hook_source:
+    let g:neoformat_enabled_javascript = ['prettiereslint']
 
 # Lazy Loading
 # ==========================================
@@ -42,14 +41,6 @@
 - { repo: hail2u/vim-css3-syntax, on_ft: css }
 - { repo: othree/csscomplete.vim, on_ft: css }
 
-- repo: plasticboy/vim-markdown
-  on_ft: markdown
-  hook_source:
-    let g:vim_markdown_initial_foldlevel = 5
-    | let g:vim_markdown_new_list_item_indent = 2
-    | let g:vim_markdown_frontmatter = 1
-    | let g:vim_markdown_conceal = 0
-
 - repo: rhysd/vim-gfm-syntax
   on_ft: markdown
   hook_source:
@@ -58,7 +49,6 @@
 
 - { repo: elzr/vim-json, on_ft: json }
 - { repo: pangloss/vim-javascript, on_ft: javascript }
-- { repo: gavocanov/vim-js-indent, on_ft: javascript }
 - { repo: othree/jspc.vim, on_ft: javascript }
 - { repo: heavenshell/vim-jsdoc, on_ft: javascript }
 - { repo: moll/vim-node, on_ft: javascript }
@@ -71,6 +61,9 @@
   on_ft: javascript
   hook_source:
     let g:used_javascript_libs = 'jquery,flux,underscore,backbone,react'
+
+- repo: janko-m/vim-test
+  on_ft: javascript
 
 - repo: fatih/vim-go
   on_ft: go
@@ -102,22 +95,16 @@
 # ==========================================
 # Commands
 # --------
-- repo: Shougo/vimfiler.vim
-  depends: unite.vim
-  on_map: { n: <Plug> }
-  on_if: isdirectory(bufname('%'))
-  hook_add: let g:vimfiler_data_directory = $VARPATH.'/vimfiler'
-  hook_post_source: source $VIMPATH/config/plugins/vimfiler.vim
-
-- { repo: Shougo/neossh.vim, on_ft: vimfiler, sources: ssh }
 - { repo: Shougo/vinarise.vim, on_cmd: Vinarise }
-- { repo: kana/vim-niceblock, on_map: { x: <Plug> }}
 - { repo: guns/xterm-color-table.vim, on_cmd: XtermColorTable }
 - { repo: thinca/vim-prettyprint, on_cmd: PP, on_func: PP }
 
 - repo: metakirby5/codi.vim
   if: empty($VIM_MINIMAL)
   on_cmd: Codi
+
+- repo: mhinz/vim-grepper
+  on_cmd: Grepper
 
 - repo: mbbill/undotree
   on_cmd: UndotreeToggle
@@ -139,20 +126,14 @@
   hook_source: let g:online_thesaurus_map_keys = 0
   hook_add: nnoremap <silent> <Leader>K :<C-u>OnlineThesaurusCurrentWord<CR>
 
-- repo: mtth/scratch.vim
-  on_cmd: Scratch
-  on_map: [[ gs, gS ]]
-
 # ==========================================
 # Interface
 # ---------
 - { repo: haya14busa/vim-asterisk, on_map: { nv: <Plug> }}
-- { repo: rhysd/clever-f.vim, on_map: [[ n, f, F, t, T ]]}
-- { repo: Shougo/tabpagebuffer.vim, on_if: tabpagenr() > 1 }
 
 - repo: itchyny/vim-cursorword
   on_path: .*
-  hook_source: autocmd MyAutoCmd FileType vimfiler,denite,qf let b:cursorword=0
+  hook_source: autocmd MyAutoCmd FileType qf let b:cursorword=0
 
 - repo: airblade/vim-gitgutter
   on_path: .*
@@ -165,30 +146,11 @@
   hook_add:
     nmap <silent><Leader>i :<C-u>IndentGuidesToggle<CR>
     | let g:indent_guides_autocmds_enabled = 0
-    | autocmd MyAutoCmd BufEnter * if ! empty(&l:filetype)
-    |   if g:indent_guides_autocmds_enabled == 0 && &expandtab
-    |     IndentGuidesEnable
-    |   elseif g:indent_guides_autocmds_enabled == 1 && ! &expandtab
-    |     IndentGuidesDisable
-    |   endif
-    | endif
   hook_source:
     let g:indent_guides_enable_on_vim_startup = 0
     | let g:indent_guides_default_mapping = 0
     | let g:indent_guides_indent_levels = 15
-    | let g:indent_guides_exclude_filetypes = ['help', 'denite', 'vimfiler']
-
-- repo: jeetsukumaran/vim-markology
-  on_path: .*
-  hook_source:
-    let g:markology_disable_mappings = 1
-    | let g:markology_set_location_list_convenience_maps = 0
-    | let g:markology_ignore_type = 'hpq'
-    | let g:markology_textlower = "\t"
-    | let g:markology_textupper = "\t"
-    | let g:markology_textother = "\t"
-    | let g:markology_include = 'abcdefghijklmnopqrstuvwxyz'
-        .'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    | let g:indent_guides_exclude_filetypes = ['help']
 
 - repo: ciaranm/detectindent
   on_cmd: DetectIndent
@@ -204,21 +166,20 @@
   on_event: BufEnter
   hook_post_source: FastFoldUpdate
 
-- repo: benekastah/neomake
-  if: has('nvim') && empty($VIM_MINIMAL)
-  on_cmd: Neomake
-  hook_source: source $VIMPATH/config/plugins/neomake.vim
-  hook_add:
-    let g:neomake_do_filetypes = [
-      'ansible', 'python', 'php', 'ruby', 'vim', 'go', 'sh',
-      'javascript', 'javascript.jsx', 'json', 'css', 'yaml',
-      'markdown', 'html'
-    ] |
-    autocmd MyAutoCmd BufWritePost *
-    if index(g:neomake_do_filetypes, &filetype) > -1 && empty(&buftype)
-    | Neomake
-    | endif |
-    autocmd User NeomakeFinished if (empty(getloclist(0))) | lclose | endif
+- repo: tpope/vim-dispatch
+  on_cmd: [ 'Make', 'Make!', 'Dispatch', 'Focus', 'Focus!', 'Start', 'Start!' ]
+  if: ! has('nvim')
+  #  hook_add:
+  #    let g:dispatch_do_filetypes = [
+  #      'ansible', 'python', 'php', 'ruby', 'vim', 'go', 'sh',
+  #      'javascript', 'javascript.jsx', 'json', 'css', 'yaml',
+  #      'markdown', 'html'
+  #    ] |
+  #    autocmd MyAutoCmd BufWritePost *
+  #    if index(g:dispatch_do_filetypes, &filetype) > -1 && empty(&buftype)
+  #    | Make
+  #    | endif
+  #autocmd User DispatchFinished if (empty(getloclist(0))) | lclose | endif
 
 - repo: junegunn/goyo.vim
   if: empty($VIM_MINIMAL)
@@ -231,47 +192,26 @@
   if: empty($VIM_MINIMAL)
   on_cmd: Limelight
 
+- { repo: t9md/vim-choosewin, on_map: { n: <Plug> }}
+
 # ==========================================
 # Completion
 # ----------
-- repo: Shougo/deoplete.nvim
-  depends: context_filetype.vim
-  if: has('nvim')
-  on_event: InsertEnter
-  hook_add: let g:deoplete#enable_at_startup = 1
-  hook_source: source $VIMPATH/config/plugins/deoplete.vim
+- repo: ervandew/supertab
 
-- repo: Shougo/neocomplete
-  depends: context_filetype.vim
-  if: ! has('nvim') && has('lua')
-  on_event: InsertEnter
-  hook_add:
-    let g:neocomplete#data_directory = $VARPATH.'/complete'
-    | let g:neocomplete#enable_at_startup = 1
-  hook_source: source $VIMPATH/config/plugins/neocomplete.vim
+- repo: Valloric/YouCompleteMe
+  build: git submodule update --init --recursive && ./install.py --tern-completer
+  hook_source: # make YCM compatible with UltiSnips (using supertab)
+    let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+    | let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+    | let g:SuperTabDefaultCompletionType = '<C-n>'
 
-- repo: Shougo/neosnippet.vim
-  depends: [ neosnippet-snippets, context_filetype.vim ]
-  on_event: InsertCharPre
-  on_ft: snippet
-  hook_add: let g:neosnippet#data_directory = $VARPATH.'/snippets'
-  hook_source:
-    let g:neosnippet#enable_snipmate_compatibility = 1
-    | let g:neosnippet#enable_completed_snippet = 1
-    | let g:neosnippet#expand_word_boundary = 1
-
-- repo: Shougo/echodoc.vim
-  on_event: CompleteDone
-  hook_post_source: call echodoc#enable()
+- repo: SirVer/ultisnips
+  on_event: FileType
 
 - repo: Raimondi/delimitMate
   on_event: InsertEnter
   hook_source: let g:delimitMate_expand_cr = 1
-
-- { repo: Shougo/neosnippet-snippets }
-- { repo: Shougo/context_filetype.vim, lazy: 1 }
-- { repo: Shougo/neco-vim, on_ft: vim }
-- { repo: Shougo/neco-syntax, on_source: [ neocomplete.vim, deoplete.nvim ]}
 
 - repo: davidhalter/jedi-vim
   on_ft: python
@@ -291,70 +231,10 @@
   on_event: InsertEnter
   hook_add: let g:tmuxcomplete#trigger = ''
 
-# Only NeoVim
-- repo: zchee/deoplete-go
-  if: has('nvim') && empty($VIM_MINIMAL)
-  on_ft: go
-  on_event: InsertEnter
-
-- repo: zchee/deoplete-jedi
-  if: has('nvim') && empty($VIM_MINIMAL)
-  on_ft: python
-  on_event: InsertEnter
-  hook_source: autocmd MyAutoCmd FileType python setlocal omnifunc=
-
-- repo: carlitux/deoplete-ternjs
-  if: executable('tern') && has('nvim') && empty($VIM_MINIMAL)
-  on_ft: javascript
-  on_event: InsertEnter
-
-- repo: ternjs/tern_for_vim
-  build: npm install
-  if: executable('npm') && empty($VIM_MINIMAL)
-  on_event: InsertEnter
-  on_ft: javascript
-  hook_add: let g:tern_show_signature_in_pum = 1
-  hook_post_source:
-    autocmd MyAutoCmd FileType javascript setlocal omnifunc=tern#Complete
-
-# ==========================================
-# Unite
-# -----
-- repo: Shougo/unite.vim
-  on_source: denite.nvim
-  hook_post_source: source $VIMPATH/config/plugins/unite.vim
-  hook_add: let g:unite_data_directory = $VARPATH.'/unite'
-
-- repo: Shougo/vimproc.vim
-  build: make
-  on_source: unite.vim
-
-- repo: Shougo/neoyank.vim
-  on_if: 1
-  on_event: TextYankPost
-  on_source: unite.vim
-  hook_add: let g:neoyank#file = $VARPATH.'/history/yank'
-
-- repo: Shougo/neomru.vim
-  on_if: 1
-  on_source: unite.vim
-  hook_add:
-    let g:neomru#file_mru_path = $VARPATH.'/history/mru_file'
-    | let g:neomru#directory_mru_path = $VARPATH.'/history/mru_dir'
-    | let g:neomru#file_mru_limit = 500
-    | let g:neomru#directory_mru_limit = 100
-
-- { repo: tsukkee/unite-tag, on_source: unite.vim }
-- { repo: chemzqm/unite-location, on_source: unite.vim }
-
 # ==========================================
 # Operators
 # ---------
 - { repo: kana/vim-operator-user, lazy: 1 }
-
-- repo: kana/vim-operator-replace
-  depends: vim-operator-user
-  on_map: { vnx: <Plug> }
 
 - repo: rhysd/vim-operator-surround
   depends: [ vim-operator-user, vim-textobj-multiblock ]
@@ -370,20 +250,10 @@
 
 - { repo: kana/vim-textobj-user, on_func: textobj#user# }
 - { repo: bkad/CamelCaseMotion, on_map: { nox: <Plug>CamelCaseMotion }}
-- { repo: AndrewRadev/sideways.vim, on_map: { ox: <Plug>Sideways }}
-
-- repo: AndrewRadev/dsf.vim
-  on_map: { n: <Plug>Dsf }
-  hook_add: let g:dsf_no_mappings = 1
 
 - repo: osyo-manga/vim-textobj-multiblock
   depends: vim-textobj-user
   on_map: { ox: <Plug> }
   hook_add: let g:textobj_multiblock_no_default_key_mappings = 1
-
-- repo: kana/vim-textobj-function
-  depends: vim-textobj-user
-  on_map: { ox: <Plug> }
-  hook_add: let g:textobj_function_no_default_key_mappings = 1
 
 #  vim: set ts=2 sw=2 tw=80 et :

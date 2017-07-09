@@ -58,7 +58,7 @@ endif
 " Disable pre-bundled plugins
 let g:loaded_getscript = 1
 let g:loaded_getscriptPlugin = 1
-let g:loaded_gzip = 1
+"let g:loaded_gzip = 1
 let g:loaded_logiPat = 1
 let g:loaded_man = 1
 let g:loaded_matchit = 1
@@ -76,8 +76,11 @@ let g:loaded_tutor_mode_plugin = 1
 let g:loaded_2html_plugin = 1
 let g:loaded_vimball = 1
 let g:loaded_vimballPlugin = 1
-let g:loaded_zip = 1
-let g:loaded_zipPlugin = 1
+"let g:loaded_zip = 1
+"let g:loaded_zipPlugin = 1
 " }}}
+
+" Set elite mode
+let g:elite_mode = 1
 
 " vim: set ts=2 sw=2 tw=80 noet :

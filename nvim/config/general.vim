@@ -51,7 +51,7 @@ if has('wildmenu')
 	set wildignorecase
 	set wildignore+=.git,.hg,.svn,.stversions,*.pyc,*.spl,*.o,*.out,*~,%*
 	set wildignore+=*.jpg,*.jpeg,*.png,*.gif,*.zip,**/tmp/**,*.DS_Store
-	set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*
+	set wildignore+=**/node_modules/**,**/bower_modules/**,*/.sass-cache/*,**/dist/*
 endif
 
 " }}}
@@ -150,10 +150,22 @@ set nofixendofline			" do not restore missing newlines at end of file
 " }}}
 " Editor UI Appearance {{{
 " --------------------
+" Enable 256 color terminal
+set t_Co=256
+
+" Enable true color (only in Neovim, but not in urxvt)
+if has('nvim') && $TERM !~# '^rxvt' && exists('+termguicolors')
+	set termguicolors
+endif
+
+set background=dark
+colorscheme hybrid
+
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
 set scrolloff=2         " Keep at least 2 lines above/below
 set sidescrolloff=5     " Keep at least 2 lines left/right
+set relativenumber      " Show relative line numbers
 set number              " Show line numbers
 set noruler             " Disable default status ruler
 set list                " Show hidden characters
@@ -176,6 +188,10 @@ set laststatus=2        " Always show a status line
 set colorcolumn=80      " Highlight the 80th character limit
 set display=lastline
 
+set showbreak=↪
+set fillchars=vert:│,fold:─
+set listchars=tab:\⋮\ ,extends:⟫,precedes:⟪,nbsp:␣,trail:·
+
 " Do not display completion messages
 " Patch: https://groups.google.com/forum/#!topic/vim_dev/WeBBjkXE8H8
 if has('patch-7.4.314')
@@ -190,6 +206,11 @@ endif
 " For snippet_complete marker
 if has('conceal') && v:version >= 703
 	set conceallevel=2 concealcursor=niv
+endif
+
+if has('gui_running')
+	set guifont=PragmataPro:h14
+	set noantialias
 endif
 
 " }}}
@@ -226,5 +247,18 @@ function! FoldText()
 endfunction
 
 " }}}
+" Delete hidden buffers {{{
+function! DeleteHiddenBuffers()
+    let i=1
+    let lastbuf=bufnr("$")
+    while i <= lastbuf
+        if buflisted(i) && bufwinnr(i) == -1
+        sil exe "bdelete" i
+        endif
+        let i=i+1
+    endwhile
+endfunction
+
+"}}}
 
 " vim: set ts=2 sw=2 tw=80 noet :

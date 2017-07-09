@@ -2,156 +2,51 @@
 " Plugin Settings
 "---------------------------------------------------------
 
-if dein#tap('tagbar') "{{{
-	let g:tagbar_iconchars = ['▷', '◢']
-
-	let g:tagbar_map_openfold = ['l', '+', 'zo']
-	let g:tagbar_map_closefold = ['h', '-', 'zc']
-
-	nnoremap <silent> <Leader>o   :<C-u>TagbarOpenAutoClose<CR>
+if dein#tap('incsearch') "{{{
+	map / <Plug>(incsearch-forward)
+	map ? <Plug>(incsearch-backward)
 endif
 
-" }}}
-if dein#tap('unite.vim') "{{{
-	nnoremap <silent> [unite]r  :<C-u>UniteResume<CR>
-	nnoremap <silent> [unite]f  :<C-u>Unite file_rec/async -start-insert<CR>
-	nnoremap <silent> [unite]R  :<C-u>Unite file_mru<CR>
-	nnoremap <silent> [unite]d  :<C-u>Unite directory_rec/async -default-action=cd<CR>
-	nnoremap <silent> [unite]b  :<C-u>Unite buffer file_mru<CR>
-	nnoremap <silent> [unite]l  :<C-u>Unite location_list -buffer-name=list<CR>
-	nnoremap <silent> [unite]q  :<C-u>Unite quickfix -buffer-name=list<CR>
-	nnoremap <silent> [unite]n  :<C-u>Unite dein -no-quit<CR>
-	nnoremap <silent> [unite]g  :<C-u>Unite grep -buffer-name=grep<CR>
-	nnoremap <silent> [unite]j  :<C-u>Unite file_point<CR>
-	nnoremap <silent> [unite]/  :<C-u>Unite line<CR>
-	nnoremap <silent> [unite]*  :<C-u>UniteWithCursorWord line<CR>
+"}}}
+if dein#tap('nerdtree') "{{{
+	" auto open nerdtree on vim open if no files provided
+	"autocmd StdinReadPre * let s:std_in=1
+	"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-	" Open Unite with word under cursor or selection
-	nnoremap <silent> <Leader>gf :UniteWithCursorWord file_rec/async<CR>
-	nnoremap <silent> <Leader>gg :UniteWithCursorWord grep -buffer-name=grep<CR><CR>
+	" autpmatically exit vim in the last window is nerdtree
+	autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+	map <silent>[unite]a :<C-u>NERDTreeFind<CR>
+
+	let NERDTreeMapActivateNode = 'l'
+	let NERDTreeMapCloseDir = 'h'
+	let NERDTreeQuitOnOpen = 1
+endif
+
+"}}}
+if dein#tap('YouCompleteMe') "{{{
+	autocmd MyAutoCmd FileType javascript.jsx
+		\ nnoremap <silent><Leader>jd :<c-u>YcmCompleter GoTo<CR>
+		\ | nnoremap <silent><Leader>jr :<c-u>YcmCompleter GoToReferences<CR>
+		\ | nnoremap <silent><Leader>jt :<c-u>YcmCompleter GetType<CR>
+		\ | nnoremap <silent><Leader>rn :<c-u>YcmCompleter RefactorRename<CR>
+endif
+
+"}}}
+if dein#tap('ctrlp.vim') "{{{
+	let g:ctrlp_map = '<c-p>'
+	let g:ctrlp_cmd = 'CtrlPMixed'
+	nnoremap <silent> [unite]f  :<C-u>CtrlP<CR>
+	nnoremap <silent> [unite]b  :<C-u>CtrlPBuffer<CR>
+	let g:ctrlp_working_path_mode = 'ra'
+endif
+
+"}}}
+if dein#tap('vim-grepper') "{{{
+	nnoremap <silent> [unite]g  :<C-u>Grepper -tool ag<CR>
+	nnoremap <silent> <Leader>gg :<C-u>Grepper -cword -noprompt -tool ag<CR><CR>
 	vnoremap <silent> <Leader>gg
-		\ :<C-u>call VSetSearch('/')<CR>:execute 'Unite grep -buffer-name=grep -input='.@/<CR><CR>
-
-	nnoremap <silent> [unite]u   :<C-u>Unite source<CR>
-	nnoremap <silent> [unite]t   :<C-u>Unite tag -start-insert<CR>
-	nnoremap <silent> [unite]T   :<C-u>Unite tag/include<CR>
-	nnoremap <silent> [unite]s   :<C-u>Unite session<CR>
-	nnoremap <silent> [unite]ma  :<C-u>Unite mapping -silent<CR>
-	nnoremap <silent> [unite]mt  :<C-u>Unite tab -select=`tabpagenr()-1`<CR>
-
-	" Open Unite with word under cursor or selection
-	nnoremap <silent> <Leader>gt :UniteWithCursorWord tag -start-insert<CR>
-	vnoremap <silent> <Leader>gt :<C-u>call VSetSearch('/')<CR>:execute 'Unite tag -input='.@/<CR>
-
-	autocmd MyAutoCmd BufEnter *
-		\  if empty(&buftype) && &ft != 'go' && &ft != 'javascript.jsx'
-		\|   nnoremap <buffer> <C-]> :<C-u>UniteWithCursorWord tag -immediately<CR>
-		\| endif
-
-	" Unite window mappings {{{
-	autocmd MyAutoCmd FileType unite call s:unite_settings()
-	function! s:unite_settings() abort "{{{
-		silent! nunmap <buffer> <Space>
-		silent! nunmap <buffer> <C-h>
-		silent! nunmap <buffer> <C-k>
-		silent! nunmap <buffer> <C-l>
-		silent! nunmap <buffer> <C-r>
-		nmap <silent><buffer><expr> o unite#do_action('persist_open')
-		nmap <silent><buffer><expr> p unite#do_action('preview')
-		nmap <silent><buffer> <C-r> <Plug>(unite_redraw)
-		imap <silent><buffer> <C-j> <Plug>(unite_select_next_line)
-		imap <silent><buffer> <C-k> <Plug>(unite_select_previous_line)
-		nmap <silent><buffer> '     <Plug>(unite_toggle_mark_current_candidate)
-		nmap <silent><buffer> e     <Plug>(unite_do_default_action)
-		nmap <silent><buffer><expr> sv unite#do_action('split')
-		nmap <silent><buffer><expr> sg unite#do_action('vsplit')
-		nmap <silent><buffer><expr> st unite#do_action('tabopen')
-		nnoremap <silent><buffer> <Tab>  <C-w>w
-		nmap <buffer> q             <Plug>(unite_exit)
-		imap <buffer> jj            <Plug>(unite_insert_leave)
-		imap <buffer> <Tab>         <Plug>(unite_complete)
-		nmap <buffer> <C-z>         <Plug>(unite_toggle_transpose_window)
-		imap <buffer> <C-z>         <Plug>(unite_toggle_transpose_window)
-		nmap <buffer> <C-w>         <Plug>(unite_delete_backward_path)
-		nmap <buffer> <C-g>         <Plug>(unite_print_candidate)
-		nmap <buffer> x             <Plug>(unite_quick_match_default_action)
-
-		let unite = unite#get_current_unite()
-		if unite.profile_name ==# '^search'
-			nnoremap <silent><buffer><expr> r unite#do_action('replace')
-		else
-			nnoremap <silent><buffer><expr> r unite#do_action('rename')
-		endif
-	endfunction "}}}
-	"}}}
-endif
-
-"}}}
-if dein#tap('vimfiler.vim') "{{{
-	nnoremap <silent> [unite]e        :<C-u>execute
-		\ 'VimFiler -winwidth=45 -direction=topleft'<CR>
-	nnoremap <silent> [unite]a        :<C-u>execute
-		\ 'VimFiler -find -winwidth=45 -direction=topleft'<CR>
-
-	autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
-
-	function! s:vimfiler_settings() abort "{{{
-		setlocal nonumber norelativenumber
-
-		silent! nunmap <buffer> <Space>
-		silent! nunmap <buffer> <C-l>
-		silent! nunmap <buffer> <C-j>
-		silent! nunmap <buffer> gr
-		silent! nunmap <buffer> gf
-		silent! nunmap <buffer> -
-
-		nnoremap <silent><buffer> gr  :<C-u>Unite grep:<C-R>=<SID>selected()<CR> -buffer-name=grep<CR>
-		nnoremap <silent><buffer> gf  :<C-u>Unite file_rec:<C-R>=<SID>selected()<CR><CR>
-		nnoremap <silent><buffer> gd  :<C-u>call <SID>change_vim_current_dir()<CR>
-		nnoremap <silent><buffer><expr> sg  vimfiler#do_action('vsplit')
-		nnoremap <silent><buffer><expr> sv  vimfiler#do_action('split')
-		nnoremap <silent><buffer><expr> st  vimfiler#do_action('tabswitch')
-		nmap <buffer> gx     <Plug>(vimfiler_execute_vimfiler_associated)
-		nmap <buffer> '      <Plug>(vimfiler_toggle_mark_current_line)
-		nmap <buffer> v      <Plug>(vimfiler_quick_look)
-		nmap <buffer> p      <Plug>(vimfiler_preview_file)
-		nmap <buffer> V      <Plug>(vimfiler_clear_mark_all_lines)
-		nmap <buffer> i      <Plug>(vimfiler_switch_to_history_directory)
-		nmap <buffer> <Tab>  <Plug>(vimfiler_switch_to_other_window)
-		nmap <buffer> <C-r>  <Plug>(vimfiler_redraw_screen)
-	endfunction "}}}
-
-	" Returns selected items, or current cursor directory position
-	" Provide an argument to limit results with an integer.
-	function! s:selected(...) " {{{
-		let marked = map(vimfiler#get_marked_files(b:vimfiler), 'v:val.action__path')
-		if empty(marked)
-			let file_dir = vimfiler#get_file_directory()
-			call add(marked, empty(file_dir) ? '.' : file_dir)
-		endif
-		if a:0 > 0
-			let marked = marked[: a:1]
-		endif
-		return join(marked, "\n")
-	endfunction "}}}
-
-	" Changes the directory for all buffers in a tab
-	function! s:change_vim_current_dir() "{{{
-		let selected = s:selected(1)
-		let b:vimfiler.current_dir = selected
-		execute 'windo lcd '.fnameescape(selected)
-		execute 'wincmd w'
-		call vimfiler#force_redraw_screen()
-		echo 'Changed local buffer working directory to `'.selected.'`'
-	endfunction "}}}
-endif
-
-"}}}
-if dein#tap('neosnippet.vim') "{{{
-	xmap <silent><C-s>      <Plug>(neosnippet_register_oneshot_snippet)
-	imap <silent><C-Space>  <Plug>(neosnippet_start_unite_snippet)
-	smap <silent>L          <Plug>(neosnippet_jump_or_expand)
-	xmap <silent>L          <Plug>(neosnippet_expand_target)
+		\ :<C-u>call VSetSearch('/')<CR>:execute 'Grepper -noprompt -tool ag -query "'.@/.'"'<CR><CR>
 endif
 
 "}}}
@@ -179,15 +74,6 @@ endif
 if dein#tap('vim-niceblock') "{{{
 	xmap I  <Plug>(niceblock-I)
 	xmap A  <Plug>(niceblock-A)
-endif
-
-"}}}
-if dein#tap('vim-markology') "{{{
-	noremap <silent> mm :MarkologyPlaceMark<CR>
-	noremap <silent> mp :MarkologyPrevLocalMarkPos<CR>
-	noremap <silent> mn :MarkologyNextLocalMarkPos<CR>
-	noremap <silent> m- :MarkologyClearMark<CR>
-	noremap <silent> m/ :MarkologyLocationList<CR>
 endif
 
 "}}}
@@ -222,6 +108,15 @@ endif
 
 "}}}
 if dein#tap('vim-gitgutter') "{{{
+	let g:gitgutter_sign_added = '▎'
+	let g:gitgutter_sign_modified = '▎'
+	let g:gitgutter_sign_removed = '▏'
+	let g:gitgutter_sign_removed_first_line = '▔'
+	let g:gitgutter_sign_modified_removed = '▋'
+	highlight! GitGutterAdd ctermfg=22 guifg=#006000 ctermbg=NONE guibg=NONE
+	highlight! GitGutterChange ctermfg=58 guifg=#5F6000 ctermbg=NONE guibg=NONE
+	highlight! GitGutterDelete ctermfg=52 guifg=#600000 ctermbg=NONE guibg=NONE
+	highlight! GitGutterChangeDelete ctermfg=52 guifg=#600000 ctermbg=NONE guibg=NONE
 	nmap <Leader>hj <Plug>GitGutterNextHunk
 	nmap <Leader>hk <Plug>GitGutterPrevHunk
 	nmap <Leader>hs <Plug>GitGutterStageHunk
@@ -246,20 +141,7 @@ if dein#tap('vim-go') "{{{
 endif
 
 "}}}
-if dein#tap('tern_for_vim') "{{{
-	autocmd MyAutoCmd FileType jsx,javascript.js*
-		\   nmap <C-]> :TernDef<CR>
-		\ | nmap <leader>gr :TernRefs<CR>
-		\ | nmap <C-S-]> :TernDefSplit<CR>
-		\ | nmap <C-\> :TernRename<CR>
-
-	let g:tern_show_signature_in_pum = 1
-endif
-
-"}}}
 if dein#tap('vim-fugitive') "{{{
-
-	nnoremap <Leader>gn :Unite output:echo\ system("git\ init")<CR>
 	nnoremap <Leader>gs :Gstatus<CR>
 	nnoremap <Leader>gw :Gwrite<CR>
 	nnoremap <Leader>go :Gread<CR>
@@ -275,16 +157,6 @@ if dein#tap('vim-fugitive') "{{{
 	nnoremap <Leader>gi :Git!<Space>
 	nnoremap <Leader>ge :Gedit<CR>
 	nnoremap <Leader>gE :Gedit<Space>
-	nnoremap <Leader>gl :exe "silent Glog <Bar> Unite -no-quit
-							\ quickfix"<CR>:redraw!<CR>
-	nnoremap <Leader>gL :exe "silent Glog -- <Bar> Unite -no-quit
-							\ quickfix"<CR>:redraw!<CR>
-	"nnoremap <Leader>gg :exe 'silent Ggrep -i '.input("Pattern: ")<Bar>Unite
-	"            \ quickfix -no-quit<CR>
-	"nnoremap <Leader>ggm :exe 'silent Glog --grep='.input("Pattern: ").' <Bar>
-	"            \Unite -no-quit quickfix'<CR>
-	"nnoremap <Leader>ggt :exe 'silent Glog -S='.input("Pattern: ").' <Bar>
-	"            \Unite -no-quit quickfix'<CR>
 	"
 	"nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
@@ -292,41 +164,18 @@ if dein#tap('vim-fugitive') "{{{
 	"noremap <localleader>du :diffupdate<CR>
 endif
 
-" }}}
-if dein#tap('vim-anzu') "{{{
-	nmap n n<Plug>(anzu-update-search-status)
-	nmap N N<Plug>(anzu-update-search-status)
-	nmap <silent> <Leader>cc :<C-u>call anzu#clear_search_status()<CR>
-	autocmd MyAutoCmd CursorHold * call anzu#clear_search_status()
-endif
-
 "}}}
 if dein#tap('vim-asterisk') "{{{
-	map *   <Plug>(asterisk-g*)<Plug>(anzu-update-search-status)
-	map g*  <Plug>(asterisk-*)<Plug>(anzu-update-search-status)
-	map #   <Plug>(asterisk-g#)<Plug>(anzu-update-search-status)
-	map g#  <Plug>(asterisk-#)<Plug>(anzu-update-search-status)
+	map g*  <Plug>(asterisk-g*)<Plug>(anzu-update-search-status)
+	map *   <Plug>(asterisk-*)<Plug>(anzu-update-search-status)
+	map g#  <Plug>(asterisk-g#)<Plug>(anzu-update-search-status)
+	map #   <Plug>(asterisk-#)<Plug>(anzu-update-search-status)
 
 	map z*  <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)
 	map gz* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
 	map z#  <Plug>(asterisk-z#)<Plug>(anzu-update-search-status)
 	map gz# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
-endif
-
-"}}}
-if dein#tap('dsf.vim') "{{{
-	nmap dsf <Plug>DsfDelete
-	nmap csf <Plug>DsfChange
-endif
-
-"}}}
-if dein#tap('sideways.vim') "{{{
-	nnoremap <silent> m" :SidewaysJumpLeft<CR>
-	nnoremap <silent> m' :SidewaysJumpRight<CR>
-	omap a, <Plug>SidewaysArgumentTextobjA
-	xmap a, <Plug>SidewaysArgumentTextobjA
-	omap i, <Plug>SidewaysArgumentTextobjI
-	xmap i, <Plug>SidewaysArgumentTextobjI
+	let g:asterisk#keeppos = 1
 endif
 
 "}}}
@@ -351,20 +200,56 @@ if dein#tap('vim-textobj-multiblock') "{{{
 endif
 
 "}}}
-if dein#tap('vim-textobj-function') "{{{
-	omap af <Plug>(textobj-function-a)
-	omap if <Plug>(textobj-function-i)
-	xmap af <Plug>(textobj-function-a)
-	xmap if <Plug>(textobj-function-i)
+if dein#tap('vim-choosewin') "{{{
+	let g:choosewin_label = 'SDFHJKCN'
 endif
-"}}}
 
+"}}}
 if dein#tap('vim-airline') "{{{
 	if !exists("g:airline_symbols")
 		let g:airline_symbols={}
 		let g:airline_symbols.branch = ''
 	endif
+	let g:airline#extensions#tagbar#enabled = 1
 endif
+
+"}}}
+if dein#tap('neomake') "{{{
+	let g:neomake_error_sign = {'text': '◤', 'texthl': 'ErrorMsg'}
+	let g:neomake_warning_sign = {'text': '◸', 'texthl': 'WarningMsg'}
+	let g:neomake_message_sign = {'text': 's', 'texthl': 'NeomakeMessageSign'}
+	let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+endif
+
+"}}}
+if dein#tap('neoformat') "{{{
+	let g:eslint = ''
+	autocmd FileType javascript,javascript.jsx call s:find_eslint()
+	function! s:find_eslint()
+		exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p:h:h')"
+		if l:eslint != ""
+			let g:eslint = l:eslint
+		endif
+	endfunction
+	function! neoformat#formatters#javascript#prettiereslint() abort
+		exec "let l:eslintrc=fnamemodify(findfile('.eslintrc','" . expand('%:p') . ";/'), ':p:h')"
+		return {
+					\ 'exe': 'prettier-eslint-with-cd',
+					\ 'args': [expand('%:p'), g:eslint],
+					\ 'stdin': 1,
+					\ }
+	endfunction
+endif
+
+"}}}
+if dein#tap('ultisnips') "{{{
+	let g:UltiSnipsExpandTrigger="<tab>"
+	let g:UltiSnipsJumpForwardTrigger="<m-c-l>"
+	let g:UltiSnipsJumpBackwardTrigger="<m-c-h>"
+	let g:UltiSnipsEditSplit="vertical"
+	let g:UltiSnipsSnippetsDir="~/.dotfiles/nvim/snippets"
+endif
+
 "}}}
 
 " vim: set ts=2 sw=2 tw=80 noet :

@@ -27,10 +27,6 @@ if get(g:, 'elite_mode')
 	nnoremap <Right> :vertical resize -2<CR>
 endif
 
-" Double leader key for toggling visual-line mode
-nmap <silent> <Leader><Leader> :nohlsearch<CR>V
-vmap <Leader><Leader> <Esc>
-
 " Toggle fold
 nnoremap <CR> za
 
@@ -75,10 +71,6 @@ noremap <expr> <C-b> max([winheight(0) - 2, 1])
 noremap <expr> <C-e> (line("w$") >= line('$') ? "j" : "3\<C-e>")
 noremap <expr> <C-y> (line("w0") <= 1         ? "k" : "3\<C-y>")
 
-" Window control
-nnoremap <C-q> <C-w>
-nnoremap <silent><C-w>z :vert resize<CR>:resize<CR>:normal! ze<CR>
-
 " Select blocks after indenting
 xnoremap < <gv
 xnoremap > >gv|
@@ -112,13 +104,6 @@ cnoremap <C-d> <C-w>
 " When pressing <leader>cd switch to the directory of the open buffer
 map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
 
-" Fast saving
-nnoremap <Leader>w :write<CR>
-vnoremap <Leader>w <Esc>:write<CR>
-nnoremap <C-s> :<C-u>write<CR>
-vnoremap <C-s> :<C-u>write<CR>
-cnoremap <C-s> <C-u>write<CR>
-
 " Save a file with sudo
 " http://forrst.com/posts/Use_w_to_sudo_write_a_file_with_Vim-uAN
 cmap W!! w !sudo tee % >/dev/null
@@ -126,9 +111,6 @@ cmap W!! w !sudo tee % >/dev/null
 " }}}
 " Editor UI {{{
 " ---------
-
-" Toggle paste mode
-set pastetoggle=<F2>
 
 " Show highlight names under cursor
 nmap gh :echo 'hi<'.synIDattr(synID(line('.'), col('.'), 1), 'name')
@@ -157,9 +139,6 @@ nnoremap <silent> ,<Space> :<C-u>silent! keeppatterns %substitute/\s\+$//e<CR>
 " Diff
 nnoremap <silent> <expr> ,d ":\<C-u>".(&diff?"diffoff":"diffthis")."\<CR>"
 
-" C-r: Easier search and replace
-xnoremap <C-r> :<C-u>call VSetSearch('/')<CR>:%s/\V<C-R>=@/<CR>//gc<Left><Left><Left>
-
 " Location list movement
 nmap <Leader>lj :lnext<CR>
 nmap <Leader>lk :lprev<CR>
@@ -180,10 +159,6 @@ vnoremap mk :m-2<CR>gv=gv
 vnoremap mj :m'>+<CR>gv=gv
 noremap  <Leader>mk :m-2<CR>==
 noremap  <Leader>mj :m+<CR>==
-
-" Last session management shortcuts
-nnoremap <Leader>se :<C-u>SessionSave last<CR>
-nnoremap <Leader>os :<C-u>execute 'source '.g:session_directory.'/last.vim'<CR>
 
 augroup MyAutoCmd " {{{
 
@@ -234,18 +209,18 @@ endfunction "}}}
 
 " s: Windows and buffers {{{
 
-nnoremap <silent> [Window]v  :<C-u>split<CR>
-nnoremap <silent> [Window]g  :<C-u>vsplit<CR>
+nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
+nnoremap <silent> [Window]h  :<C-u>split<CR>
 nnoremap <silent> [Window]t  :tabnew<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
 nnoremap <silent> [Window]b  :b#<CR>
 nnoremap <silent> [Window]c  :close<CR>
 nnoremap <silent> [Window]x  :<C-u>call <SID>BufferEmpty()<CR>
-nnoremap <silent><expr> Q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
+nnoremap <silent><expr> [Window]q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
 
 " Split current buffer, go to previous window and previous buffer
-nnoremap <silent> [Window]sv :split<CR>:wincmd p<CR>:e#<CR>
-nnoremap <silent> [Window]sg :vsplit<CR>:wincmd p<CR>:e#<CR>
+nnoremap <silent> [Window]sh :split<CR>:wincmd p<CR>:e#<CR>
+nnoremap <silent> [Window]sv :vsplit<CR>:wincmd p<CR>:e#<CR>
 
 function! s:BufferEmpty() "{{{
 	let l:current = bufnr('%')

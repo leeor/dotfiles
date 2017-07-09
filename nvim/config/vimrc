@@ -111,7 +111,6 @@ call dein#call_hook('post_source')
 " Loading configuration modules {{{
 call s:source_file('general.vim')
 call s:source_file('terminal.vim')
-call s:source_file('theme.vim')
 call s:source_file('filetype.vim')
 call s:lazy_load_filetype()
 call s:source_file('mappings.vim')
