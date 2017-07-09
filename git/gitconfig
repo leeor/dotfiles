@@ -93,3 +93,5 @@
 	#									└─ hash (abbreviated)
 [github]
 	user = leeor
+[rerere]
+	enabled = true
