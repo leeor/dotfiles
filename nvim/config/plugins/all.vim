@@ -214,40 +214,19 @@ if dein#tap('vim-airline') "{{{
 endif
 
 "}}}
-if dein#tap('neomake') "{{{
-	let g:neomake_error_sign = {'text': '◤', 'texthl': 'ErrorMsg'}
-	let g:neomake_warning_sign = {'text': '◸', 'texthl': 'WarningMsg'}
-	let g:neomake_message_sign = {'text': 's', 'texthl': 'NeomakeMessageSign'}
-	let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
-endif
-
-"}}}
-if dein#tap('neoformat') "{{{
-	let g:eslint = ''
-	autocmd FileType javascript,javascript.jsx call s:find_eslint()
-	function! s:find_eslint()
-		exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p:h:h')"
-		if l:eslint != ""
-			let g:eslint = l:eslint
-		endif
-	endfunction
-	function! neoformat#formatters#javascript#prettiereslint() abort
-		exec "let l:eslintrc=fnamemodify(findfile('.eslintrc','" . expand('%:p') . ";/'), ':p:h')"
-		return {
-					\ 'exe': 'prettier-eslint-with-cd',
-					\ 'args': [expand('%:p'), g:eslint],
-					\ 'stdin': 1,
-					\ }
-	endfunction
-endif
-
-"}}}
 if dein#tap('ultisnips') "{{{
 	let g:UltiSnipsExpandTrigger="<tab>"
 	let g:UltiSnipsJumpForwardTrigger="<m-c-l>"
 	let g:UltiSnipsJumpBackwardTrigger="<m-c-h>"
 	let g:UltiSnipsEditSplit="vertical"
 	let g:UltiSnipsSnippetsDir="~/.dotfiles/nvim/snippets"
+endif
+
+"}}}
+if dein#tap('ale') "{{{
+  let g:ale_linters = {
+				\ 'javascript': [ 'eslint' ],
+				\ }
 endif
 
 "}}}

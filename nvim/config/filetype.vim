@@ -7,6 +7,14 @@ execute 'autocmd MyAutoCmd BufWritePost '.$VIMPATH.'/config/*,vimrc nested'
 	\ .' source $MYVIMRC | redraw'
 " }}}
 
+let g:eslint = ''
+function! s:find_eslint()
+	exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p:h:h')"
+	if l:eslint != ""
+		let g:eslint = l:eslint
+	endif
+endfunction
+
 augroup MyAutoCmd " {{{
 
 	" Automatically set read-only for files being edited elsewhere
@@ -52,10 +60,13 @@ augroup MyAutoCmd " {{{
 
 	autocmd FileType gitcommit,qfreplace setlocal nofoldenable
 
+	autocmd FileType javascript,javascript.jsx call s:find_eslint()
+
 	" https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
 	autocmd FileType html,css,jsx,javascript.jsx setlocal backupcopy=yes
 
 	autocmd FileType jsx,javascript.js* setlocal foldmethod=syntax
+	autocmd FileType jsx,javascript.js* exe 'setlocal formatprg=prettier-eslint-with-cd\ '. expand('%:p') .'\ '. g:eslint
 
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 
