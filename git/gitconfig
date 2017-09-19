@@ -12,7 +12,8 @@
 	# start interactive rebase to prepare local commits to be pushed
 	prep = "rebase -i @{u}"
 
-	review = "!for h in $(git log --pretty='%h' origin/master..master | tac); do git show $h; done"
+  #review = "!for h in $(git log --pretty='%h' origin/master..master | tac); do git show $h; done"
+  review = "!for h in $(git log --pretty='%h' origin/master..master | tac); do git show $h | cdiff -s -w 100 -t2; done"
 
 	# Merge GitHub pull request on top of the current branch or,
 	# if a branch name is specified, on top of the specified branch

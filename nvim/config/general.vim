@@ -81,8 +81,8 @@ endif
 " }}}
 " Tabs and Indents {{{
 " ----------------
-set textwidth=80    " Text width maximum chars before wrapping
-set noexpandtab     " Don't expand tabs to spaces.
+set textwidth=100   " Text width maximum chars before wrapping
+set expandtab       " Expand tabs to spaces.
 set tabstop=2       " The number of spaces a tab is
 set softtabstop=2   " While performing editing operations
 set shiftwidth=2    " Number of spaces to use in auto(indent)

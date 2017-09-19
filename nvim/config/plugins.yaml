@@ -8,7 +8,6 @@
 - repo: w0ng/vim-hybrid
 - repo: itchyny/vim-parenmatch
 - repo: thinca/vim-localrc
-- repo: christoomey/vim-tmux-navigator
 - repo: tpope/vim-fugitive
 - repo: vim-airline/vim-airline
   hook_post_source:
@@ -21,10 +20,23 @@
 - repo: easymotion/vim-easymotion
 - repo: ctrlpvim/ctrlp.vim
 - repo: haya14busa/incsearch.vim
+- repo: haya14busa/incsearch-fuzzy.vim
 - repo: scrooloose/nerdtree
 - repo: Xuyuanp/nerdtree-git-plugin
 - repo: tpope/vim-unimpaired
 - repo: w0rp/ale.git
+  hook_post_source:
+    let g:ale_javascript_prettier_options='--print-width 100 --single-quote --no-semi'
+    | let g:ale_fixers = {}
+    | let g:ale_fixers.javascript = ['eslint']
+    | let g:ale_fix_on_save = 1
+- repo: itchyny/vim-cursorword
+  hook_source: autocmd MyAutoCmd FileType qf let b:cursorword=0
+- repo: airblade/vim-gitgutter
+  hook_source:
+    let g:gitgutter_map_keys = 0
+    | let g:gitgutter_sh = $SHELL
+- repo: tpope/vim-sleuth
 
 # Lazy Loading
 # ==========================================
@@ -46,8 +58,6 @@
 
 - { repo: elzr/vim-json, on_ft: json }
 - { repo: pangloss/vim-javascript, on_ft: javascript }
-- { repo: othree/jspc.vim, on_ft: javascript }
-- { repo: heavenshell/vim-jsdoc, on_ft: javascript }
 - { repo: moll/vim-node, on_ft: javascript }
 
 - repo: mxw/vim-jsx
@@ -57,10 +67,7 @@
 - repo: othree/javascript-libraries-syntax.vim
   on_ft: javascript
   hook_source:
-    let g:used_javascript_libs = 'jquery,flux,underscore,backbone,react'
-
-- repo: janko-m/vim-test
-  on_ft: javascript
+    let g:used_javascript_libs = 'react,underscore,chai'
 
 - repo: fatih/vim-go
   on_ft: go
@@ -93,8 +100,11 @@
 # Commands
 # --------
 - { repo: Shougo/vinarise.vim, on_cmd: Vinarise }
-- { repo: guns/xterm-color-table.vim, on_cmd: XtermColorTable }
-- { repo: thinca/vim-prettyprint, on_cmd: PP, on_func: PP }
+#- { repo: guns/xterm-color-table.vim, on_cmd: XtermColorTable }
+#- { repo: thinca/vim-prettyprint, on_cmd: PP, on_func: PP }
+
+- repo: gregsexton/gitv
+  on_cmd: Gitv
 
 - repo: metakirby5/codi.vim
   if: empty($VIM_MINIMAL)
@@ -112,48 +122,10 @@
   on_cmd: Gista
   hook_add: let g:gista#client#cache_dir = $VARPATH.'/gista/'
 
-- repo: itchyny/dictionary.vim
-  if: empty($VIM_MINIMAL)
-  on_cmd: Dictionary
-  hook_add: nnoremap <silent> <Leader>? :<C-u>Dictionary -no-duplicate<CR>
-
-- repo: beloglazov/vim-online-thesaurus
-  if: empty($VIM_MINIMAL)
-  on_cmd: [ OnlineThesaurusCurrentWord, Thesaurus ]
-  hook_source: let g:online_thesaurus_map_keys = 0
-  hook_add: nnoremap <silent> <Leader>K :<C-u>OnlineThesaurusCurrentWord<CR>
-
 # ==========================================
 # Interface
 # ---------
 - { repo: haya14busa/vim-asterisk, on_map: { nv: <Plug> }}
-
-- repo: itchyny/vim-cursorword
-  on_path: .*
-  hook_source: autocmd MyAutoCmd FileType qf let b:cursorword=0
-
-- repo: airblade/vim-gitgutter
-  on_path: .*
-  hook_source:
-    let g:gitgutter_map_keys = 0
-    | let g:gitgutter_sh = $SHELL
-
-- repo: nathanaelkane/vim-indent-guides
-  on_cmd: [IndentGuidesEnable, IndentGuidesDisable, IndentGuidesToggle]
-  hook_add:
-    nmap <silent><Leader>i :<C-u>IndentGuidesToggle<CR>
-    | let g:indent_guides_autocmds_enabled = 0
-  hook_source:
-    let g:indent_guides_enable_on_vim_startup = 0
-    | let g:indent_guides_default_mapping = 0
-    | let g:indent_guides_indent_levels = 15
-    | let g:indent_guides_exclude_filetypes = ['help']
-
-- repo: ciaranm/detectindent
-  on_cmd: DetectIndent
-  hook_add:
-    autocmd MyAutoCmd BufEnter *.js*,*.html,*.css,.tern*
-      execute 'DetectIndent'
 
 - repo: rhysd/committia.vim
   on_path: COMMIT_EDITMSG
@@ -189,8 +161,6 @@
   if: empty($VIM_MINIMAL)
   on_cmd: Limelight
 
-- { repo: t9md/vim-choosewin, on_map: { n: <Plug> }}
-
 # ==========================================
 # Completion
 # ----------
@@ -206,9 +176,8 @@
 - repo: SirVer/ultisnips
   on_event: FileType
 
-- repo: Raimondi/delimitMate
+- repo: jiangmiao/auto-pairs
   on_event: InsertEnter
-  hook_source: let g:delimitMate_expand_cr = 1
 
 - repo: davidhalter/jedi-vim
   on_ft: python
@@ -223,10 +192,6 @@
     | let g:jedi#popup_select_first = 0
     | let g:jedi#popup_on_dot = 0
     | let g:jedi#max_doc_height = 45
-
-- repo: wellle/tmux-complete.vim
-  on_event: InsertEnter
-  hook_add: let g:tmuxcomplete#trigger = ''
 
 # ==========================================
 # Operators

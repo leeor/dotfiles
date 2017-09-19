@@ -1,13 +1,6 @@
-
 " Plugin Settings
 "---------------------------------------------------------
 
-if dein#tap('incsearch') "{{{
-	map / <Plug>(incsearch-forward)
-	map ? <Plug>(incsearch-backward)
-endif
-
-"}}}
 if dein#tap('nerdtree') "{{{
 	" auto open nerdtree on vim open if no files provided
 	"autocmd StdinReadPre * let s:std_in=1
@@ -25,11 +18,16 @@ endif
 
 "}}}
 if dein#tap('YouCompleteMe') "{{{
+	function! YcmRefactorRename()
+		let s:new_name = input('Rename '. expand('<cword>') .' to: ')
+		execute "YcmCompleter RefactorRename" s:new_name
+	endfunction
+	command! -nargs=+ -complete=file YcmRefactorRename <args>
 	autocmd MyAutoCmd FileType javascript.jsx
 		\ nnoremap <silent><Leader>jd :<c-u>YcmCompleter GoTo<CR>
 		\ | nnoremap <silent><Leader>jr :<c-u>YcmCompleter GoToReferences<CR>
 		\ | nnoremap <silent><Leader>jt :<c-u>YcmCompleter GetType<CR>
-		\ | nnoremap <silent><Leader>rn :<c-u>YcmCompleter RefactorRename<CR>
+		\ | nnoremap <silent><Leader>rn :<c-u>call YcmRefactorRename()<CR>
 endif
 
 "}}}
@@ -85,14 +83,7 @@ if dein#tap('committia.vim') "{{{
 
 		setlocal winminheight=1 winheight=1
 		resize 10
-		startinsert
 	endfunction
-endif
-
-"}}}
-if dein#tap('vim-choosewin') "{{{
-	nmap -         <Plug>(choosewin)
-	nmap <Leader>- :<C-u>ChooseWinSwap<CR>
 endif
 
 "}}}
@@ -227,6 +218,29 @@ if dein#tap('ale') "{{{
   let g:ale_linters = {
 				\ 'javascript': [ 'eslint' ],
 				\ }
+endif
+
+"}}}
+if dein#tap('incsearch.vim') "{{{
+	let g:incsearch#auto_nohlsearch = 1
+
+	map n  <Plug>(incsearch-nohl-n)
+	map N  <Plug>(incsearch-nohl-N)
+	map *  <Plug>(incsearch-nohl-*)
+	map #  <Plug>(incsearch-nohl-#)
+	map g* <Plug>(incsearch-nohl-g*)
+	map g# <Plug>(incsearch-nohl-g#)
+
+	map / <Plug>(incsearch-forward)
+	map ? <Plug>(incsearch-backward)
+	map g/ <Plug>(incsearch-stay)
+endif
+
+"}}}
+if dein#tap('incsearch-fuzzy.vim') "{{{
+	map z/ <Plug>(incsearch-fuzzy-/)
+	map z? <Plug>(incsearch-fuzzy-?)
+	map zg/ <Plug>(incsearch-fuzzy-stay)
 endif
 
 "}}}
