@@ -26,10 +26,11 @@
 - repo: tpope/vim-unimpaired
 - repo: w0rp/ale.git
   hook_post_source:
-    let g:ale_javascript_prettier_options='--print-width 100 --single-quote --no-semi'
-    | let g:ale_fixers = {}
-    | let g:ale_fixers.javascript = ['eslint']
+    let g:ale_fixers.javascript = ['eslint']
     | let g:ale_fix_on_save = 1
+    | let g:airline#extensions#ale#enabled = 1
+    | let g:ale_sign_error=''
+    | let g:ale_sign_warning=''
 - repo: itchyny/vim-cursorword
   hook_source: autocmd MyAutoCmd FileType qf let b:cursorword=0
 - repo: airblade/vim-gitgutter
@@ -68,6 +69,8 @@
   on_ft: javascript
   hook_source:
     let g:used_javascript_libs = 'react,underscore,chai'
+
+- { repo: neovimhaskell/haskell-vim.git, on_ft: haskell }
 
 - repo: fatih/vim-go
   on_ft: go
@@ -113,9 +116,9 @@
 - repo: mhinz/vim-grepper
   on_cmd: Grepper
 
-- repo: mbbill/undotree
-  on_cmd: UndotreeToggle
-  hook_add: nnoremap <Leader>gu :UndotreeToggle<CR>
+- repo: simnalamburt/vim-mundo
+  on_cmd: MundoToggle
+  hook_add: nnoremap <Leader>gu :MundoToggle<CR>
 
 - repo: lambdalisue/vim-gista
   if: empty($VIM_MINIMAL)
@@ -173,6 +176,15 @@
     | let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
     | let g:SuperTabDefaultCompletionType = '<C-n>'
 
+- repo: eagletmt/neco-ghc
+  on_ft: haskell
+  depends: [ YouCompleteMe ]
+  hook_source:
+    let g:haskellmode_completion_ghc = 0
+    | autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+    | let g:ycm_semantic_triggers = {}
+    | let g:ycm_semantic_triggers.haskell = ['.']
+
 - repo: SirVer/ultisnips
   on_event: FileType
 
@@ -212,6 +224,7 @@
 
 - { repo: kana/vim-textobj-user, on_func: textobj#user# }
 - { repo: bkad/CamelCaseMotion, on_map: { nox: <Plug>CamelCaseMotion }}
+- { repo: michaeljsmith/vim-indent-object, on_func: textobj#user# }
 
 - repo: osyo-manga/vim-textobj-multiblock
   depends: vim-textobj-user
