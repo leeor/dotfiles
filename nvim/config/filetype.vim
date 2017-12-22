@@ -7,6 +7,9 @@ execute 'autocmd MyAutoCmd BufWritePost '.$VIMPATH.'/config/*,vimrc nested'
 	\ .' source $MYVIMRC | redraw'
 " }}}
 
+autocmd InsertLeave,WinEnter * set cursorline
+autocmd InsertEnter,WinLeave * set nocursorline
+
 let g:eslint = ''
 function! s:find_eslint()
 	exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p:h:h')"
