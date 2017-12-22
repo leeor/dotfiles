@@ -96,3 +96,5 @@
 	user = leeor
 [rerere]
 	enabled = true
+[rebase]
+	instructionFormat = (%an <%ae>) %s
