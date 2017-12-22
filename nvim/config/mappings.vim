@@ -30,9 +30,6 @@ endif
 " Toggle fold
 nnoremap <CR> za
 
-" Focus the current fold by closing all others
-nnoremap <S-Return> zMza
-
 " Use backspace key for matchit.vim
 nmap <BS> %
 xmap <BS> %
@@ -55,11 +52,8 @@ cnoreabbrev bD bd
 cnoreabbrev t tabe
 cnoreabbrev T tabe
 
-" Start new line from any cursor position
-inoremap <S-Return> <C-o>o
-
 " Quick substitute within selected area
-xnoremap s :s//g<Left><Left>
+xnoremap s :s//<Left><Left>
 
 " Improve scroll, credits: https://github.com/Shougo
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -102,7 +96,7 @@ cnoremap <C-d> <C-w>
 " ---------------
 
 " When pressing <leader>cd switch to the directory of the open buffer
-map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
+"map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
 
 " Save a file with sudo
 " http://forrst.com/posts/Use_w_to_sudo_write_a_file_with_Vim-uAN
@@ -119,8 +113,6 @@ nmap gh :echo 'hi<'.synIDattr(synID(line('.'), col('.'), 1), 'name')
 
 " Toggle editor visuals
 nmap <silent> <Leader>ts :setlocal spell!<cr>
-nmap <silent> <Leader>tn :setlocal nonumber!<CR>
-nmap <silent> <Leader>tl :setlocal nolist!<CR>
 nmap <silent> <Leader>th :nohlsearch<CR>
 nmap <silent> <Leader>tw :setlocal wrap! breakindent!<CR>
 
@@ -139,14 +131,6 @@ nnoremap <silent> ,<Space> :<C-u>silent! keeppatterns %substitute/\s\+$//e<CR>
 " Diff
 nnoremap <silent> <expr> ,d ":\<C-u>".(&diff?"diffoff":"diffthis")."\<CR>"
 
-" Location list movement
-nmap <Leader>lj :lnext<CR>
-nmap <Leader>lk :lprev<CR>
-
-" Duplicate lines
-nnoremap <Leader>d m`YP``
-vnoremap <Leader>d YPgv
-
 " Source line and selection in vim
 vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
 nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
@@ -154,31 +138,12 @@ nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
 " Yank buffer's absolute path to X11 clipboard
 nnoremap <Leader>y :let @+=expand("%:p")<CR>:echo 'Copied to clipboard.'<CR>
 
-" Drag current line/s vertically and auto-indent
-vnoremap mk :m-2<CR>gv=gv
-vnoremap mj :m'>+<CR>gv=gv
-noremap  <Leader>mk :m-2<CR>==
-noremap  <Leader>mj :m+<CR>==
-
 augroup MyAutoCmd " {{{
-
 	if has('mac')
 		" Use Marked for real-time Markdown preview
 		autocmd FileType markdown
 			\ nnoremap <Leader>P :silent !open -a Marked\ 2.app '%:p'<CR>:redraw!<CR>
-		" Use Dash on Mac, for context help
-		autocmd FileType ansible,go,php,css,less,html,markdown
-			\ nnoremap <silent><buffer> K :!open -g dash://"<C-R>=split(&ft, '\.')[0]<CR>:<cword>"&<CR><CR>
-		autocmd FileType javascript,javascript.jsx,sql,ruby,conf,sh
-			\ nnoremap <silent><buffer> K :!open -g dash://"<cword>"&<CR><CR>
-	else
-		" Use Zeal on Linux for context help
-		autocmd FileType ansible,go,php,css,less,html,markdown
-			\ nnoremap <silent><buffer> K :!zeal --query "<C-R>=split(&ft, '\.')[0]<CR>:<cword>"&<CR><CR>
-		autocmd FileType javascript,javascript.jsx,sql,ruby,conf,sh
-			\ nnoremap <silent><buffer> K :!zeal --query "<cword>"&<CR><CR>
 	endif
-
 augroup END
 " }}}
 
@@ -207,28 +172,29 @@ function! s:append_modeline() "{{{
 endfunction "}}}
 " }}}
 
+" Edit macro
+nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+
+"function! Ulti_ExpandOrJump_and_getRes()
+"  call UltiSnips#ExpandSnippetOrJump()
+"  return g:ulti_expand_or_jump_res
+"endfunction
+"autocmd VimEnter *
+"  \ inoremap <expr><tab> Ulti_ExpandOrJump_and_getRes() > 0 ? "" : pumvisible() ? "\<c-n>" : "\<c-space>"
+"  \ | imap <expr> <s-tab> pumvisible() ? "\<c-p>" : UltiSnips#JumpBackwards()
+
 " s: Windows and buffers {{{
 
 nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
 nnoremap <silent> [Window]h  :<C-u>split<CR>
-nnoremap <silent> [Window]t  :tabnew<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
 nnoremap <silent> [Window]b  :b#<CR>
 nnoremap <silent> [Window]c  :close<CR>
-nnoremap <silent> [Window]x  :<C-u>call <SID>BufferEmpty()<CR>
 nnoremap <silent><expr> [Window]q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
 
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> [Window]sh :split<CR>:wincmd p<CR>:e#<CR>
 nnoremap <silent> [Window]sv :vsplit<CR>:wincmd p<CR>:e#<CR>
-
-function! s:BufferEmpty() "{{{
-	let l:current = bufnr('%')
-	if ! getbufvar(l:current, '&modified')
-		enew
-		silent! execute 'bdelete '.l:current
-	endif
-endfunction "}}}
-" }}}
+"}}}
 
 " vim: set ts=2 sw=2 tw=80 noet :

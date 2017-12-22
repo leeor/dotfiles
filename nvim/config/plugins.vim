@@ -35,11 +35,10 @@ if !exists("g:airline_symbols")
   let g:airline_symbols.branch = ''
 endif
 let g:airline#extensions#tagbar#enabled = 1
-autocmd! User vim-airline
-  \ let g:airline_theme='hybrid'
-  \ let g:airline#extensions#branch#enabled = 1
-  \ let g:airline#extensions#tabline#enabled = 1
-  \ let g:airline#extensions#tagbar#enabled = 0
+let g:airline_theme='wombat'
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tagbar#enabled = 0
 
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -51,15 +50,13 @@ nnoremap <silent> [unite]f  :<C-u>CtrlP<CR>
 nnoremap <silent> [unite]b  :<C-u>CtrlPBuffer<CR>
 let g:ctrlp_working_path_mode = 'ra'
 
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+
 Plug 'haya14busa/incsearch.vim'
 let g:incsearch#auto_nohlsearch = 1
 
 map n  <Plug>(incsearch-nohl-n)
 map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
 
 map / <Plug>(incsearch-forward)
 map ? <Plug>(incsearch-backward)
@@ -88,16 +85,18 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-unimpaired'
 
 Plug 'w0rp/ale'
+let g:ale_linters = {
+    \   'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
+    \}
 let g:ale_fixers = {}
 let g:ale_fixers.haskell = [{buffer -> {'command': 'hindent'}}]
+let g:ale_fixers.javascript = ['eslint']
+let g:ale_fix_on_save = 1
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_error=''
+let g:ale_sign_warning=''
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
-autocmd! User ale.git
-  \ let g:ale_fixers.javascript = ['eslint']
-  \ let g:ale_fix_on_save = 1
-  \ let g:airline#extensions#ale#enabled = 1
-  \ let g:ale_sign_error=''
-  \ let g:ale_sign_warning=''
 
 Plug 'itchyny/vim-cursorword'
 autocmd MyAutoCmd FileType qf let b:cursorword=0
@@ -117,34 +116,21 @@ nmap <Leader>hk <Plug>GitGutterPrevHunk
 nmap <Leader>hs <Plug>GitGutterStageHunk
 nmap <Leader>hr <Plug>GitGutterUndoHunk
 nmap <Leader>hp <Plug>GitGutterPreviewHunk
-autocmd! User vim-gitgutter
-  \ let g:gitgutter_map_keys = 0
-  \ let g:gitgutter_sh = $SHELL
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sh = $SHELL
+
 Plug 'tpope/vim-sleuth'
 Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<m-c-l>"
-let g:UltiSnipsJumpBackwardTrigger="<m-c-h>"
+let g:UltiSnipsExpandTrigger="<c-k>"
+let g:UltiSnipsJumpForwardTrigger="<c-k>"
+let g:UltiSnipsJumpBackwardTrigger="<c-j>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir="~/.dotfiles/nvim/snippets"
+let g:ulti_expand_or_jump_res = 0 "default value, just set once
 
 Plug 'jiangmiao/auto-pairs'
+inoremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
 
-" ==========================================
-" Operators
-" ---------
-Plug 'kana/vim-operator-user'
-Plug 'rhysd/vim-operator-surround'
-map <silent>sa <Plug>(operator-surround-append)
-map <silent>sd <Plug>(operator-surround-delete)
-map <silent>sr <Plug>(operator-surround-replace)
-nmap <silent>saa <Plug>(operator-surround-append)<Plug>(textobj-multiblock-i)
-nmap <silent>sdd <Plug>(operator-surround-delete)<Plug>(textobj-multiblock-a)
-nmap <silent>srr <Plug>(operator-surround-replace)<Plug>(textobj-multiblock-a)
-
-Plug 'haya14busa/vim-operator-flashy'
-map y <Plug>(operator-flashy)
-nmap Y <Plug>(operator-flashy)$
 
 " ==========================================
 " Text objects
@@ -163,15 +149,16 @@ xmap <silent> b <Plug>CamelCaseMotion_b
 omap <silent> b <Plug>CamelCaseMotion_b
 
 Plug 'michaeljsmith/vim-indent-object'
-Plug 'osyo-manga/vim-textobj-multiblock'
-omap ab <Plug>(textobj-multiblock-a)
-omap ib <Plug>(textobj-multiblock-i)
-xmap ab <Plug>(textobj-multiblock-a)
-xmap ib <Plug>(textobj-multiblock-i)
-autocmd! User vim-textobj-multiblock let g:textobj_multiblock_no_default_key_mappings = 1
+Plug 'rhysd/vim-textobj-anyblock'
+Plug 'tpope/vim-surround'
 
-" Lazy Loading
 " ==========================================
+" Operators
+" ---------
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
 
 " Languages
 " ---------
@@ -183,22 +170,32 @@ Plug 'hail2u/vim-css3-syntax', { 'for': 'css' }
 Plug 'othree/csscomplete.vim', { 'for': 'css' }
 
 Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' }
-autocmd! User vim-gfm-syntax
-  \ let g:gfm_syntax_enable_always = 0
-  \ let g:gfm_syntax_enable_filetypes = ['markdown']
+let g:gfm_syntax_enable_always = 0
+let g:gfm_syntax_enable_filetypes = ['markdown']
 
 Plug 'elzr/vim-json', { 'for': 'json' }
+
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'moll/vim-node', { 'for': 'javascript' }
 
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
-  autocmd! User vim-jsx let g:jsx_ext_required = 0
+autocmd! User vim-jsx let g:jsx_ext_required = 0
 
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': 'javascript' }
 autocmd! User javascript-libraries-syntax.vim
   \ let g:used_javascript_libs = 'react,underscore,chai'
 
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+let g:haskell_classic_highlighting=1
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+Plug 'eagletmt/ghcmod-vim'
 
 Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries'}
 let g:go_fmt_command = 'goimports'
@@ -213,12 +210,11 @@ autocmd MyAutoCmd FileType go
   \ | nmap <Leader>goe  <Plug>(go-referrers)
   \ | nmap <Leader>gor  <Plug>(go-run)
   \ | nmap <Leader>gov  <Plug>(go-vet)
-autocmd! User vim-go
-  \ let g:go_def_mapping_enabled = 0
-  \ let g:go_loaded_gosnippets = 1
-  \ let g:go_snippet_engine = 'ultisnips'
-  \ let g:go_highlight_extra_types = 1
-  \ let g:go_highlight_operators = 1
+let g:go_def_mapping_enabled = 0
+let g:go_loaded_gosnippets = 1
+let g:go_snippet_engine = 'ultisnips'
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
 
 Plug 'tbastos/vim-lua', { 'for': 'lua' }
 Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
@@ -265,15 +261,15 @@ autocmd! User vim-gista let g:gista#client#cache_dir = $VARPATH.'/gista/'
 " Interface
 " ---------
 Plug 'haya14busa/vim-asterisk'
-map g*  <Plug>(asterisk-g*)<Plug>(anzu-update-search-status)
-map *   <Plug>(asterisk-*)<Plug>(anzu-update-search-status)
-map g#  <Plug>(asterisk-g#)<Plug>(anzu-update-search-status)
-map #   <Plug>(asterisk-#)<Plug>(anzu-update-search-status)
+map g*  <Plug>(incsearch-nohl)<Plug>(asterisk-g*)
+map *   <Plug>(incsearch-nohl)<Plug>(asterisk-*)
+map g#  <Plug>(incsearch-nohl)<Plug>(asterisk-g#)
+map #   <Plug>(incsearch-nohl)<Plug>(asterisk-#)
 
-map z*  <Plug>(asterisk-z*)<Plug>(anzu-update-search-status)
-map gz* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status)
-map z#  <Plug>(asterisk-z#)<Plug>(anzu-update-search-status)
-map gz# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status)
+map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+map z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+map gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
 let g:asterisk#keeppos = 1
 
 Plug 'rhysd/committia.vim'
@@ -313,8 +309,6 @@ autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 " ==========================================
 " Completion
 " ----------
-Plug 'ervandew/supertab'
-
 function! BuildYCM(info)
   " info is a dictionary with 3 fields
   " - name:   name of the plugin
@@ -336,17 +330,18 @@ autocmd MyAutoCmd FileType javascript.jsx
   \ | nnoremap <silent><Leader>jr :<c-u>YcmCompleter GoToReferences<CR>
   \ | nnoremap <silent><Leader>jt :<c-u>YcmCompleter GetType<CR>
   \ | nnoremap <silent><Leader>rn :<c-u>call YcmRefactorRename()<CR>
-autocmd! User YouCompleteMe " make YCM compatible with UltiSnips (using supertab)
-  \ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-  \ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-  \ let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_key_list_select_completion = ['<tab>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<s-tab>', '<Up>']
+let g:ycm_complete_in_comments = 1
+let g:ycm_use_ultisnips_completer = 0
+let g:ycm_auto_trigger = 1
 
 Plug 'eagletmt/neco-ghc', { 'for': 'haskell' }
-autocmd! User neco-ghc
-  \ let g:haskellmode_completion_ghc = 0
-  \ autocmd FileType haskell setlocal omnifunc=necoghc"omnifunc
-  \ let g:ycm_semantic_triggers = {}
-  \ let g:ycm_semantic_triggers.haskell = ['.']
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+let g:ycm_semantic_triggers = {}
+let g:ycm_semantic_triggers.haskell = ['.']
+let g:necoghc_enable_detailed_browse = 1
 
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 let g:jedi#completions_command = ''
@@ -356,14 +351,13 @@ let g:jedi#goto_command = '<leader>d'
 let g:jedi#goto_assignments_command = '<leader>g'
 let g:jedi#rename_command = '<Leader>r'
 let g:jedi#usages_command = '<Leader>n'
-autocmd! User jedi-vim
-  \ let g:jedi#completions_enabled = 0
-  \ let g:jedi#auto_vim_configuration = 0
-  \ let g:jedi#smart_auto_mappings = 0
-  \ let g:jedi#show_call_signatures = 0
-  \ let g:jedi#use_tag_stack = 0
-  \ let g:jedi#popup_select_first = 0
-  \ let g:jedi#popup_on_dot = 0
-  \ let g:jedi#max_doc_height = 45
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#show_call_signatures = 0
+let g:jedi#use_tag_stack = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#max_doc_height = 45
 
 "  vim: set ts=2 sw=2 tw=80 et :

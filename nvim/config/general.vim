@@ -15,6 +15,7 @@ set virtualedit=block        " Position cursor anywhere in visual block
 set synmaxcol=1000           " Don't syntax highlight long lines
 set formatoptions+=1         " Don't break lines after a one-letter word
 set formatoptions-=t         " Don't auto-wrap text
+set gdefault                 " s///g by default
 if has('patch-7.3.541')
 	set formatoptions+=j       " Remove comment leader when joining lines
 endif
