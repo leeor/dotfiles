@@ -26,6 +26,9 @@ nnoremap <Leader>gE :Gedit<Space>
 "
 "nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
 " for diffmode
 "noremap <localleader>du :diffupdate<CR>
 
@@ -306,6 +309,8 @@ Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 nnoremap <Leader>G :Goyo<CR>
 autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 
+Plug 'beloglazov/vim-online-thesaurus'
+Plug 'ronakg/quickr-preview.vim'
 " ==========================================
 " Completion
 " ----------
