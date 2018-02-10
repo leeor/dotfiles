@@ -311,6 +311,8 @@ autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'ronakg/quickr-preview.vim'
+let g:quickr_preview_keymaps = 0
+nmap <leader>p <plug>(quickr_preview)
 " ==========================================
 " Completion
 " ----------
