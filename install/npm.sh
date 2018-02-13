@@ -8,9 +8,9 @@
 #
 
 if ! command -v nvm 2>&1 > /dev/null; then
-	# nvm is provided through a ZSH plugin
-	echo >&2 "Please install the ZSH nvm plugin: lukechilds/zsh-nvm"
-	return 1
+  # nvm is provided through a ZSH plugin
+  echo >&2 "Please install the ZSH nvm plugin: lukechilds/zsh-nvm"
+  return 1
 else
   echo "Installing a stable version of Node..."
 
@@ -36,11 +36,9 @@ npm config set save-exact = true
 # git-recent — Type `git recent` to see your recent local git branches
 # git-open — Type `git open` to open the GitHub page or website for a repository
 packages=(
-	diff-so-fancy
-	git-recent
-	git-open
-	nodemon
-	yo
+  diff-so-fancy
+  git-recent
+  git-open
 )
 
 npm install -g "${packages[@]}"
