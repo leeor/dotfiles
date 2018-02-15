@@ -51,12 +51,26 @@ if has('vim_starting')
 	endif
 endif
 
+let s:should_install = 0
 " Initialize vim-plug (package manager)
+if &runtimepath !~# '/vim-plug'
+	let s:plug_dir = expand('$VARPATH/vim-plug')
+	if ! isdirectory(s:plug_dir).'autoload'
+		let s:should_install = 1
+		execute '!git clone git@github.com:junegunn/vim-plug.git' s:plug_dir.'/autoload'
+	endif
+
+	execute 'set runtimepath+='.substitute(fnamemodify(s:plug_dir, ':p') , '/$', '', '')
+endif
 let s:path = expand('$VARPATH/vim-plug')
 let s:plugins_path = 'plugins.vim'
 call plug#begin(s:path)
 call s:source_file(s:plugins_path)
 call plug#end()
+
+if s:should_install == 1
+	PlugInstall
+endif
 
 " Loading configuration modules {{{
 call s:source_file('general.vim')

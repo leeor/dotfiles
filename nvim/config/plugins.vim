@@ -3,7 +3,6 @@
 
 " Startup
 " -------
-Plug 'Shougo/dein.vim'
 Plug 'w0ng/vim-hybrid'
 Plug 'itchyny/vim-parenmatch'
 Plug 'thinca/vim-localrc'
