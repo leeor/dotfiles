@@ -69,6 +69,7 @@ if ! zgen saved; then
 
     # syntax highlighting
     zsh-users/zsh-syntax-highlighting
+    zsh-users/zsh-autosuggestions
 
     # theme
     $(dirname $(readlink ${(%):-%x}))/themes/pico/pico
