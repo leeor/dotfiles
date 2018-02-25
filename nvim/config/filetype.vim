@@ -10,14 +10,6 @@ execute 'autocmd MyAutoCmd BufWritePost '.$VIMPATH.'/config/*,vimrc nested'
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
-let g:eslint = ''
-function! s:find_eslint()
-	exec "let l:eslint=fnamemodify(findfile('node_modules/eslint/bin/eslint.js','" . expand('%:p') . ";/'), ':p:h:h')"
-	if l:eslint != ""
-		let g:eslint = l:eslint
-	endif
-endfunction
-
 augroup MyAutoCmd " {{{
 
 	" Automatically set read-only for files being edited elsewhere
@@ -69,7 +61,7 @@ augroup MyAutoCmd " {{{
 	autocmd FileType html,css,jsx,javascript.jsx setlocal backupcopy=yes
 
 	autocmd FileType jsx,javascript.js* setlocal foldmethod=syntax
-	autocmd FileType jsx,javascript.js* exe 'setlocal formatprg=prettier-eslint-with-cd\ '. expand('%:p') .'\ '. g:eslint
+	autocmd FileType jsx,javascript.js* setlocal formatprg=prettier
 
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 

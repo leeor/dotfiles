@@ -75,6 +75,7 @@ rcfiles="
 	nvim=>.config/nvim
 	tmuxifier
 	tmux/tmux.conf
+	nvm/default-packages=>.nvm/default-packages
 "
 
 for rcf in ${rcfiles}; do
