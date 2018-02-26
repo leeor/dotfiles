@@ -10,16 +10,11 @@ Plug 'tpope/vim-fugitive'
 nnoremap <Leader>gs :Gstatus<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>go :Gread<CR>
-nnoremap <Leader>gR :Gremove<CR>
-nnoremap <Leader>gm :Gmove<Space>
-nnoremap <Leader>gc :Gcommit<CR>
-nnoremap <Leader>ga :Gcommit --amend<CR>
 nnoremap <Leader>gd :Gdiff<CR>
 nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>ga :Gcommit --amend<CR>
 nnoremap <Leader>gB :Gbrowse<CR>
-nnoremap <Leader>gp :Git! push<CR>
-nnoremap <Leader>gP :Git! pull<CR>
-nnoremap <Leader>gi :Git!<Space>
 nnoremap <Leader>ge :Gedit<CR>
 nnoremap <Leader>gE :Gedit<Space>
 "
@@ -88,7 +83,7 @@ Plug 'tpope/vim-unimpaired'
 
 Plug 'w0rp/ale'
 let g:ale_linters = {
-    \   'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
+    \   'haskell': ['stack-ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
     \}
 let g:ale_fixers = {}
 let g:ale_fixers.haskell = [{buffer -> {'command': 'hindent'}}]
@@ -243,7 +238,7 @@ Plug 'Shougo/vinarise.vim', { 'on': 'Vinarise' }
 "- { repo: guns/xterm-color-table.vim, { 'on': 'XtermColorTable' } }
 "- { repo: thinca/vim-prettyprint, { 'on': 'PP,' } on_func: PP }
 
-Plug 'gregsexton/gitv', { 'on': 'Gitv' }
+Plug 'junegunn/gv.vim'
 
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
