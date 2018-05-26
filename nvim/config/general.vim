@@ -131,7 +131,7 @@ set nostartofline                  " Cursor in same column for few commands
 set whichwrap+=h,l,<,>,[,],~       " Move to following line on certain keys
 set splitbelow splitright          " Splits open bottom right
 set switchbuf=useopen,usetab       " Jump to the first open window in any tab
-set switchbuf+=vsplit              " Switch buffer behavior to vsplit
+"set switchbuf+=vsplit              " Switch buffer behavior to vsplit
 set backspace=indent,eol,start     " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite,vertical " Diff mode: show fillers, ignore white
 set showfulltag                    " Show tag and tidy search in completion
