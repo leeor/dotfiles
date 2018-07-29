@@ -69,6 +69,7 @@ rcfiles="
 	zsh/shell_exports
 	zsh/shell_functions
 	zsh/dircolors/dircolors.ansi-dark=>.dircolors
+	zsh/fzf.zsh
 	git/gitconfig
 	wget/wgetrc
 	nvim/init.vim=>.vimrc

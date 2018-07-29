@@ -16,6 +16,7 @@ set synmaxcol=1000           " Don't syntax highlight long lines
 set formatoptions+=1         " Don't break lines after a one-letter word
 set formatoptions-=t         " Don't auto-wrap text
 set gdefault                 " s///g by default
+set wfw
 if has('patch-7.3.541')
 	set formatoptions+=j       " Remove comment leader when joining lines
 endif
@@ -136,11 +137,8 @@ set backspace=indent,eol,start     " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite,vertical " Diff mode: show fillers, ignore white
 set showfulltag                    " Show tag and tidy search in completion
 set complete=.                     " No wins, buffs, tags, include scanning
-set completeopt=menuone            " Show menu even for one item
-set completeopt+=noselect          " Do not select a match in the menu
-if has('patch-7.4.775')
-	set completeopt+=noinsert
-endif
+set completeopt=noinsert,menuone,noselect
+
 
 if exists('+inccommand')
 	set inccommand=nosplit

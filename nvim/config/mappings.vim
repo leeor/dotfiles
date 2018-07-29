@@ -9,11 +9,11 @@
 nnoremap  [Window]   <Nop>
 nmap      s [Window]
 
-" Denite/Unite prefix
-nnoremap [unite]  <Nop>
-xnoremap [unite]  <Nop>
-nmap     ; [unite]
-xmap     ; [unite]
+" File-operations prefix
+nnoremap [File]  <Nop>
+xnoremap [File]  <Nop>
+nmap     ; [File]
+xmap     ; [File]
 
 " Fix keybind name for Ctrl+Spacebar
 map <Nul> <C-Space>
@@ -53,7 +53,7 @@ cnoreabbrev t tabe
 cnoreabbrev T tabe
 
 " Quick substitute within selected area
-xnoremap s :s//<Left><Left>
+xnoremap s :s//<Left>
 
 " Improve scroll, credits: https://github.com/Shougo
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -195,6 +195,155 @@ nnoremap <silent><expr> [Window]q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> [Window]sh :split<CR>:wincmd p<CR>:e#<CR>
 nnoremap <silent> [Window]sv :vsplit<CR>:wincmd p<CR>:e#<CR>
+"}}}
+
+" Plugins {{{
+
+" fugitive {{{
+nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gw :Gwrite<CR>
+nnoremap <Leader>go :Gread<CR>
+nnoremap <Leader>gd :Gdiff<CR>
+nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gc :Gcommit<CR>
+nnoremap <Leader>ga :Gcommit --amend<CR>
+nnoremap <Leader>gB :Gbrowse<CR>
+nnoremap <Leader>ge :Gedit<CR>
+nnoremap <Leader>gE :Gedit<Space>
+"}}}
+
+" FZF {{{
+nnoremap <silent> [File]f :<c-u>Files<cr>
+nnoremap <silent> [File]b :<c-u>Buffers<cr>
+nnoremap <silent> [File]h :<c-u>History<cr>
+nnoremap <silent> [File]H :<c-u>Helptags<cr>
+nnoremap <silent> [File]c :<c-u>BCommits<cr>
+nnoremap <silent> [File]C :<c-u>Commits<cr>
+nnoremap <silent> [File]g :<c-u>execute 'Ag '.input('Pattern: ')<cr>
+nnoremap <silent> [File]l :<c-u>execute 'BLines '.input('Pattern: ')<cr>
+nnoremap <silent> [File]L :<c-u>execute 'Lines '.input('Pattern: ')<cr>
+
+nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
+vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
+" }}}
+
+" incsearch {{{
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+
+map / <Plug>(incsearch-forward)
+map ? <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+"}}}
+
+" incsearch-fuzzy {{{
+map z/ <Plug>(incsearch-fuzzy-/)
+map z? <Plug>(incsearch-fuzzy-?)
+map zg/ <Plug>(incsearch-fuzzy-stay)
+"}}}
+
+" NERDTree {{{
+map <silent>[File]a :<C-u>NERDTreeFind<CR>
+"}}}
+
+" ale {{{
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+"}}}
+
+" Completion {{{
+"inoremap <silent> <expr> <CR> ((pumvisible() && empty(v:completed_item)) ?  "\<c-y>\<cr>" : (!empty(v:completed_item) ? ncm2_ultisnips#expand_or("", 'n') : "\<CR>" ))
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return deoplete#mappings#smart_close_popup() . "\<CR>"
+endfunction
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+"}}}
+
+" CamelCaseMotion {{{
+nmap <silent> e <Plug>CamelCaseMotion_e
+xmap <silent> e <Plug>CamelCaseMotion_e
+omap <silent> e <Plug>CamelCaseMotion_e
+nmap <silent> w <Plug>CamelCaseMotion_w
+xmap <silent> w <Plug>CamelCaseMotion_w
+omap <silent> w <Plug>CamelCaseMotion_w
+nmap <silent> b <Plug>CamelCaseMotion_b
+xmap <silent> b <Plug>CamelCaseMotion_b
+omap <silent> b <Plug>CamelCaseMotion_b
+"}}}
+
+" operator-flashy {{{
+map y <Plug>(operator-flashy)
+nmap Y <Plug>(operator-flashy)$
+"}}}
+
+" vim-go {{{
+autocmd MyAutoCmd FileType go
+  \   nmap <C-]> <Plug>(go-def)
+  \ | nmap <Leader>god  <Plug>(go-describe)
+  \ | nmap <Leader>goc  <Plug>(go-callees)
+  \ | nmap <Leader>goC  <Plug>(go-callers)
+  \ | nmap <Leader>goi  <Plug>(go-info)
+  \ | nmap <Leader>gom  <Plug>(go-implements)
+  \ | nmap <Leader>gos  <Plug>(go-callstack)
+  \ | nmap <Leader>goe  <Plug>(go-referrers)
+  \ | nmap <Leader>gor  <Plug>(go-run)
+  \ | nmap <Leader>gov  <Plug>(go-vet)
+"}}}
+
+" vim-mundo {{{
+nnoremap <Leader>gu :MundoToggle<CR>
+"}}}
+
+" vim-asterisk {{{
+map g*  <Plug>(incsearch-nohl)<Plug>(asterisk-g*)
+map *   <Plug>(incsearch-nohl)<Plug>(asterisk-*)
+map g#  <Plug>(incsearch-nohl)<Plug>(asterisk-g#)
+map #   <Plug>(incsearch-nohl)<Plug>(asterisk-#)
+
+map z*  <Plug>(incsearch-nohl0)<Plug>(asterisk-z*)
+map gz* <Plug>(incsearch-nohl0)<Plug>(asterisk-gz*)
+map z#  <Plug>(incsearch-nohl0)<Plug>(asterisk-z#)
+map gz# <Plug>(incsearch-nohl0)<Plug>(asterisk-gz#)
+"}}}
+
+" Goyo {{{
+nnoremap <Leader>G :Goyo<CR>
+"}}}
+
+" quickr-preview {{{
+nmap <leader>p <plug>(quickr_preview)
+"}}}
+
+" LanguageClient {{{
+augroup LanguageClientConfig
+  autocmd!
+
+  " <leader>ld to go to definition
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript
+				\ nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
+  " <leader>lf to autoformat document
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript
+				\ nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
+  " <leader>lt for type info under cursor
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript
+				\ nnoremap <buffer> <leader>lt :call LanguageClient_textDocument_hover()<cr>
+  " <leader>lr to rename variable under cursor
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript
+				\ nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
+  " <leader>lc to switch omnifunc to LanguageClient
+  "autocmd FileType sh,go,haskell,purescript,javascript,python,typescript nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
+  " <leader>ls to fuzzy find the symbols in the current document
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript
+				\ nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+
+  " Use as omnifunc by default
+  "autocmd FileType sh,go,haskell,purescript,javascript,python,typescript setlocal omnifunc=LanguageClient#complete
+augroup END
+"}}}
+
 "}}}
 
 " vim: set ts=2 sw=2 tw=80 noet :

@@ -6,3 +6,9 @@ git-recent
 git-open
 # prettier - Javascript formatter
 prettier
+# typescript/javascript language server
+javascript-typescript-langserver
+# purescript language server
+purescript-language-server
+# bash language server
+bash-language-server

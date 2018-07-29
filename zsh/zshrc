@@ -97,3 +97,5 @@ if [[ -a "${HOME}/.zshrc.local" ]]; then
 fi
 
 export PATH="$PATH:$HOME/.local/bin"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

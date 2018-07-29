@@ -10,7 +10,14 @@ execute 'autocmd MyAutoCmd BufWritePost '.$VIMPATH.'/config/*,vimrc nested'
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
-augroup MyAutoCmd " {{{
+function! s:find_project_root()
+	exec "let l:projectRoot=fnamemodify(findfile('package.json','" . expand('%:p') . ";/'), ':p:h')"
+	if l:projectRoot != ''
+    call jobstart('find '. l:projectRoot .' -type f -iregex ".*\\.js$" -not -path "'. l:projectRoot . '/node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | LANG=C sort > '. l:projectRoot .'/tags')
+	endif
+endfunction
+
+augroup MyAutoCmd
 
 	" Automatically set read-only for files being edited elsewhere
 	autocmd SwapExists * nested let v:swapchoice = 'o'
@@ -56,10 +63,10 @@ augroup MyAutoCmd " {{{
 	autocmd FileType gitcommit,qfreplace setlocal nofoldenable
 
 	" https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
-	autocmd FileType html,css,jsx,javascript.jsx setlocal backupcopy=yes
+	autocmd FileType html,css,jsx,javascript,javascript.* setlocal backupcopy=yes
 
-	autocmd FileType jsx,javascript.js* setlocal foldmethod=syntax
-	autocmd FileType jsx,javascript.js* setlocal formatprg=prettier
+	autocmd FileType jsx,javascript,javascript.* setlocal foldmethod=syntax
+	autocmd FileType jsx,javascript,javascript.* setlocal formatprg=prettier
 
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 
@@ -91,28 +98,48 @@ augroup MyAutoCmd " {{{
 	autocmd FileType help if &l:buftype ==# 'help'
 		\ | wincmd L | endif
 
-augroup END " }}}
+augroup END
 
 " Internal Plugin Settings  {{{
 " ------------------------
 
 " PHP {{{
 let g:PHP_removeCRwhenUnix = 0
-
 " }}}
+
 " Python {{{
 let g:python_highlight_all = 1
 
+let g:jedi#completions_command = ''
+let g:jedi#documentation_command = 'K'
+let g:jedi#use_splits_not_buffers = 'right'
+let g:jedi#goto_command = '<leader>d'
+let g:jedi#goto_assignments_command = '<leader>g'
+let g:jedi#rename_command = '<Leader>r'
+let g:jedi#usages_command = '<Leader>n'
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#show_call_signatures = 0
+let g:jedi#use_tag_stack = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#max_doc_height = 45
+
+let g:LanguageClient_serverCommands.python = ['pyls']
 " }}}
+
 " Vim {{{
 let g:vimsyntax_noerror = 1
 "let g:vim_indent_cont = 0
-
 " }}}
+
 " Bash {{{
 let g:is_bash = 1
 
+let g:LanguageClient_serverCommands.sh = ['bash-language-server', 'start']
 " }}}
+
 " Java {{{
 let g:java_highlight_functions = 'style'
 let g:java_highlight_all = 1
@@ -120,14 +147,83 @@ let g:java_highlight_debug = 1
 let g:java_allow_cpp_keywords = 1
 let g:java_space_errors = 1
 let g:java_highlight_functions = 1
-
 " }}}
-" JavaScript {{{
-let g:SimpleJsIndenter_BriefMode = 1
-let g:SimpleJsIndenter_CaseIndentLevel = -1
 
+" detect flow using first line opt-on comment
+autocmd BufRead * if getline(1) =~ 'flow' | setlocal filetype=javascript.flow | endif
+
+" javascript.flow {{{
+let g:javascript_plugin_flow = 1
+
+let g:flow#autoclose=1
+let g:flow#showquickfix=1
+let g:flow#enable=0
+let g:flow#omnifunc = 0
+
+let g:LanguageClient_serverCommands['javascript.flow'] = ['flow-language-server', '--stdio']
+"let g:LanguageClient_serverCommands['javascript.flow'] = ['flow', 'lsp', '--from', 'stdio']
+let g:ale_linters['javascript.flow'] = ['eslint', 'flow']
+let g:ale_fixers['javascript.flow'] = ['eslint']
+let g:LanguageClient_rootMarkers['javascript.flow'] = ['package.json']
 " }}}
+
+" JavaScript/JSX {{{
+autocmd! User vim-jsx let g:jsx_ext_required = 1
+let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio', '--trace', '-l', '/Users/leeor/tmp/languageServer.log']
+let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
+let g:ale_linters.javascript = ['eslint', 'flow']
+let g:ale_linters['javascript.jsx'] = ['eslint', 'flow']
+let g:ale_fixers.javascript = ['eslint']
+let g:ale_fixers['javascript.jsx'] = ['eslint']
+let g:LanguageClient_rootMarkers['javascript'] = ['package.json']
+let g:LanguageClient_rootMarkers['javascript.jsx'] = ['package.json']
+" }}}
+
+" typescript {{{
+let g:LanguageClient_serverCommands.typescript = ['javascript-typescript-stdio', '-l', '/Users/leeor/tmp/languageServer.log']
+let g:LanguageClient_rootMarkers['typescript'] = ['package.json']
+" }}}
+
+" purescript {{{
+let g:LanguageClient_serverCommands.purescript = ['purescript-language-server', '--stdio']
+let g:LanguageClient_rootMarkers['typescript'] = ['psc-package.json']
+" }}}
+
+" haskell {{{
+let g:haskell_classic_highlighting=1
+let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+
+let g:haskellmode_completion_ghc = 0
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+let g:necoghc_enable_detailed_browse = 1
+
+let g:LanguageClient_serverCommands.haskell = ['hie-wrapper']
+let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint', 'hdevtools', 'hfmt']
+let g:ale_fixers.haskell = [{buffer -> {'command': 'hindent'}}]
+let g:LanguageClient_rootMarkers['haskell'] = ['stack.yaml']
+" }}}
+
+" golang {{{
+let g:go_fmt_command = 'goimports'
+let g:go_def_mapping_enabled = 0
+let g:go_loaded_gosnippets = 1
+let g:go_snippet_engine = 'ultisnips'
+let g:go_highlight_extra_types = 1
+let g:go_highlight_operators = 1
+
+let g:LanguageClient_serverCommands.go = ['/Users/leeor/go/bin/go-langserver', '-gocodecompletion']
+" }}}
+
 " Markdown {{{
+let g:gfm_syntax_enable_always = 0
+let g:gfm_syntax_enable_filetypes = ['markdown']
+
 let g:markdown_fenced_languages = [
 	\  'css',
 	\  'javascript',
@@ -143,8 +239,8 @@ let g:markdown_fenced_languages = [
 	\  'diff',
   \  'html'
 	\]
-
 " }}}
+
 " Folding {{{
 " augroup: a
 " function: f
