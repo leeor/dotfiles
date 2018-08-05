@@ -225,6 +225,20 @@ nnoremap <silent> [File]L :<c-u>execute 'Lines '.input('Pattern: ')<cr>
 
 nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
 vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
 " }}}
 
 " incsearch {{{

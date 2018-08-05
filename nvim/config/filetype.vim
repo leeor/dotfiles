@@ -150,7 +150,7 @@ let g:java_highlight_functions = 1
 " }}}
 
 " detect flow using first line opt-on comment
-autocmd BufRead * if getline(1) =~ 'flow' | setlocal filetype=javascript.flow | endif
+autocmd BufRead * if getline(1) =~ '@flow' | setlocal filetype=javascript.flow | endif
 
 " javascript.flow {{{
 let g:javascript_plugin_flow = 1
@@ -186,7 +186,7 @@ let g:LanguageClient_rootMarkers['typescript'] = ['package.json']
 
 " purescript {{{
 let g:LanguageClient_serverCommands.purescript = ['purescript-language-server', '--stdio']
-let g:LanguageClient_rootMarkers['typescript'] = ['psc-package.json']
+let g:LanguageClient_rootMarkers['purescript'] = ['psc-package.json']
 " }}}
 
 " haskell {{{
