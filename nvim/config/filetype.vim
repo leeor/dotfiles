@@ -189,6 +189,12 @@ let g:LanguageClient_serverCommands.purescript = ['purescript-language-server', 
 let g:LanguageClient_rootMarkers['purescript'] = ['psc-package.json']
 " }}}
 
+" ReasonML {{{
+let g:ale_fixers['reason'] = ['refmt']
+let g:LanguageClient_serverCommands.reason = ['ocaml-language-server', '--stdio']
+let g:LanguageClient_rootMarkers['reason'] = ['bsconfig.json']
+" }}}
+
 " haskell {{{
 let g:haskell_classic_highlighting=1
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`

@@ -175,6 +175,10 @@ Plug 'vim-jp/syntax-vim-ex', { 'for': 'vim' }
 Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 " }}}
 
+" ReasonML {{{
+Plug 'reasonml-editor/vim-reason-plus', { 'for': 'reason' }
+" }}}
+
 " Misc syntax {{{
 Plug 'pearofducks/ansible-vim', { 'for': 'ansible' }
 Plug 'groenewege/vim-less', { 'for': 'less' }
