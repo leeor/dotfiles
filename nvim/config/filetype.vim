@@ -159,7 +159,7 @@ let g:javascript_plugin_flow = 1
 let g:flow#autoclose=1
 let g:flow#showquickfix=1
 let g:flow#enable=0
-let g:flow#omnifunc = 0
+let g:flow#omnifunc=0
 
 let g:LanguageClient_serverCommands['javascript.flow'] = ['flow-language-server', '--stdio']
 "let g:LanguageClient_serverCommands['javascript.flow'] = ['flow', 'lsp', '--from', 'stdio']
