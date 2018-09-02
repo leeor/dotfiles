@@ -169,7 +169,7 @@ let g:LanguageClient_rootMarkers['javascript.flow'] = ['package.json']
 
 " JavaScript/JSX {{{
 autocmd! User vim-jsx let g:jsx_ext_required = 1
-let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio', '--trace', '-l', '/Users/leeor/tmp/languageServer.log']
+let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio']
 let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
 let g:ale_linters.javascript = ['eslint', 'flow']
 let g:ale_linters['javascript.jsx'] = ['eslint', 'flow']
@@ -180,7 +180,7 @@ let g:LanguageClient_rootMarkers['javascript.jsx'] = ['package.json']
 " }}}
 
 " typescript {{{
-let g:LanguageClient_serverCommands.typescript = ['javascript-typescript-stdio', '-l', '/Users/leeor/tmp/languageServer.log']
+let g:LanguageClient_serverCommands.typescript = ['javascript-typescript-stdio']
 let g:LanguageClient_rootMarkers['typescript'] = ['package.json']
 " }}}
 
