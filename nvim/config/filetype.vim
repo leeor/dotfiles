@@ -150,6 +150,7 @@ let g:java_highlight_functions = 1
 " }}}
 
 " detect flow using first line opt-on comment
+" TODO detect `@flow` in a comment block, not necessarily the first line
 autocmd BufRead * if getline(1) =~ '@flow' | setlocal filetype=javascript.flow | endif
 
 " javascript.flow {{{
