@@ -7,7 +7,9 @@ Plug 'w0ng/vim-hybrid'
 Plug 'itchyny/vim-parenmatch'
 Plug 'thinca/vim-localrc'
 Plug 'tpope/vim-fugitive'
-"
+Plug 'christoomey/vim-conflicted'
+set stl+=%{ConflictedVersion()}
+
 "nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
 Plug 'editorconfig/editorconfig-vim'
