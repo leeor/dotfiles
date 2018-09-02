@@ -27,6 +27,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 
 Plug 'ryanoasis/vim-devicons'
+let g:webdevicons_enable_nerdtree = 0
 
 Plug 'easymotion/vim-easymotion'
 
@@ -40,15 +41,8 @@ let g:incsearch#auto_nohlsearch = 1
 
 Plug 'haya14busa/incsearch-fuzzy.vim'
 
-Plug 'scrooloose/nerdtree'
-" automatically exit vim in the last window is nerdtree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+Plug 'tpope/vim-vinegar'
 
-let NERDTreeMapActivateNode = 'l'
-let NERDTreeMapCloseDir = 'h'
-let NERDTreeQuitOnOpen = 1
-
-Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-unimpaired'
 
 Plug 'w0rp/ale'

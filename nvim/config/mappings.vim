@@ -358,6 +358,10 @@ augroup LanguageClientConfig
 augroup END
 "}}}
 
+" netrw {{{
+autocmd filetype netrw nmap <buffer> l <cr>
+"}}}
+
 "}}}
 
 " vim: set ts=2 sw=2 tw=80 noet :
