@@ -612,17 +612,17 @@
 	<key>NSTableView Supports v2 KeyBingingTable</key>
 	<true/>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>3155 633 445 77 1680 150 1920 1200 </string>
+	<string>2991 259 445 77 1680 -150 1920 1200 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>530 493 620 392 0 0 1680 1050 </string>
+	<string>2330 456 620 392 1680 -150 1920 1200 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>635 495 770 429 0 0 1680 1050 </string>
+	<string>2022 20 918 495 1680 -150 1920 1200 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>127 443 592 584 0 0 1680 1027 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>36 418 570 377 0 0 1680 1050 </string>
+	<string>1888 297 570 402 1680 -150 1920 1200 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>620 633 570 377 0 0 1680 1028 </string>
+	<string>620 625 570 402 0 0 1680 1028 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>233 78 570 377 0 0 1680 1028 </string>
 	<key>New Bookmarks</key>
@@ -948,6 +948,8 @@
 				<key>Red Component</key>
 				<real>0.08235294371843338</real>
 			</dict>
+			<key>Cursor Type</key>
+			<integer>2</integer>
 			<key>Custom Command</key>
 			<string>No</string>
 			<key>Custom Directory</key>
@@ -1287,13 +1289,13 @@
 			<key>Name</key>
 			<string>Default</string>
 			<key>Non Ascii Font</key>
-			<string>FiraCode-Retina 11</string>
+			<string>FuraCodeNerdFontC-Retina 11</string>
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Non-ASCII Ligatures</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>FuraCodeNerdFontC-Retina 11</string>
+			<string>DankMono-Regular 12</string>
 			<key>Option Key Sends</key>
 			<integer>0</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1340,6 +1342,8 @@
 			<string></string>
 			<key>Silence Bell</key>
 			<false/>
+			<key>Space</key>
+			<integer>0</integer>
 			<key>Sync Title</key>
 			<false/>
 			<key>Tags</key>
@@ -1363,7 +1367,7 @@
 			<key>Use Italic Font</key>
 			<true/>
 			<key>Use Non-ASCII Font</key>
-			<false/>
+			<true/>
 			<key>Vertical Spacing</key>
 			<real>1</real>
 			<key>Visual Bell</key>
@@ -1434,7 +1438,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2018-07-13T20:42:07Z</date>
+	<date>2018-10-17T14:20:14Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
@@ -1450,6 +1454,6 @@
 	<key>findMode_iTerm</key>
 	<integer>0</integer>
 	<key>iTerm Version</key>
-	<string>3.1.6</string>
+	<string>3.2.2</string>
 </dict>
 </plist>

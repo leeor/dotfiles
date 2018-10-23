@@ -3,7 +3,7 @@
 
 " Startup
 " -------
-Plug 'w0ng/vim-hybrid'
+Plug 'tomasiser/vim-code-dark'
 Plug 'itchyny/vim-parenmatch'
 Plug 'thinca/vim-localrc'
 Plug 'tpope/vim-fugitive'
@@ -22,7 +22,7 @@ if !exists("g:airline_symbols")
   let g:airline_symbols.branch = ''
 endif
 let g:airline#extensions#tagbar#enabled = 1
-let g:airline_theme='wombat'
+let g:airline_theme='codedark'
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 

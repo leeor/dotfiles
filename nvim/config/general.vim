@@ -158,7 +158,7 @@ if has('nvim') && $TERM !~# '^rxvt' && exists('+termguicolors')
 endif
 
 set background=dark
-colorscheme hybrid
+colorscheme codedark
 
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
