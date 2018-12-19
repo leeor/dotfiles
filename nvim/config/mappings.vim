@@ -336,21 +336,21 @@ augroup LanguageClientConfig
   autocmd!
 
   " <leader>ld to go to definition
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
 				\ nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
   " <leader>lf to autoformat document
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
 				\ nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
   " <leader>lt for type info under cursor
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
 				\ nnoremap <buffer> <leader>lt :call LanguageClient_textDocument_hover()<cr>
   " <leader>lr to rename variable under cursor
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
 				\ nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
   " <leader>lc to switch omnifunc to LanguageClient
   "autocmd FileType sh,go,haskell,purescript,javascript,python,typescript nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
   " <leader>ls to fuzzy find the symbols in the current document
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason
+  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
 				\ nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
 
   " Use as omnifunc by default
