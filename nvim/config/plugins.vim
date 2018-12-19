@@ -125,7 +125,7 @@ Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'moll/vim-node', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'flowtype/vim-flow', { 'for': 'javascript', 'do': 'npm install -g flow-bin' }
+Plug 'flowtype/vim-flow', { 'for': 'javascript.flow', 'do': 'npm install -g flow-bin' }
 
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 " }}}
