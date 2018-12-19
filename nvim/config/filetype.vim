@@ -161,8 +161,8 @@ let g:flow#showquickfix=1
 let g:flow#enable=0
 let g:flow#omnifunc=0
 
-let g:LanguageClient_serverCommands['javascript.flow'] = ['flow-language-server', '--stdio']
-"let g:LanguageClient_serverCommands['javascript.flow'] = ['flow', 'lsp', '--from', 'stdio']
+"let g:LanguageClient_serverCommands['javascript.flow'] = ['flow-language-server', '--stdio']
+let g:LanguageClient_serverCommands['javascript.flow'] = ['flow', 'lsp', '--from', 'stdio']
 let g:ale_linters['javascript.flow'] = ['eslint', 'flow']
 let g:ale_fixers['javascript.flow'] = ['eslint']
 let g:LanguageClient_rootMarkers['javascript.flow'] = ['package.json']
