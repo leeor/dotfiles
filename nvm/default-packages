@@ -12,3 +12,7 @@ javascript-typescript-langserver
 purescript-language-server
 # bash language server
 bash-language-server
+# ocaml language server
+ocaml-language-server
+# Reason toolchain
+reason-cli@latest-macos
