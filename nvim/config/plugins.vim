@@ -257,4 +257,6 @@ let g:LanguageClient_serverCommands = {}
 let g:LanguageClient_diagnosticsEnable = 0
 let g:LanguageClient_rootMarkers = {}
 
+Plug 'leeor/sentry-lint', { 'do': 'npm i && npm run build' }
+
 "  vim: set ts=2 sw=2 tw=80 et :

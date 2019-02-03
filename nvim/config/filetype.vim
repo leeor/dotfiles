@@ -172,8 +172,9 @@ let g:LanguageClient_rootMarkers['javascript.flow'] = ['package.json']
 autocmd! User vim-jsx let g:jsx_ext_required = 1
 let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio']
 let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
-let g:ale_linters.javascript = ['eslint']
-let g:ale_linters['javascript.jsx'] = ['eslint']
+
+let g:ale_linters.javascript = ['eslint', 'sentry']
+let g:ale_linters['javascript.jsx'] = ['eslint', 'sentry']
 let g:ale_fixers.javascript = ['eslint']
 let g:ale_fixers['javascript.jsx'] = ['eslint']
 let g:LanguageClient_rootMarkers['javascript'] = ['package.json']
