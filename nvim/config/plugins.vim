@@ -3,7 +3,7 @@
 
 " Startup
 " -------
-Plug 'tomasiser/vim-code-dark'
+Plug 'leeor/vim-code-dark'
 Plug 'itchyny/vim-parenmatch'
 Plug 'thinca/vim-localrc'
 Plug 'tpope/vim-fugitive'
@@ -174,7 +174,7 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 " }}}
 
 " ReasonML {{{
-Plug 'jordwalke/vim-reasonml', { 'for': 'reason' }
+Plug 'leeor/vim-reasonml', { 'for': 'reason', 'branch': 'expanded-syntax' }
 " }}}
 
 " Misc syntax {{{
