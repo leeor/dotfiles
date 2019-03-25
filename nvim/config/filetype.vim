@@ -193,14 +193,14 @@ let g:LanguageClient_rootMarkers['purescript'] = ['psc-package.json']
 " }}}
 
 " ReasonML {{{
-let g:ale_linters['reason'] = ['ols']
+let g:ale_linters['reason'] = []
 let g:ale_fixers['reason'] = ['refmt']
 let g:LanguageClient_serverCommands.reason = ['/Users/leeor/bin/reason-language-server.exe']
 let g:LanguageClient_rootMarkers['reason'] = ['bsconfig.json']
 " }}}
 
 " ocaml {{{
-let g:ale_linters['ocaml'] = ['ols']
+let g:ale_linters['ocaml'] = []
 let g:ale_fixers['ocaml'] = ['ocamlformat']
 let g:LanguageClient_serverCommands.ocaml = ['ocaml-language-server', '--stdio']
 " }}}
