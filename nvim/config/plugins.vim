@@ -174,7 +174,7 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 " }}}
 
 " ReasonML {{{
-Plug 'reasonml-editor/vim-reason-plus', { 'for': 'reason' }
+Plug 'jordwalke/vim-reasonml', { 'for': 'reason' }
 " }}}
 
 " Misc syntax {{{
