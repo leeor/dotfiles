@@ -66,7 +66,8 @@ augroup MyAutoCmd
 	autocmd FileType html,css,jsx,javascript,javascript.* setlocal backupcopy=yes
 
 	autocmd FileType jsx,javascript,javascript.* setlocal foldmethod=syntax
-	autocmd FileType jsx,javascript,javascript.* setlocal formatprg=prettier
+	autocmd FileType jsx,javascript,javascript.* let &l:formatprg = "prettier --stdin-filepath " . expand("%")
+	autocmd FileType json let &l:formatprg = "prettier --parser json --stdin-filepath " . expand("%")
 
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
 
