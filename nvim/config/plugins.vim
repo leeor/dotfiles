@@ -245,19 +245,7 @@ let g:quickr_preview_keymaps = 0
 " ------------
 " Completion
 " ------------
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-
-Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {}
-"let g:LanguageClient_loggingLevel = 'DEBUG'
-"let g:LanguageClient_loggingFile = '/Users/leeor/tmp/languageClient.log'
-let g:LanguageClient_diagnosticsEnable = 0
-let g:LanguageClient_rootMarkers = {}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
 
 Plug 'leeor/sentry-lint', { 'do': 'npm i && npm run build' }
 

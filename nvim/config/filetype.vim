@@ -126,8 +126,6 @@ let g:jedi#use_tag_stack = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#popup_on_dot = 0
 let g:jedi#max_doc_height = 45
-
-let g:LanguageClient_serverCommands.python = ['pyls']
 " }}}
 
 " Vim {{{
@@ -138,7 +136,6 @@ let g:vimsyntax_noerror = 1
 " Bash {{{
 let g:is_bash = 1
 
-let g:LanguageClient_serverCommands.sh = ['bash-language-server', 'start']
 " }}}
 
 " Java {{{
@@ -162,47 +159,27 @@ let g:flow#showquickfix=1
 let g:flow#enable=0
 let g:flow#omnifunc=0
 
-"let g:LanguageClient_serverCommands['javascript.flow'] = ['flow-language-server', '--stdio']
-let g:LanguageClient_serverCommands['javascript.flow'] = ['flow', 'lsp', '--from', 'stdio']
 let g:ale_linters['javascript.flow'] = ['eslint', 'flow']
 let g:ale_fixers['javascript.flow'] = ['eslint']
-let g:LanguageClient_rootMarkers['javascript.flow'] = ['package.json']
 " }}}
 
 " JavaScript/JSX {{{
 autocmd! User vim-jsx let g:jsx_ext_required = 1
-let g:LanguageClient_serverCommands.javascript = ['javascript-typescript-stdio']
-let g:LanguageClient_serverCommands['javascript.jsx'] = ['javascript-typescript-stdio']
 
 let g:ale_linters.javascript = ['eslint', 'sentry']
 let g:ale_linters['javascript.jsx'] = ['eslint', 'sentry']
 let g:ale_fixers.javascript = ['eslint']
 let g:ale_fixers['javascript.jsx'] = ['eslint']
-let g:LanguageClient_rootMarkers['javascript'] = ['package.json']
-let g:LanguageClient_rootMarkers['javascript.jsx'] = ['package.json']
-" }}}
-
-" typescript {{{
-let g:LanguageClient_serverCommands.typescript = ['javascript-typescript-stdio']
-let g:LanguageClient_rootMarkers['typescript'] = ['package.json']
-" }}}
-
-" purescript {{{
-let g:LanguageClient_serverCommands.purescript = ['purescript-language-server', '--stdio']
-let g:LanguageClient_rootMarkers['purescript'] = ['psc-package.json']
 " }}}
 
 " ReasonML {{{
 let g:ale_linters['reason'] = []
 let g:ale_fixers['reason'] = ['refmt']
-let g:LanguageClient_serverCommands.reason = ['/Users/leeor/bin/reason-language-server.exe']
-let g:LanguageClient_rootMarkers['reason'] = ['bsconfig.json']
 " }}}
 
 " ocaml {{{
 let g:ale_linters['ocaml'] = []
 let g:ale_fixers['ocaml'] = ['ocamlformat']
-let g:LanguageClient_serverCommands.ocaml = ['ocaml-language-server', '--stdio']
 " }}}
 
 " haskell {{{
@@ -219,10 +196,8 @@ let g:haskellmode_completion_ghc = 0
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 let g:necoghc_enable_detailed_browse = 1
 
-let g:LanguageClient_serverCommands.haskell = ['hie-wrapper']
 let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint', 'hdevtools', 'hfmt']
 let g:ale_fixers.haskell = [{buffer -> {'command': 'hindent'}}]
-let g:LanguageClient_rootMarkers['haskell'] = ['stack.yaml']
 " }}}
 
 " golang {{{
@@ -232,8 +207,6 @@ let g:go_loaded_gosnippets = 1
 let g:go_snippet_engine = 'ultisnips'
 let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
-
-let g:LanguageClient_serverCommands.go = ['/Users/leeor/go/bin/go-langserver', '-gocodecompletion']
 " }}}
 
 " Markdown {{{

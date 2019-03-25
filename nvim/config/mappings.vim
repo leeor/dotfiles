@@ -266,14 +266,26 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 "}}}
 
 " Completion {{{
-"inoremap <silent> <expr> <CR> ((pumvisible() && empty(v:completed_item)) ?  "\<c-y>\<cr>" : (!empty(v:completed_item) ? ncm2_ultisnips#expand_or("", 'n') : "\<CR>" ))
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return deoplete#mappings#smart_close_popup() . "\<CR>"
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <silent> <expr> <CR> ((pumvisible() && empty(v:completed_item)) ?  "\<c-y>\<cr>" : "\<CR>")
 "}}}
 
 " CamelCaseMotion {{{
@@ -331,31 +343,25 @@ nnoremap <Leader>G :Goyo<CR>
 nmap <leader>p <plug>(quickr_preview)
 "}}}
 
-" LanguageClient {{{
-augroup LanguageClientConfig
-  autocmd!
+" coc-nvim {{{
+nmap <silent> <leader>ld <Plug>(coc-definition)
+nmap <silent> <leader>lt :call CocAction('doHover')<CR>
+nmap <silent> <leader>la :call CocAction('codeAction')<CR>
+nmap <silent> <leader>ly <Plug>(coc-type-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
+nmap <silent> <leader>lR <Plug>(coc-references)
+nmap <silent> <leader>lr <Plug>(coc-rename)
+vmap <silent> <leader>lf <Plug>(coc-format-selected)
+nmap <silent> <leader>lf <Plug>(coc-format-selected)
 
-  " <leader>ld to go to definition
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
-				\ nnoremap <buffer> <leader>ld :call LanguageClient_textDocument_definition()<cr>
-  " <leader>lf to autoformat document
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
-				\ nnoremap <buffer> <leader>lf :call LanguageClient_textDocument_formatting()<cr>
-  " <leader>lt for type info under cursor
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
-				\ nnoremap <buffer> <leader>lt :call LanguageClient_textDocument_hover()<cr>
-  " <leader>lr to rename variable under cursor
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
-				\ nnoremap <buffer> <leader>lr :call LanguageClient_textDocument_rename()<cr>
-  " <leader>lc to switch omnifunc to LanguageClient
-  "autocmd FileType sh,go,haskell,purescript,javascript,python,typescript nnoremap <buffer> <leader>lc :setlocal omnifunc=LanguageClient#complete<cr>
-  " <leader>ls to fuzzy find the symbols in the current document
-  autocmd FileType sh,go,haskell,purescript,javascript,python,typescript,reason,ocaml
-				\ nnoremap <buffer> <leader>ls :call LanguageClient_textDocument_documentSymbol()<cr>
+" Use K for show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-  " Use as omnifunc by default
-  "autocmd FileType sh,go,haskell,purescript,javascript,python,typescript setlocal omnifunc=LanguageClient#complete
-augroup END
+" Remap for format selected region
+
+autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 "}}}
 
 " netrw {{{
