@@ -62,6 +62,7 @@ brew "libtool"
 brew "graphviz"
 brew "grep", args: ["with-default-names"]
 brew "highlight"
+brew "httpry"
 brew "jq"
 brew "libbluray"
 brew "libelf"
