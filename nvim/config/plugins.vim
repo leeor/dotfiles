@@ -21,10 +21,11 @@ if !exists("g:airline_symbols")
   let g:airline_symbols={}
   let g:airline_symbols.branch = ''
 endif
-let g:airline#extensions#tagbar#enabled = 1
 let g:airline_theme='codedark'
-let g:airline#extensions#branch#enabled = 1
-let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#disable_rtp_load = 1
+let g:airline_extensions = ['ale', 'branch', 'bufferline', 'fugitiveline', 'hunks', 'coc', 'netrw', 'tabline', 'tagbar']
+let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
+let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
 Plug 'ryanoasis/vim-devicons'
 let g:webdevicons_enable_nerdtree = 0
