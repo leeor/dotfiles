@@ -172,6 +172,10 @@ let g:ale_fixers.javascript = ['eslint']
 let g:ale_fixers['javascript.jsx'] = ['eslint']
 " }}}
 
+" JSON {{{
+let g:ale_fixers.json = ['prettier']
+" }}}
+
 " ReasonML {{{
 let g:ale_linters['reason'] = []
 let g:ale_fixers['reason'] = ['refmt']
