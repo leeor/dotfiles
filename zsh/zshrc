@@ -3,6 +3,10 @@
 
 fpath=(/usr/local/share/zsh-completions $fpath)
 
+# Disable marking VCS as dirty due to untracked files. Has the side-effect of making status checks
+# very fast
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
 # Uncomment the following line to display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
@@ -22,11 +26,8 @@ HIST_STAMPS="dd.mm.yyyy"
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# Load the shell dotfiles
-for file in $(dirname ${(%):-%x})/.{shell_exports,shell_aliases,shell_functions,shell_config}; do
-  [ -r "$file" ] && [ -f "$file" ] && source "$file";
-done
-unset file
+export XDG_CONFIG_HOME=${HOME}/.config
+export XDG_CACHE_HOME=${HOME}/.cache
 
 # this is where completion and history will be saved
 if [[ ! -d "$XDG_CACHE_HOME/zsh" ]]; then
@@ -47,15 +48,10 @@ if ! zgen saved; then
   zgen oh-my-zsh
 
   zgen oh-my-zsh plugins/git
-  zgen oh-my-zsh plugins/gem
   zgen oh-my-zsh plugins/node
   zgen oh-my-zsh plugins/npm
-  zgen oh-my-zsh plugins/ruby
-  zgen oh-my-zsh plugins/pip
-  zgen oh-my-zsh plugins/python
   zgen oh-my-zsh plugins/web-search
   zgen oh-my-zsh plugins/docker
-  zgen oh-my-zsh plugins/go
   zgen oh-my-zsh plugins/vi-mode
 
   zgen loadall <<ENDBUNDLES
@@ -100,5 +96,14 @@ export PATH="$PATH:$HOME/.local/bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# Load the shell dotfiles
+for file in $(dirname ${(%):-%x})/.{shell_exports,shell_aliases,shell_functions,shell_config}; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done
+unset file
+
 # OPAM configuration
 . /Users/leeor/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# WGRID UPDATE
+source ~/.wgrid/wgrid_update.sh
