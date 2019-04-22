@@ -158,32 +158,19 @@ let g:flow#autoclose=1
 let g:flow#showquickfix=1
 let g:flow#enable=0
 let g:flow#omnifunc=0
-
-let g:ale_linters['javascript.flow'] = ['eslint', 'flow']
-let g:ale_fixers['javascript.flow'] = ['eslint']
 " }}}
 
 " JavaScript/JSX {{{
 autocmd! User vim-jsx let g:jsx_ext_required = 1
-
-let g:ale_linters.javascript = ['eslint', 'sentry']
-let g:ale_linters['javascript.jsx'] = ['eslint', 'sentry']
-let g:ale_fixers.javascript = ['eslint']
-let g:ale_fixers['javascript.jsx'] = ['eslint']
 " }}}
 
 " JSON {{{
-let g:ale_fixers.json = ['prettier']
 " }}}
 
 " ReasonML {{{
-let g:ale_linters['reason'] = []
-let g:ale_fixers['reason'] = ['refmt']
 " }}}
 
 " ocaml {{{
-let g:ale_linters['ocaml'] = []
-let g:ale_fixers['ocaml'] = ['ocamlformat']
 " }}}
 
 " haskell {{{
@@ -199,9 +186,6 @@ let g:haskell_backpack = 1                " to enable highlighting of backpack k
 let g:haskellmode_completion_ghc = 0
 autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
 let g:necoghc_enable_detailed_browse = 1
-
-let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint', 'hdevtools', 'hfmt']
-let g:ale_fixers.haskell = [{buffer -> {'command': 'hindent'}}]
 " }}}
 
 " golang {{{

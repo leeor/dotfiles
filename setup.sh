@@ -74,6 +74,7 @@ rcfiles="
 	wget/wgetrc
 	nvim/init.vim=>.vimrc
 	nvim=>.config/nvim
+	coc=>.config/nvim/coc
 	tmuxifier
 	tmux/tmux.conf
 	nvm/default-packages=>.nvm/default-packages

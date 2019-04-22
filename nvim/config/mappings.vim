@@ -175,16 +175,7 @@ endfunction "}}}
 " Edit macro
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
-"function! Ulti_ExpandOrJump_and_getRes()
-"  call UltiSnips#ExpandSnippetOrJump()
-"  return g:ulti_expand_or_jump_res
-"endfunction
-"autocmd VimEnter *
-"  \ inoremap <expr><tab> Ulti_ExpandOrJump_and_getRes() > 0 ? "" : pumvisible() ? "\<c-n>" : "\<c-space>"
-"  \ | imap <expr> <s-tab> pumvisible() ? "\<c-p>" : UltiSnips#JumpBackwards()
-
 " s: Windows and buffers {{{
-
 nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
 nnoremap <silent> [Window]h  :<C-u>split<CR>
 nnoremap <silent> [Window]o  :<C-u>only<CR>
@@ -260,34 +251,6 @@ map zg/ <Plug>(incsearch-fuzzy-stay)
 map <silent>[File]a :<C-u>NERDTreeFind<CR>
 "}}}
 
-" ale {{{
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-"}}}
-
-" Completion {{{
-" Use tab for trigger completion with characters ahead and navigate.
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
-
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-"inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent> <expr> <CR> ((pumvisible() && empty(v:completed_item)) ?  "\<c-y>\<cr>" : "\<CR>")
-"}}}
-
 " CamelCaseMotion {{{
 nmap <silent> e <Plug>CamelCaseMotion_e
 xmap <silent> e <Plug>CamelCaseMotion_e
@@ -353,15 +316,65 @@ nmap <silent> <leader>lR <Plug>(coc-references)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 vmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lf <Plug>(coc-format-selected)
+"
+" Use <C-l> for trigger snippet expand.
+imap <C-l> <Plug>(coc-snippets-expand)
+
+" Use <C-j> for select text for visual placeholder of snippet.
+vmap <C-j> <Plug>(coc-snippets-select)
+
+" Use <C-j> for jump to next placeholder, it's default of coc.nvim
+let g:coc_snippet_next = '<c-j>'
+
+" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
+let g:coc_snippet_prev = '<c-k>'
+
+" Use <C-j> for both expand and jump (make expand higher priority.)
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+let g:coc_snippet_next = '<tab>'
 
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Completion {{{
+" Use <c-space> for trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+"}}}
+
 " Highlight symbol under cursor on CursorHold
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Remap for format selected region
-
-autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType reason,javascript,typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 "}}}
 
 " netrw {{{

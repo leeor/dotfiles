@@ -10,5 +10,13 @@
       "args": ["--stdio"],
       "filetypes": ["ocaml"]
     }
-  }
+  },
+  "json.format.enable": true,
+  "eslint.autoFixOnSave": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "json",
+    "reason"
+  ]
 }

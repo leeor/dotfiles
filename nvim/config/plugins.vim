@@ -23,7 +23,7 @@ if !exists("g:airline_symbols")
 endif
 let g:airline_theme='codedark'
 let g:airline#extensions#disable_rtp_load = 1
-let g:airline_extensions = ['ale', 'branch', 'bufferline', 'fugitiveline', 'hunks', 'coc', 'netrw', 'tabline', 'tagbar']
+let g:airline_extensions = ['branch', 'fugitiveline', 'hunks', 'coc', 'netrw', 'tabline']
 let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
 let g:airline_section_warning = '%{airline#util#wrap(airline#extensions#coc#get_warning(),0)}'
 
@@ -46,43 +46,20 @@ Plug 'tpope/vim-vinegar'
 
 Plug 'tpope/vim-unimpaired'
 
-Plug 'w0rp/ale'
-let g:ale_linters = {}
-let g:ale_fixers = {}
-let g:ale_fix_on_save = 1
-let g:airline#extensions#ale#enabled = 1
-let g:ale_sign_error=''
-let g:ale_sign_warning=''
-
 Plug 'itchyny/vim-cursorword'
 autocmd MyAutoCmd FileType qf let b:cursorword=0
 
 Plug 'airblade/vim-gitgutter'
-let g:gitgutter_sign_added = '▎'
-let g:gitgutter_sign_modified = '▎'
-let g:gitgutter_sign_removed = '▏'
-let g:gitgutter_sign_removed_first_line = '▔'
-let g:gitgutter_sign_modified_removed = '▋'
-highlight! GitGutterAdd ctermfg=22 guifg=#006000 ctermbg=NONE guibg=NONE
-highlight! GitGutterChange ctermfg=58 guifg=#5F6000 ctermbg=NONE guibg=NONE
-highlight! GitGutterDelete ctermfg=52 guifg=#600000 ctermbg=NONE guibg=NONE
-highlight! GitGutterChangeDelete ctermfg=52 guifg=#600000 ctermbg=NONE guibg=NONE
+let g:gitgutter_override_sign_column_highlight = 0
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sh = $SHELL
 nmap <Leader>hj <Plug>GitGutterNextHunk
 nmap <Leader>hk <Plug>GitGutterPrevHunk
 nmap <Leader>hs <Plug>GitGutterStageHunk
 nmap <Leader>hr <Plug>GitGutterUndoHunk
 nmap <Leader>hp <Plug>GitGutterPreviewHunk
-let g:gitgutter_map_keys = 0
-let g:gitgutter_sh = $SHELL
 
 Plug 'tpope/vim-sleuth'
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<c-k>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-j>"
-let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsSnippetsDir="~/.dotfiles/nvim/snippets"
-let g:ulti_expand_or_jump_res = 0 "default value, just set once
 
 Plug 'jiangmiao/auto-pairs'
 let g:AutoPairsMapCR = 1
@@ -242,12 +219,13 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'ronakg/quickr-preview.vim'
 let g:quickr_preview_keymaps = 0
+let g:quickr_preview_on_cursor = 1
+let g:quickr_preview_exit_on_enter = 1
+let g:quickr_preview_position = 'right'
 
 " ------------
 " Completion
 " ------------
 Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
-
-Plug 'leeor/sentry-lint', { 'do': 'npm i && npm run build' }
 
 "  vim: set ts=2 sw=2 tw=80 et :
