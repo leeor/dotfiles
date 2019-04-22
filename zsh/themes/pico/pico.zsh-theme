@@ -89,17 +89,17 @@ fi
 
 # Additional Git status indicators {{{
 if [ ! -n "${PICO_GIT_AHEAD+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_AHEAD=" "
+  ZSH_THEME_GIT_PROMPT_AHEAD="⇡"
 else
   ZSH_THEME_GIT_PROMPT_AHEAD=$PICO_GIT_AHEAD
 fi
 if [ ! -n "${PICO_GIT_BEHIND+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_BEHIND=" "
+  ZSH_THEME_GIT_PROMPT_BEHIND="⇣"
 else
   ZSH_THEME_GIT_PROMPT_BEHIND=$PICO_GIT_BEHIND
 fi
 if [ ! -n "${PICO_GIT_DIVERGED+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_DIVERGED=" "
+  ZSH_THEME_GIT_PROMPT_DIVERGED=""
 else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
 fi
@@ -203,7 +203,7 @@ prompt_symbols() {
   local syms
   syms=()
   [[ $UID -eq 0 ]] && syms+="⚡ "
-  [[ $PICO_PROMPT_SYMBOLS_INCLUDE_JOBS = 1 ]] && [[ $(jobs -l | wc -l) -gt 0 ]] && syms+=""
+  [[ $PICO_PROMPT_SYMBOLS_INCLUDE_JOBS = 1 ]] && [[ $(jobs -l | wc -l) -gt 0 ]] && syms+="✦"
 
   prompt_segment ${PICO_SYMBOLS_BG} ${PICO_SYMBOLS_FG} $syms
 }
