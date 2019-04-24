@@ -332,8 +332,6 @@ let g:coc_snippet_prev = '<c-k>'
 " Use <C-j> for both expand and jump (make expand higher priority.)
 imap <C-j> <Plug>(coc-snippets-expand-jump)
 
-let g:coc_snippet_next = '<tab>'
-
 " Use K for show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -375,6 +373,10 @@ augroup mygroup
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
+"
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
 "}}}
 
 " netrw {{{
