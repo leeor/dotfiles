@@ -68,6 +68,13 @@ if [[ -z ${PICO_GIT_DIRTY_FG+1} ]]; then
   PICO_GIT_DIRTY_FG=yellow
 fi
 
+if [[ -z ${PICO_GIT_STATUS_BG+1} ]]; then
+  PICO_GIT_STATUS_BG=default
+fi
+if [[ -z ${PICO_GIT_STATUS_FG+1} ]]; then
+  PICO_GIT_STATUS_FG=red
+fi
+
 if [[ -z ${PICO_GIT_CLEAN_BG+1} ]]; then
   PICO_GIT_CLEAN_BG=default
 fi
@@ -88,6 +95,11 @@ fi
 # }}}
 
 # Additional Git status indicators {{{
+if [ ! -n "${PICO_GIT_UNTRACKED+1}" ]; then
+  ZSH_THEME_GIT_PROMPT_UNTRACKED="?"
+else
+  ZSH_THEME_GIT_PROMPT_UNTRACKED=$PICO_GIT_UNTRACKED
+fi
 if [ ! -n "${PICO_GIT_AHEAD+1}" ]; then
   ZSH_THEME_GIT_PROMPT_AHEAD="⇡"
 else
@@ -104,7 +116,7 @@ else
   ZSH_THEME_GIT_PROMPT_DIVERGED=$PICO_GIT_PROMPT_DIVERGED
 fi
 if [ ! -n "${PICO_GIT_DIRTY+1}" ]; then
-  ZSH_THEME_GIT_PROMPT_DIRTY=" "
+  ZSH_THEME_GIT_PROMPT_DIRTY="yellow"
 else
   ZSH_THEME_GIT_PROMPT_DIRTY=$PICO_GIT_PROMPT_DIRTY
 fi
@@ -133,7 +145,7 @@ prompt_segment() {
   [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
   [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
   if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-    echo -n " %{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%}"
+    echo -n "%{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%}"
   else
     echo -n "%{$bg%}%{$fg%}"
   fi
@@ -183,6 +195,10 @@ precmd() {
   vcs_info
 }
 
+chpwd() {
+  repo_path=$(git rev-parse --git-dir 2>/dev/null)
+}
+
 prompt_cmd_exec_time() {
   [ $PICO_last_exec_duration -gt $PICO_EXEC_TIME_ELAPSED ] && prompt_segment ${PICO_CMD_TIME_BG} ${PICO_CMD_TIME_FG} "$(displaytime $PICO_last_exec_duration)"
 }
@@ -210,11 +226,20 @@ prompt_symbols() {
 
 prompt_context() {
   local user="$(whoami)"
-  [[ "$user" != "$PICO_DEFAULT_USER" || -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && prompt_segment ${PICO_CONTEXT_BG} ${PICO_CONTEXT_FG} '%n@%m'
+  local show_user=""
+  if [[ "$user" != "$PICO_DEFAULT_USER" ]]; then
+    show_user="${show_user}%n"
+  fi
+  if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+    show_user="${show_user}@%m"
+  fi
+  prompt_segment ${PICO_CONTEXT_BG} ${PICO_CONTEXT_FG} $show_user
 }
 
 prompt_dir() {
-  prompt_segment ${PICO_DIR_BG} ${PICO_DIR_FG} '[%2~]'
+  if [[ ! -n "${repo_path}" ]]; then
+    prompt_segment ${PICO_DIR_BG} ${PICO_DIR_FG} '[%2~]'
+  fi
 }
 
 prompt_git() {
@@ -223,27 +248,29 @@ prompt_git() {
     local LC_ALL="" LC_CTYPE="en_US.UTF-8"
     PL_BRANCH_CHAR=$'\uf418'         # 
   }
-  local ref dirty mode repo_path
-  repo_path=$(git rev-parse --git-dir 2>/dev/null)
+  local mode ref
 
-  if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    dirty=$(parse_git_dirty)
-    ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git rev-parse --short HEAD 2> /dev/null)"
-    if [[ -n $dirty ]]; then
+  if [[ -n "${repo_path}" ]]; then
+    if [[ -e "${repo_path}/BISECT_LOG" ]]; then
+      mode=" <B>"
+      ref=$(git symbolic-ref HEAD 2> /dev/null) || ref=" ➦ $(git rev-parse --short HEAD 2> /dev/null)"
+    elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
+      mode=" "
+      ref=$(git symbolic-ref HEAD 2> /dev/null) || ref=" ➦ $(git rev-parse --short HEAD 2> /dev/null)"
+    elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
+      mode=" "
+      ref=$(git symbolic-ref HEAD 2> /dev/null) || ref=" ➦ $(git rev-parse --short HEAD 2> /dev/null)"
+    fi
+
+    prompt_segment ${PICO_GIT_STATUS_BG} ${PICO_GIT_STATUS_FG}
+    echo -n "${vcs_info_msg_0_}$(git_prompt_status)"
+
+    if [[ -n $mode ]]; then
       prompt_segment ${PICO_GIT_DIRTY_BG} ${PICO_GIT_DIRTY_FG}
     else
       prompt_segment ${PICO_GIT_CLEAN_BG} ${PICO_GIT_CLEAN_FG}
     fi
-
-    if [[ -e "${repo_path}/BISECT_LOG" ]]; then
-      mode=" <B>"
-    elif [[ -e "${repo_path}/MERGE_HEAD" ]]; then
-      mode=" "
-    elif [[ -e "${repo_path}/rebase" || -e "${repo_path}/rebase-apply" || -e "${repo_path}/rebase-merge" || -e "${repo_path}/../.dotest" ]]; then
-      mode=" "
-    fi
-
-    echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }$(git_prompt_status)${mode} "
+    echo -n "${mode}${ref} "
   fi
 }
 
@@ -293,12 +320,12 @@ prompt_pico_setup() {
   setopt promptsubst
 
   zstyle ':vcs_info:*' enable git
-  zstyle ':vcs_info:*' get-revision true
+  zstyle ':vcs_info:*' get-revision false
   zstyle ':vcs_info:*' check-for-changes true
-  zstyle ':vcs_info:*' stagedstr ''
-  zstyle ':vcs_info:*' unstagedstr ''
-  zstyle ':vcs_info:*' formats ' %u%c'
-  zstyle ':vcs_info:*' actionformats ' %u%c'
+  zstyle ':vcs_info:*' stagedstr '+'
+  zstyle ':vcs_info:*' unstagedstr '!'
+  zstyle ':vcs_info:*' formats '%{'${fg[${PICO_DIR_FG}]}'%}[%r:%S] %{'${fg[${PICO_GIT_CLEAN_FG}]}'%} %b %{'${fg[${PICO_GIT_STATUS_FG}]}'%}%u%c'
+  zstyle ':vcs_info:*' actionformats '%{'${fg[${PICO_DIR_FG}]}'%}[%r:%S] %{'${fg[${PICO_GIT_CLEAN_FG}]}'%} %b %{'${fg[${PICO_GIT_STATUS_FG}]}'%}%u%c'
 }
 
 prompt_pico_setup
