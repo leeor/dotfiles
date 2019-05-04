@@ -46,9 +46,6 @@ Plug 'tpope/vim-vinegar'
 
 Plug 'tpope/vim-unimpaired'
 
-Plug 'itchyny/vim-cursorword'
-autocmd MyAutoCmd FileType qf let b:cursorword=0
-
 Plug 'airblade/vim-gitgutter'
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_map_keys = 0
@@ -205,8 +202,6 @@ autocmd! User committia.vim let g:committia_min_window_width = 70
 
 Plug 'Konfekt/FastFold'
 autocmd! User FastFold FastFoldUpdate
-
-Plug 'tpope/vim-dispatch', { 'on': ['Make', 'Make!', 'Dispatch', 'Focus', 'Focus!', 'Start', 'Start!' ]}
 
 Plug 'junegunn/limelight.vim', { 'on': 'Limelight' }
 let g:limelight_default_coefficient=0.8
