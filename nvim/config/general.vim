@@ -139,7 +139,6 @@ set showfulltag                    " Show tag and tidy search in completion
 set complete=.                     " No wins, buffs, tags, include scanning
 set completeopt=noinsert,menuone,noselect
 
-
 if exists('+inccommand')
 	set inccommand=nosplit
 endif
@@ -147,6 +146,10 @@ endif
 set nofixendofline			" do not restore missing newlines at end of file
 
 " }}}
+" Netrw {{{
+let g:netrw_altfile=1  " not set last file to a NETRW buffer
+let g:netrw_liststyle=3 " tree listing
+"}}}
 " Editor UI Appearance {{{
 " --------------------
 " Enable 256 color terminal
