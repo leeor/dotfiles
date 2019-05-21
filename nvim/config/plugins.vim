@@ -149,7 +149,7 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 " }}}
 
 " ReasonML {{{
-Plug 'leeor/vim-reasonml', { 'for': 'reason', 'branch': 'expanded-syntax' }
+Plug 'leeor/vim-reason-syntax', { 'for': 'reason' }
 " }}}
 
 " Misc syntax {{{
