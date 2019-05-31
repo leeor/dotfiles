@@ -14,6 +14,7 @@ set stl+=%{ConflictedVersion()}
 
 Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+let g:EditorConfig_preserve_formatoptions = 1
 
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'

@@ -14,7 +14,14 @@ set path=.,**                " Directories to search when using gf
 set virtualedit=block        " Position cursor anywhere in visual block
 set synmaxcol=1000           " Don't syntax highlight long lines
 set formatoptions+=1         " Don't break lines after a one-letter word
+set formatoptions-=2         " Don't use the indent of a second like for the rest of the paragraph
 set formatoptions-=t         " Don't auto-wrap text
+set formatoptions-=l         " No matter the length of the line before insert started
+set formatoptions+=q         " Allow formatting comments with 'gq'
+set formatoptions+=c         " Do auto-wrap comments using text width
+set formatoptions+=n         " Automatically generate numbered lists.
+set formatoptions+=r         " Automatically insert comment leaders
+set formatoptions+=o         " Automatically insert comment leaders
 set gdefault                 " s///g by default
 set wfw
 if has('patch-7.3.541')
