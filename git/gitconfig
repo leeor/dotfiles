@@ -86,7 +86,7 @@
 	ff = true
 
 [pretty]
-	custom = "%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(blue)<%an>%C(reset) %C(green)(%ar)%C(reset)"
+	custom = "%C(red)%h%C(reset) -%C(yellow)%d%C(reset) %s %C(cyan)<%an>%C(reset) %C(green)(%ar)%C(reset)"
 	#									|											 |					 |					 |											 |
 	#									|											 |					 |					 |											 └─ date, relative
 	#									|											 |					 |					 └─ author name
