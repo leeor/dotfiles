@@ -211,7 +211,7 @@ let g:limelight_default_coefficient=0.8
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 
-Plug 'junegunn/vim-peekaboo'
+"Plug 'junegunn/vim-peekaboo'
 
 Plug 'beloglazov/vim-online-thesaurus'
 Plug 'ronakg/quickr-preview.vim'
