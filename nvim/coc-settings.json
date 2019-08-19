@@ -3,7 +3,12 @@
   "languageserver": {
     "reason": {
       "command": "/Users/leeor/bin/reason-language-server.exe",
-      "filetypes": ["reason"]
+      "filetypes": ["reason"],
+      "settings": {
+        "reason_language_server": {
+          "per_value_codelens": true
+        }
+      }
     },
     "ocaml": {
       "command": "ocaml-language-server",
@@ -11,12 +16,11 @@
       "filetypes": ["ocaml"]
     }
   },
-  "json.format.enable": true,
   "eslint.autoFixOnSave": true,
+  "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
-    "json",
     "reason"
   ]
 }
