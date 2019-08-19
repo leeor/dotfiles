@@ -12,4 +12,5 @@ if isdirectory($VARPATH.'/venv/neovim3')
 	let g:python3_host_prog = $VARPATH.'/venv/neovim3/bin/python'
 endif
 
+let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1

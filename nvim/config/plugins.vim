@@ -3,6 +3,7 @@
 
 " Startup
 " -------
+Plug 'andbar-ru/vim-unicon'
 Plug 'leeor/vim-code-dark'
 Plug 'itchyny/vim-parenmatch'
 Plug 'thinca/vim-localrc'
