@@ -27,9 +27,6 @@ if [ "${platform}" = "Darwin" ]; then
 		chsh -s $(command -v zsh)
 	fi
 
-	# install Solarized Dark colors for iTerm2
-	open "iterm2/Solarized Dark.itermcolors"
-
 	# set some nice defaults
 	osx/defaults.sh
 elif [ "${platform}" = 'Linux' ]; then
@@ -78,6 +75,7 @@ rcfiles="
 	tmuxifier
 	tmux/tmux.conf
 	nvm/default-packages=>.nvm/default-packages
+	kitty/kitty.conf=>.config/kitty/kitty.conf
 "
 
 for rcf in ${rcfiles}; do
