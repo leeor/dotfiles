@@ -7,7 +7,7 @@ notify() {
 if [[ -a "${DIRCOLORS}" ]]; then
     eval $(gdircolors -b $DIRCOLORS)
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-    alias ls="/usr/local/bin/gls --color=auto -p"
+#    alias ls="/usr/local/bin/gls --color=auto -p"
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
