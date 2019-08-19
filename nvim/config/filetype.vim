@@ -170,6 +170,8 @@ autocmd! User vim-jsx let g:jsx_ext_required = 1
 
 " ReasonML {{{
 autocmd filetype reason let b:AutoPairs={'(':')','[':']','{':'}',"'":"'",'"':'"'}
+
+nmap <silent> <leader>ln :call CocRequest("reason", "custom:reasonLanguageServer/createInterface", { 'uri': 'file://' . expand("%:p")})<CR>
 " }}}
 
 " ocaml {{{
