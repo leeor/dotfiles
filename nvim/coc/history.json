@@ -10,5 +10,42 @@
     "%2FUsers%2Fleeor%2Fsrc%2Fdualdeed%2Fservice": [
       "tran"
     ]
+  },
+  "commands": {
+    "%2FUsers%2Fleeor%2Fsrc%2Fwix%2Fcloud-runtime": [
+      "impo"
+    ],
+    "%2FUsers%2Fleeor%2Fsrc%2Fjs-playground": [
+      "impo",
+      "import"
+    ],
+    "%2FUsers%2Fleeor%2Fsrc%2Fwix%2Fcloud-runtime%2Fcloud-npm-support": [
+      "impo"
+    ],
+    "%2FUsers%2Fleeor%2Fsrc%2Fdualdeed%2Fservice": [
+      "impo",
+      "wor"
+    ]
+  },
+  "lists": {
+    "%2FUsers%2Fleeor%2Fsrc%2Fwix%2Fcloud-runtime": [
+      "ex"
+    ],
+    "%2FUsers%2Fleeor%2Fsrc%2Fdualdeed%2Fservice": [
+      "comma"
+    ],
+    "%2FUsers%2Fleeor%2Fsrc%2Fegghead%2Fgraphql-server": [
+      "ex"
+    ]
+  },
+  "location": {
+    "%2FUsers%2Fleeor%2Fsrc%2Fwix%2Fcloud-runtime": [
+      "ncsearch-nohlsearch)"
+    ]
+  },
+  "extensions": {
+    "%2FUsers%2Fleeor%2Fsrc%2Fegghead%2Fgraphql-server": [
+      "pre"
+    ]
   }
 }
