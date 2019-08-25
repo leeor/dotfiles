@@ -223,6 +223,6 @@ let g:quickr_preview_position = 'right'
 " ------------
 " Completion
 " ------------
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': 'yarn install'}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
 
 "  vim: set ts=2 sw=2 tw=80 et :
