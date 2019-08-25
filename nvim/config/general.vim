@@ -142,6 +142,8 @@ set switchbuf=useopen,usetab       " Jump to the first open window in any tab
 "set switchbuf+=vsplit              " Switch buffer behavior to vsplit
 set backspace=indent,eol,start     " Intuitive backspacing in insert mode
 set diffopt=filler,iwhite,vertical " Diff mode: show fillers, ignore white
+set diffopt+=algorithm:patience
+set diffopt+=indent-heuristic
 set showfulltag                    " Show tag and tidy search in completion
 set complete=.                     " No wins, buffs, tags, include scanning
 set completeopt=noinsert,menuone,noselect
