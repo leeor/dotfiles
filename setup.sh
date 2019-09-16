@@ -76,6 +76,7 @@ rcfiles="
 	tmux/tmux.conf
 	nvm/default-packages=>.nvm/default-packages
 	kitty/kitty.conf=>.config/kitty/kitty.conf
+	ag/agignore
 "
 
 for rcf in ${rcfiles}; do
