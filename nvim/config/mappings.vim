@@ -176,13 +176,6 @@ endfunction "}}}
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
 " s: Windows and buffers {{{
-nnoremap <silent> [Window]v  :<C-u>vsplit<CR>
-nnoremap <silent> [Window]h  :<C-u>split<CR>
-nnoremap <silent> [Window]o  :<C-u>only<CR>
-nnoremap <silent> [Window]b  :b#<CR>
-nnoremap <silent> [Window]c  :close<CR>
-nnoremap <silent><expr> [Window]q winnr('$') != 1 ? ':<C-u>close<CR>' : ''
-
 " Split current buffer, go to previous window and previous buffer
 nnoremap <silent> [Window]sh :split<CR>:wincmd p<CR>:e#<CR>
 nnoremap <silent> [Window]sv :vsplit<CR>:wincmd p<CR>:e#<CR>
