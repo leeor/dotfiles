@@ -18,75 +18,78 @@ if [[ -z ${PICO_PROMPT_CHAR+1} ]]; then
   PICO_PROMPT_CHAR='»'
 fi
 
+DEFAULT_BACKGROUND='\e[38;2;11;11;11m'
+COLOR_RESET='\e[0m'
+
 # Segment colors {{{
 if [[ -z ${PICO_CMD_TIME_BG+1} ]]; then
-  PICO_CMD_TIME_BG=default
+  PICO_CMD_TIME_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_CMD_TIME_FG+1} ]]; then
-  PICO_CMD_TIME_FG=yellow
+  PICO_CMD_TIME_FG='\e[38;2;148;146;74m'
 fi
 
 if [[ -z ${PICO_TIME_BG+1} ]]; then
-  PICO_TIME_BG=default
+  PICO_TIME_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_TIME_FG+1} ]]; then
-  PICO_TIME_FG=green
+  PICO_TIME_FG='\e[38;2;39;150;40m'
 fi
 
 if [[ -z ${PICO_CUSTOM_BG+1} ]]; then
-  PICO_CUSTOM_BG=default
+  PICO_CUSTOM_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_CUSTOM_FG+1} ]]; then
-  PICO_CUSTOM_FG=default
+  PICO_CUSTOM_FG='\e[38;2;185;185;185m'
 fi
 
 if [[ -z ${PICO_SYMBOLS_BG+1} ]]; then
-  PICO_SYMBOLS_BG=default
+  PICO_SYMBOLS_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_SYMBOLS_FG+1} ]]; then
-  PICO_SYMBOLS_FG=default
+  PICO_SYMBOLS_FG='\e[38;2;185;185;185m'
 fi
 
 if [[ -z ${PICO_CONTEXT_BG+1} ]]; then
-  PICO_CONTEXT_BG=default
+  PICO_CONTEXT_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_CONTEXT_FG+1} ]]; then
-  PICO_CONTEXT_FG=blue
+  PICO_CONTEXT_FG='\e[38;2;10;122;202m'
 fi
 
 if [[ -z ${PICO_DIR_BG+1} ]]; then
-  PICO_DIR_BG=default
+  PICO_DIR_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_DIR_FG+1} ]]; then
-  PICO_DIR_FG=cyan
+  PICO_DIR_FG='\e[38;2;3;202;202m'
 fi
 
 if [[ -z ${PICO_GIT_DIRTY_BG+1} ]]; then
-  PICO_GIT_DIRTY_BG=default
+  PICO_GIT_DIRTY_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_GIT_DIRTY_FG+1} ]]; then
-  PICO_GIT_DIRTY_FG=yellow
+  PICO_GIT_DIRTY_FG='\e[38;2;148;146;74m'
 fi
 
 if [[ -z ${PICO_GIT_STATUS_BG+1} ]]; then
-  PICO_GIT_STATUS_BG=default
+  PICO_GIT_STATUS_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_GIT_STATUS_FG+1} ]]; then
-  PICO_GIT_STATUS_FG=red
+  PICO_GIT_STATUS_FG='\e[38;2;248;62;62m'
 fi
 
 if [[ -z ${PICO_GIT_CLEAN_BG+1} ]]; then
-  PICO_GIT_CLEAN_BG=default
+  PICO_GIT_CLEAN_BG=$DEFAULT_BACKGROUND
 fi
 if [[ -z ${PICO_GIT_CLEAN_FG+1} ]]; then
-  PICO_GIT_CLEAN_FG=green
+  PICO_GIT_CLEAN_FG='\e[38;2;39;150;40m'
 fi
 
 if [ ! -n "${PICO_NVM_BG+1}" ]; then
-  PICO_NVM_BG=default
+  PICO_NVM_BG=$DEFAULT_BACKGROUND
 fi
 if [ ! -n "${PICO_NVM_FG+1}" ]; then
-  PICO_NVM_FG=green
+  PICO_NVM_FG='\e[38;2;39;150;40m'
 fi
 if [ ! -n "${PICO_NVM_PREFIX+1}" ]; then
   PICO_NVM_PREFIX="⬡ "
@@ -142,8 +145,8 @@ fi
 # rendering default background/foreground.
 prompt_segment() {
   local bg fg
-  [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
-  [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+  [[ -n $1 ]] && bg="$1" || bg="%k"
+  [[ -n $2 ]] && fg="$2" || fg="%f"
   if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
     echo -n "%{$bg%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR%{$fg%}"
   else
@@ -156,11 +159,12 @@ prompt_segment() {
 # End the prompt, closing any open PICO_PROMPT_ORDER
 prompt_end() {
   if [[ -n $CURRENT_BG ]]; then
-    echo -n "%{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+    echo -n "%{%k$CURRENT_BG%}$SEGMENT_SEPARATOR"
   else
     echo -n "%{%k%}"
   fi
   echo -n "%{%f%}"
+  echo -n "%{${COLOR_RESET}%}"
   CURRENT_BG=''
 }
 
@@ -289,9 +293,9 @@ prompt_nvm() {
 
 prompt_chars() {
   local pcol
-  pcol='blue'
-  [[ $RETVAL -ne 0 ]] && pcol='red'
-  echo -n "%F{${pcol}}${PICO_PROMPT_CHAR}%f "
+  pcol='%{\e[38;2;10;122;202m%}'
+  [[ $RETVAL -ne 0 ]] && pcol='\e[38;2;248;62;62m'
+  echo -n "${pcol}${PICO_PROMPT_CHAR}%f "
 }
 
 build_prompt() {
@@ -324,8 +328,8 @@ prompt_pico_setup() {
   zstyle ':vcs_info:*' check-for-changes true
   zstyle ':vcs_info:*' stagedstr '+'
   zstyle ':vcs_info:*' unstagedstr '!'
-  zstyle ':vcs_info:*' formats '%{'${fg[${PICO_DIR_FG}]}'%}[%r:%S] %{'${fg[${PICO_GIT_CLEAN_FG}]}'%} %b %{'${fg[${PICO_GIT_STATUS_FG}]}'%}%u%c'
-  zstyle ':vcs_info:*' actionformats '%{'${fg[${PICO_DIR_FG}]}'%}[%r:%S] %{'${fg[${PICO_GIT_CLEAN_FG}]}'%} %b %{'${fg[${PICO_GIT_STATUS_FG}]}'%}%u%c'
+  zstyle ':vcs_info:*' formats '%{'${PICO_DIR_FG}'%}[%r:%S] %{'${PICO_GIT_CLEAN_FG}'%} %b %{'${PICO_GIT_STATUS_FG}'%}%u%c'
+  zstyle ':vcs_info:*' actionformats '%{'${PICO_DIR_FG}'%}[%r:%S] %{'${PICO_GIT_CLEAN_FG}'%} %b %{'${PICO_GIT_STATUS_FG}'%}%u%c'
 }
 
 prompt_pico_setup
