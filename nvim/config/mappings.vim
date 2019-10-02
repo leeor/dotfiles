@@ -210,6 +210,12 @@ nnoremap <silent> [File]L :<c-u>execute 'Lines '.input('Pattern: ')<cr>
 nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
 vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
 
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \                 <bang>0)
+
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
   copen
