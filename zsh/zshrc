@@ -92,7 +92,7 @@ if [[ -a "${HOME}/.zshrc.local" ]]; then
   source ${HOME}/.zshrc.local
 fi
 
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.local/bin:./node_modules/.bin"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
