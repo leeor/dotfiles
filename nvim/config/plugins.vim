@@ -39,11 +39,6 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
-Plug 'haya14busa/incsearch.vim'
-let g:incsearch#auto_nohlsearch = 1
-
-Plug 'haya14busa/incsearch-fuzzy.vim'
-
 Plug 'tpope/vim-vinegar'
 
 Plug 'tpope/vim-unimpaired'
@@ -187,9 +182,6 @@ autocmd! User vim-gista let g:gista#client#cache_dir = $VARPATH.'/gista/'
 " ------------
 " Interface
 " ------------
-Plug 'haya14busa/vim-asterisk'
-let g:asterisk#keeppos = 1
-
 Plug 'rhysd/committia.vim'
 "  on_path: COMMIT_EDITMSG
 let g:committia_hooks = {}
