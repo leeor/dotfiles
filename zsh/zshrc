@@ -23,7 +23,7 @@ HIST_STAMPS="dd.mm.yyyy"
 # User configuration
 #export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/Users/leeor/.fnm/current/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 export XDG_CONFIG_HOME=${HOME}/.config
