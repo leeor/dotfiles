@@ -40,7 +40,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 Plug 'tpope/vim-vinegar'
-
+Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-unimpaired'
 
 Plug 'airblade/vim-gitgutter'
