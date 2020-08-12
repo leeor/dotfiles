@@ -47,11 +47,11 @@ Plug 'airblade/vim-gitgutter'
 let g:gitgutter_override_sign_column_highlight = 0
 let g:gitgutter_map_keys = 0
 let g:gitgutter_sh = $SHELL
-nmap <Leader>hj <Plug>GitGutterNextHunk
-nmap <Leader>hk <Plug>GitGutterPrevHunk
-nmap <Leader>hs <Plug>GitGutterStageHunk
-nmap <Leader>hr <Plug>GitGutterUndoHunk
-nmap <Leader>hp <Plug>GitGutterPreviewHunk
+nmap <Leader>hj <Plug>(GitGutterNextHunk)
+nmap <Leader>hk <Plug>(GitGutterPrevHunk)
+nmap <Leader>hs <Plug>(GitGutterStageHunk)
+nmap <Leader>hr <Plug>(GitGutterUndoHunk)
+nmap <Leader>hp <Plug>(GitGutterPreviewHunk)
 
 Plug 'tpope/vim-sleuth'
 

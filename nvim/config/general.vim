@@ -46,9 +46,7 @@ set sessionoptions-=help
 set sessionoptions-=buffers
 set sessionoptions+=tabpages
 
-if ( ! has('nvim') || $DISPLAY !=? '') && has('clipboard')
-	set clipboard& clipboard+=unnamedplus
-endif
+set clipboard& clipboard+=unnamedplus
 
 " }}}
 " Wildmenu {{{
@@ -141,7 +139,7 @@ set splitbelow splitright          " Splits open bottom right
 set switchbuf=useopen,usetab       " Jump to the first open window in any tab
 "set switchbuf+=vsplit              " Switch buffer behavior to vsplit
 set backspace=indent,eol,start     " Intuitive backspacing in insert mode
-set diffopt=filler,iwhite,vertical " Diff mode: show fillers, ignore white
+set diffopt=filler,iwhiteall,vertical " Diff mode: show fillers, ignore white
 set diffopt+=algorithm:patience
 set diffopt+=indent-heuristic
 set showfulltag                    " Show tag and tidy search in completion
@@ -174,7 +172,7 @@ colorscheme unicon
 
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
-set scrolloff=2         " Keep at least 2 lines above/below
+set scrolloff=10        " Keep at least 2 lines above/below
 set sidescrolloff=5     " Keep at least 2 lines left/right
 set relativenumber      " Show relative line numbers
 set number              " Show line numbers
@@ -196,7 +194,7 @@ set cmdheight=2         " Height of the command line
 set cmdwinheight=5      " Command-line lines
 set noequalalways       " Don't resize windows on split or close
 set laststatus=2        " Always show a status line
-set colorcolumn=100     " Highlight the 80th character limit
+set colorcolumn=100     " Highlight the 100th character limit
 set display=lastline
 
 set showbreak=↪

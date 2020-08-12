@@ -216,8 +216,8 @@ nnoremap <silent> [File]H :<c-u>Helptags<cr>
 nnoremap <silent> [File]c :<c-u>BCommits<cr>
 nnoremap <silent> [File]C :<c-u>Commits<cr>
 nnoremap <silent> [File]g :<c-u>execute 'Ag '.input('Pattern: ')<cr>
-nnoremap <silent> [File]l :<c-u>execute 'BLines '.input('Pattern: ')<cr>
-nnoremap <silent> [File]L :<c-u>execute 'Lines '.input('Pattern: ')<cr>
+nnoremap <silent> [File]l :<c-u>BLines<cr>
+nnoremap <silent> [File]L :<c-u>Lines<cr>
 
 nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
 vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
@@ -240,11 +240,41 @@ let g:fzf_action = {
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit' }
 
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all'
-" }}}
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --layout=reverse'
+let g:fzf_preview_window = ''
+let g:fzf_buffers_jump = 1
 
+function! OpenFloatingWin()
+  let height = &lines - 3
+  let width = float2nr(&columns - (&columns * 1 / 7))
+  let col = float2nr((&columns - width))
 
+  "Set the position, size, etc. of the floating window.
+  "The size configuration here may not be so flexible, and there's room for further improvement.
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': height * 0.2,
+        \ 'col': col,
+        \ 'width': width * 6 / 7,
+        \ 'height': height * 2 / 3
+        \ }
 
+  let buf = nvim_create_buf(v:false, v:true)
+  let win = nvim_open_win(buf, v:true, opts)
+
+  "Set Floating Window Highlighting
+  call setwinvar(win, '&winhl', 'Normal:Pmenu')
+
+  setlocal
+        \ buftype=nofile
+        \ nobuflisted
+        \ bufhidden=hide
+        \ nonumber
+        \ norelativenumber
+        \ signcolumn=no
+endfunction
+
+let g:fzf_layout = { 'window': 'call OpenFloatingWin()' }
 "}}}
 
 " NERDTree {{{
@@ -296,14 +326,15 @@ nmap <leader>p <plug>(quickr_preview)
 
 " coc-nvim {{{
 nmap <silent> <leader>ld <Plug>(coc-definition)
+nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lt :call CocAction('doHover')<CR>
 nmap <silent> <leader>la :call CocAction('codeAction')<CR>
 nmap <silent> <leader>ly <Plug>(coc-type-definition)
-nmap <silent> <leader>li <Plug>(coc-implementation)
 nmap <silent> <leader>lR <Plug>(coc-references)
 nmap <silent> <leader>lr <Plug>(coc-rename)
 vmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lf <Plug>(coc-format-selected)
+nmap <silent> <leader>lD :CocList diagnostics<CR>
 "
 " Use <C-l> for trigger snippet expand.
 imap <C-l> <Plug>(coc-snippets-expand)
@@ -349,6 +380,11 @@ function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+" Close preview window when completion is done.
+autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
+
+hi CocUnderline cterm=undercurl gui=undercurl guisp=#db6e8e
 "}}}
 
 " Highlight symbol under cursor on CursorHold
@@ -372,5 +408,16 @@ autocmd filetype netrw nmap <buffer> l <cr>
 "}}}
 
 "}}}
+
+" populate the args list with the files in quickfix list
+command! -nargs=0 -bar Qargs execute 'args ' . QuickfixFilenames()
+function! QuickfixFilenames()
+  " Building a hash ensures we get each buffer only once
+  let buffer_numbers = {}
+  for quickfix_item in getqflist()
+    let buffer_numbers[quickfix_item['bufnr']] = bufname(quickfix_item['bufnr'])
+  endfor
+  return join(values(buffer_numbers))
+endfunction
 
 " vim: set ts=2 sw=2 tw=80 noet :

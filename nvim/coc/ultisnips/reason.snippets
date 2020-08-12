@@ -1,0 +1,11 @@
+snippet syslog
+SystemLogger.${1:level}(
+	~file=__MODULE__,
+	~line=__LINE__,
+	~event="${2:name}",
+	~data=[
+		("${3:key}", ${4:value}),
+	],
+);
+endsnippet
+

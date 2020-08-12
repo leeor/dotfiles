@@ -1,12 +1,13 @@
 {
   "dependencies": {
-    "coc-css": "latest",
-    "coc-eslint": "latest",
-    "coc-html": "latest",
-    "coc-json": "latest",
-    "coc-prettier": "latest",
-    "coc-snippets": "latest",
-    "coc-tsserver": "latest",
-    "coc-yaml": "latest"
+    "coc-css": ">=1.2.4",
+    "coc-eslint": ">=1.2.7",
+    "coc-highlight": ">=1.2.5",
+    "coc-html": ">=1.2.4",
+    "coc-json": ">=1.2.6",
+    "coc-prettier": ">=1.1.17",
+    "coc-snippets": ">=2.1.28",
+    "coc-tsserver": ">=1.5.4",
+    "coc-yaml": ">=1.0.4"
   }
 }

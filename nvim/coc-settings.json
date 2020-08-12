@@ -1,26 +1,29 @@
 {
   "codeLens.enable": true,
+  "suggest.acceptSuggestionOnCommitCharacter": true,
   "languageserver": {
     "reason": {
-      "command": "/Users/leeor/bin/reason-language-server.exe",
-      "filetypes": ["reason"],
+      "command": "/Users/leeor/bin/reason-language-server",
+      "filetypes": ["reason", "ocaml"],
       "settings": {
         "reason_language_server": {
-          "per_value_codelens": true
-        }
+          "per_value_codelens": true,
+          "open_codelens": true,
+          "autoRebuild": false
+        },
       }
     },
-    "ocaml": {
-      "command": "ocaml-language-server",
-      "args": ["--stdio"],
-      "filetypes": ["ocaml"]
-    }
   },
   "eslint.autoFixOnSave": true,
   "coc.preferences.formatOnType": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "css",
     "markdown",
-    "reason"
-  ]
+    "reason",
+    "javascript"
+  ],
+  "signature.preferShownAbove": false,
+  "diagnostic.maxWindowHeight": 40,
+  "diagnostic.maxWindowWidth": 120,
+  "coc.preferences.colorSupport": true
 }
