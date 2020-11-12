@@ -211,6 +211,6 @@ autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 " ------------
 " Completion
 " ------------
-Plug 'neoclide/coc.nvim', {'tag': '*', 'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "  vim: set ts=2 sw=2 tw=80 et :
