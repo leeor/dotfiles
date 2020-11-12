@@ -4,18 +4,18 @@
 " Startup
 " -------
 Plug 'andbar-ru/vim-unicon'
-Plug 'leeor/vim-code-dark'
-Plug 'itchyny/vim-parenmatch'
-Plug 'thinca/vim-localrc'
+"Plug 'leeor/vim-code-dark'
+"Plug 'itchyny/vim-parenmatch'
+"Plug 'thinca/vim-localrc'
 Plug 'tpope/vim-fugitive'
-Plug 'christoomey/vim-conflicted'
-set stl+=%{ConflictedVersion()}
+"Plug 'christoomey/vim-conflicted'
+"set stl+=%{ConflictedVersion()}
 
 "nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
-Plug 'editorconfig/editorconfig-vim'
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-let g:EditorConfig_preserve_formatoptions = 1
+"Plug 'editorconfig/editorconfig-vim'
+"let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+"let g:EditorConfig_preserve_formatoptions = 1
 
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
@@ -37,7 +37,7 @@ Plug 'easymotion/vim-easymotion'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+"Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-abolish'
@@ -72,8 +72,8 @@ Plug 'tpope/vim-surround'
 " ------------
 " Operators
 " ------------
-Plug 'kana/vim-operator-user'
-Plug 'haya14busa/vim-operator-flashy'
+"Plug 'kana/vim-operator-user'
+"Plug 'haya14busa/vim-operator-flashy'
 
 " ------------
 " Languages
@@ -99,7 +99,7 @@ let g:javascript_plugin_jsdoc = 1
 
 Plug 'moll/vim-node', { 'for': 'javascript' }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
-Plug 'flowtype/vim-flow', { 'for': 'javascript.flow', 'do': 'npm install -g flow-bin' }
+"Plug 'flowtype/vim-flow', { 'for': 'javascript.flow', 'do': 'npm install -g flow-bin' }
 
 Plug 'mxw/vim-jsx', { 'for': 'javascript' }
 " }}}
@@ -162,6 +162,7 @@ Plug 'robbles/logstash.vim', { 'for': 'logstash' }
 Plug 'andreshazard/vim-logreview', { 'for': 'logreview' }
 Plug 'exu/pgsql.vim', { 'for': 'pgsql' }
 Plug 'othree/nginx-contrib-vim', { 'for': 'nginx' }
+"Plug 'jparise/vim-graphql'
 " }}}
 
 " ------------
@@ -169,8 +170,8 @@ Plug 'othree/nginx-contrib-vim', { 'for': 'nginx' }
 " ------------
 Plug 'Shougo/vinarise.vim', { 'on': 'Vinarise' }
 
-Plug 'tpope/vim-rhubarb'
-Plug 'junegunn/gv.vim'
+"Plug 'tpope/vim-rhubarb'
+"Plug 'junegunn/gv.vim'
 
 Plug 'metakirby5/codi.vim', { 'on': 'Codi' }
 
@@ -182,17 +183,17 @@ autocmd! User vim-gista let g:gista#client#cache_dir = $VARPATH.'/gista/'
 " ------------
 " Interface
 " ------------
-Plug 'rhysd/committia.vim'
+"Plug 'rhysd/committia.vim'
 "  on_path: COMMIT_EDITMSG
-let g:committia_hooks = {}
-function! g:committia_hooks.edit_open(info)
-  imap <buffer><C-d> <Plug>(committia-scroll-diff-down-half)
-  imap <buffer><C-u> <Plug>(committia-scroll-diff-up-half)
-
-  setlocal winminheight=1 winheight=1
-  resize 10
-endfunction
-autocmd! User committia.vim let g:committia_min_window_width = 70
+"let g:committia_hooks = {}
+"function! g:committia_hooks.edit_open(info)
+"  imap <buffer><C-d> <Plug>(committia-scroll-diff-down-half)
+"  imap <buffer><C-u> <Plug>(committia-scroll-diff-up-half)
+"
+"  setlocal winminheight=1 winheight=1
+"  resize 10
+"endfunction
+"autocmd! User committia.vim let g:committia_min_window_width = 70
 
 Plug 'Konfekt/FastFold'
 autocmd! User FastFold FastFoldUpdate
@@ -205,12 +206,7 @@ autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 
 "Plug 'junegunn/vim-peekaboo'
 
-Plug 'beloglazov/vim-online-thesaurus'
-Plug 'ronakg/quickr-preview.vim'
-let g:quickr_preview_keymaps = 0
-let g:quickr_preview_on_cursor = 1
-let g:quickr_preview_exit_on_enter = 1
-let g:quickr_preview_position = 'right'
+"Plug 'beloglazov/vim-online-thesaurus'
 
 " ------------
 " Completion

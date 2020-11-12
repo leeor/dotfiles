@@ -54,6 +54,7 @@ cnoreabbrev T tabe
 
 " Quick substitute within selected area
 xnoremap s :s//<Left>
+xno f :s/\%V.*\%V./\=system('', submatch(0))[:-2]/<c-r>=setcmdpos(28)[-1]<cr>
 
 " Improve scroll, credits: https://github.com/Shougo
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -223,9 +224,7 @@ nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
 vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
 
 command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>,
-  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-  \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \ call fzf#vim#ag(<q-args>, '--workers=1', {'options': '--no-sort'},
   \                 <bang>0)
 
 function! s:build_quickfix_list(lines)

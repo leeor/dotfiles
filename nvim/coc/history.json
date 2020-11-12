@@ -25,6 +25,9 @@
     "%2FUsers%2Fleeor%2Fsrc%2Fdualdeed%2Fservice": [
       "impo",
       "wor"
+    ],
+    "%2FUsers%2Fleeor%2Frepos%2Fdualdeed": [
+      "format"
     ]
   },
   "lists": {
@@ -36,6 +39,10 @@
     ],
     "%2FUsers%2Fleeor%2Fsrc%2Fegghead%2Fgraphql-server": [
       "ex"
+    ],
+    "%2FUsers%2Fleeor%2Frepos%2Fdualdeed": [
+      "diag",
+      "ex"
     ]
   },
   "location": {
@@ -46,6 +53,37 @@
   "extensions": {
     "%2FUsers%2Fleeor%2Fsrc%2Fegghead%2Fgraphql-server": [
       "pre"
+    ],
+    "%2FUsers%2Fleeor%2Frepos%2Fdualdeed": [
+      "reason",
+      "rea"
+    ],
+    "%2FUsers%2Fleeor%2Frepos%2Fanchor": [
+      "snip"
+    ]
+  },
+  "diagnostics": {
+    "%2FUsers%2Fleeor%2Frepos%2Fdualdeed": [
+      "27",
+      "'27",
+      "WisedeedView",
+      "102",
+      ":ccl",
+      "kjj",
+      "_incsearch-nohlsearch)",
+      "@q"
+    ],
+    "%2FUsers%2Fleeor%2Frepos%2Fdualdeed%2Fpackages%2Fserver": [
+      "csearch-nohlsearch)",
+      "Primise",
+      "Promise",
+      "reject",
+      "rejecta",
+      "value",
+      "make",
+      "Tes",
+      "rejec",
+      "TU"
     ]
   }
 }

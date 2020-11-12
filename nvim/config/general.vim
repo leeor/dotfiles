@@ -1,4 +1,3 @@
-
 " General Settings
 "---------------------------------------------------------
 " General {{{
@@ -46,7 +45,7 @@ set sessionoptions-=help
 set sessionoptions-=buffers
 set sessionoptions+=tabpages
 
-set clipboard& clipboard+=unnamedplus
+"set clipboard& clipboard+=unnamedplus
 
 " }}}
 " Wildmenu {{{
@@ -172,7 +171,7 @@ colorscheme unicon
 
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
-set scrolloff=10        " Keep at least 2 lines above/below
+set scrolloff=5         " Keep at least 2 lines above/below
 set sidescrolloff=5     " Keep at least 2 lines left/right
 set relativenumber      " Show relative line numbers
 set number              " Show line numbers

@@ -2,16 +2,10 @@
   "codeLens.enable": true,
   "suggest.acceptSuggestionOnCommitCharacter": true,
   "languageserver": {
-    "reason": {
-      "command": "/Users/leeor/bin/reason-language-server",
+    "ocamllsp": {
+      "command": "/Users/leeor/.opam/4.06.1/bin/ocamllsp",
+      "args": [],
       "filetypes": ["reason", "ocaml"],
-      "settings": {
-        "reason_language_server": {
-          "per_value_codelens": true,
-          "open_codelens": true,
-          "autoRebuild": false
-        },
-      }
     },
   },
   "eslint.autoFixOnSave": true,
