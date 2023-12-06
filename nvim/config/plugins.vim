@@ -1,21 +1,26 @@
 " PLUGINS
 " ==========================================
 
-" Startup
+" Startup {{{
 " -------
-Plug 'andbar-ru/vim-unicon'
+"Plug 'andbar-ru/vim-unicon'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'morhetz/gruvbox'
+Plug 'altercation/vim-colors-solarized'
+Plug 'hzchirs/vim-material'
 "Plug 'leeor/vim-code-dark'
 "Plug 'itchyny/vim-parenmatch'
 "Plug 'thinca/vim-localrc'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 "Plug 'christoomey/vim-conflicted'
 "set stl+=%{ConflictedVersion()}
 
 "nnoremap <Leader>ggc :silent! Ggrep -i<Space>
 
-"Plug 'editorconfig/editorconfig-vim'
-"let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-"let g:EditorConfig_preserve_formatoptions = 1
+Plug 'Exafunction/codeium.vim'
+
+Plug 'nvim-lua/plenary.nvim'
 
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-airline/vim-airline'
@@ -23,7 +28,7 @@ if !exists("g:airline_symbols")
   let g:airline_symbols={}
   let g:airline_symbols.branch = ''
 endif
-let g:airline_theme='codedark'
+let g:airline_theme='material'
 let g:airline#extensions#disable_rtp_load = 1
 let g:airline_extensions = ['branch', 'fugitiveline', 'hunks', 'coc', 'netrw', 'tabline']
 let g:airline_section_error = '%{airline#util#wrap(airline#extensions#coc#get_error(),0)}'
@@ -34,7 +39,7 @@ let g:webdevicons_enable_nerdtree = 0
 
 Plug 'easymotion/vim-easymotion'
 
-Plug '/usr/local/opt/fzf'
+Plug '/opt/homebrew/opt/fzf'
 Plug 'junegunn/fzf.vim'
 
 "Plug 'Shougo/vimproc.vim', {'do' : 'make'}
@@ -53,30 +58,41 @@ nmap <Leader>hs <Plug>(GitGutterStageHunk)
 nmap <Leader>hr <Plug>(GitGutterUndoHunk)
 nmap <Leader>hp <Plug>(GitGutterPreviewHunk)
 
+"Plug 'lewis6991/gitsigns.nvim'
+
 Plug 'tpope/vim-sleuth'
 
-Plug 'jiangmiao/auto-pairs'
+Plug 'LunarWatcher/auto-pairs'
 let g:AutoPairsMapCR = 1
+let g:AutoPairsMapBS = 1
+let g:AutoPairsMapSpace = 1
+
+" }}}
 
 " ------------
-" Text objects
+" Text objects {{{
 " ------------
 
 Plug 'kana/vim-textobj-user'
 Plug 'bkad/CamelCaseMotion'
+Plug 'arthurxavierx/vim-caser'
 
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'rhysd/vim-textobj-anyblock'
 Plug 'tpope/vim-surround'
 
-" ------------
-" Operators
-" ------------
-"Plug 'kana/vim-operator-user'
-"Plug 'haya14busa/vim-operator-flashy'
+" }}}
 
 " ------------
-" Languages
+" Operators {{{
+" ------------
+Plug 'kana/vim-operator-user'
+Plug 'haya14busa/vim-operator-flashy'
+
+" }}}
+
+" ------------
+" Languages {{{
 " ------------
 
 " HTML {{{
@@ -94,14 +110,14 @@ Plug 'rhysd/vim-gfm-syntax', { 'for': 'markdown' }
 " }}}
 
 " javascript {{{
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-let g:javascript_plugin_jsdoc = 1
+"Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+"let g:javascript_plugin_jsdoc = 1
 
-Plug 'moll/vim-node', { 'for': 'javascript' }
-Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
+Plug 'moll/vim-node', { 'for': ['javascript', 'typescript'] }
+"Plug 'leafgarland/typescript-vim', { 'for': 'typescript' }
 "Plug 'flowtype/vim-flow', { 'for': 'javascript.flow', 'do': 'npm install -g flow-bin' }
 
-Plug 'mxw/vim-jsx', { 'for': 'javascript' }
+"Plug 'mxw/vim-jsx', { 'for': ['javascript', 'typescript'] }
 " }}}
 
 " JSON {{{
@@ -120,7 +136,7 @@ Plug 'FrigoEU/psc-ide-vim', { 'for': 'purescript' }
 " }}}
 
 " golang {{{
-Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries'}
+"Plug 'fatih/vim-go', { 'for': 'go', 'do': ':GoInstallBinaries'}
 " }}}
 
 " lua {{{
@@ -130,8 +146,8 @@ Plug 'tbastos/vim-lua', { 'for': 'lua' }
 " python {{{
 Plug 'mitsuhiko/vim-python-combined', { 'for': 'python' }
 Plug 'raimon49/requirements.txt.vim', { 'for': 'requirements' }
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
-" }}}
+"Plug 'davidhalter/jedi-vim', { 'for': 'python' }
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build' }" }}}
 
 " ruby {{{
 Plug 'osyo-manga/vim-monster', { 'for': 'ruby' }
@@ -147,6 +163,18 @@ Plug 'chrisbra/csv.vim', { 'for': 'csv' }
 
 " ReasonML {{{
 Plug 'leeor/vim-reason-syntax', { 'for': 'reason' }
+" }}}
+
+" rescript {{{
+Plug 'rescript-lang/vim-rescript'
+" }}}
+
+" Elixir {{{
+Plug 'elixir-editors/vim-elixir'
+" }}}
+
+" FSharp {{{
+Plug 'adelarsq/neofsharp.vim'
 " }}}
 
 " Misc syntax {{{
@@ -165,8 +193,15 @@ Plug 'othree/nginx-contrib-vim', { 'for': 'nginx' }
 "Plug 'jparise/vim-graphql'
 " }}}
 
+" Scala
+Plug 'scalameta/nvim-metals'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'mfussenegger/nvim-dap'
+
+" }}}
+
 " ------------
-" Commands
+" Commands {{{
 " ------------
 Plug 'Shougo/vinarise.vim', { 'on': 'Vinarise' }
 
@@ -180,8 +215,10 @@ Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 Plug 'lambdalisue/vim-gista', { 'on': 'Gista' }
 autocmd! User vim-gista let g:gista#client#cache_dir = $VARPATH.'/gista/'
 
+" }}}
+
 " ------------
-" Interface
+" Interface {{{
 " ------------
 "Plug 'rhysd/committia.vim'
 "  on_path: COMMIT_EDITMSG
@@ -204,13 +241,33 @@ let g:limelight_default_coefficient=0.8
 Plug 'junegunn/goyo.vim', { 'on': 'Goyo' }
 autocmd! User goyo.vim source $VIMPATH/config/plugins/goyo.vim
 
-"Plug 'junegunn/vim-peekaboo'
+Plug 't9md/vim-choosewin'
 
-"Plug 'beloglazov/vim-online-thesaurus'
+Plug 'junegunn/vim-peekaboo'
+let g:peekaboo_delay=1000
+
+Plug 'beloglazov/vim-online-thesaurus'
+
+Plug 'stefandtw/quickfix-reflector.vim'
+
+Plug 'brooth/far.vim'
+
+Plug 'vim-test/vim-test'
+
+Plug 'jrudess/vim-foldtext'
+
+Plug 'anuvyklack/hydra.nvim'
+
+Plug 'jbyuki/venn.nvim'
+" }}}
 
 " ------------
-" Completion
+" Completion {{{
 " ------------
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" }}}
+
+Plug '/Users/leeor/repos/vim-fold-spec'
 
 "  vim: set ts=2 sw=2 tw=80 et :

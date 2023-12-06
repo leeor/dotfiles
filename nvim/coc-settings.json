@@ -1,23 +1,78 @@
 {
   "codeLens.enable": true,
-  "suggest.acceptSuggestionOnCommitCharacter": true,
   "languageserver": {
-    "ocamllsp": {
-      "command": "/Users/leeor/.opam/4.06.1/bin/ocamllsp",
-      "args": [],
-      "filetypes": ["reason", "ocaml"],
+    "rescript": {
+      "enable": true,
+      "module": "~/.cache/vim/vim-plug/vim-rescript/server/out/server.js",
+      "args": ["--node-ipc"],
+      "filetypes": ["rescript"],
+      "rootPatterns": ["bsconfig.json"]
     },
+    "ocamllsp": {
+      "command": "/Users/leeor/.opam/default/bin/ocamllsp",
+      "filetypes": ["reason", "ocaml"]
+    },
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": ["--lsp"],
+      "rootPatterns": [
+        "*.cabal",
+        "stack.yaml",
+        "cabal.project",
+        "package.yaml",
+        "hie.yaml"
+      ],
+      "filetypes": ["haskell", "lhaskell"],
+      "settings": {
+        "haskell.formattingProvider": "stylish-haskell",
+        "haskell": {
+          "formattingProvider": "stylish-haskell"
+        }
+      }
+    },
+    "go": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"],
+      "initializationOptions": {
+        "usePlaceholders": true
+      }
+    }
   },
-  "eslint.autoFixOnSave": true,
+  "eslint.packageManager": "yarn",
+  "eslint.autoFixOnSave": false,
+  "eslint.format.enable": false,
   "coc.preferences.formatOnType": true,
-  "coc.preferences.formatOnSaveFiletypes": [
-    "css",
-    "markdown",
-    "reason",
-    "javascript"
-  ],
+  "coc.preferences.formatOnSave": true,
+  "[yaml]": { "coc.preferences.formatOnSave": false },
   "signature.preferShownAbove": false,
-  "diagnostic.maxWindowHeight": 40,
-  "diagnostic.maxWindowWidth": 120,
-  "coc.preferences.colorSupport": true
+  "signature.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "shadow": true
+  },
+  "snippets.ultisnips.pythonPrompt": false,
+  "hover.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "shadow": true
+  },
+  "tsserver.log": "off",
+  "suggest.acceptSuggestionOnCommitCharacter": true,
+  "suggest.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "shadow": true
+  },
+  "suggest.triggerAfterInsertEnter": true,
+  "suggest.virtualText": true,
+  "semanticTokens.enable": true,
+  "outline.autoPreview": true,
+  "floatFactory.floatConfig": {
+    "border": true,
+    "rounded": true,
+    "shadow": true
+  },
+  "python.pythonPath": "/opt/homebrew/bin/python3",
+  "python.formatting.provider": "black"
 }

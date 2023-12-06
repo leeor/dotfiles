@@ -22,6 +22,7 @@ set formatoptions+=n         " Automatically generate numbered lists.
 set formatoptions+=r         " Automatically insert comment leaders
 set formatoptions+=o         " Automatically insert comment leaders
 set gdefault                 " s///g by default
+set equalalways
 set wfw
 if has('patch-7.3.541')
 	set formatoptions+=j       " Remove comment leader when joining lines
@@ -89,9 +90,9 @@ endif
 " ----------------
 set textwidth=100   " Text width maximum chars before wrapping
 set expandtab       " Expand tabs to spaces.
-set tabstop=2       " The number of spaces a tab is
-set softtabstop=2   " While performing editing operations
-set shiftwidth=2    " Number of spaces to use in auto(indent)
+set tabstop=4       " The number of spaces a tab is
+set softtabstop=4   " While performing editing operations
+set shiftwidth=4    " Number of spaces to use in auto(indent)
 set smarttab        " Tab insert blanks according to 'shiftwidth'
 set autoindent      " Use same indenting on new lines
 set smartindent     " Smart autoindenting on new lines
@@ -167,7 +168,7 @@ if has('nvim') && $TERM !~# '^rxvt' && exists('+termguicolors')
 endif
 
 set background=dark
-colorscheme unicon
+colorscheme catppuccin-mocha
 
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
@@ -180,10 +181,10 @@ set list                " Show hidden characters
 
 set showtabline=2       " Always show the tabs line
 set tabpagemax=10       " Maximum number of tab pages
-set winwidth=80         " Minimum width for current window
-set winminwidth=8       " Minimum width for inactive windows
-set winheight=13        " Minimum height for active window
-set winminheight=3      " Minimum height for inactive windows
+"set winwidth=80         " Minimum width for current window
+"set winminwidth=8       " Minimum width for inactive windows
+"set winheight=13        " Minimum height for active window
+"set winminheight=3      " Minimum height for inactive windows
 set pumheight=20        " Pop-up menu's line height
 set helpheight=12       " Minimum help window height
 set previewheight=8     " Completion preview height
@@ -191,7 +192,7 @@ set previewheight=8     " Completion preview height
 set noshowcmd           " Don't show command in status line
 set cmdheight=2         " Height of the command line
 set cmdwinheight=5      " Command-line lines
-set noequalalways       " Don't resize windows on split or close
+"set noequalalways       " Don't resize windows on split or close
 set laststatus=2        " Always show a status line
 set colorcolumn=100     " Highlight the 100th character limit
 set display=lastline
@@ -224,35 +225,13 @@ endif
 " }}}
 " Folds {{{
 " -----
-if has('folding')
-	set foldenable
-	set foldmethod=syntax
-	set foldlevelstart=99
-	set foldtext=FoldText()
-endif
-
-" Improved Vim fold-text
-" See: http://www.gregsexton.org/2011/03/improving-the-text-displayed-in-a-fold/
-function! FoldText()
-	" Get first non-blank line
-	let fs = v:foldstart
-	while getline(fs) =~? '^\s*$' | let fs = nextnonblank(fs + 1)
-	endwhile
-	if fs > v:foldend
-		let line = getline(v:foldstart)
-	else
-		let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
-	endif
-
-	let w = winwidth(0) - &foldcolumn - (&number ? 8 : 0)
-	let foldSize = 1 + v:foldend - v:foldstart
-	let foldSizeStr = ' ' . foldSize . ' lines '
-	let foldLevelStr = repeat('+--', v:foldlevel)
-	let lineCount = line('$')
-	let foldPercentage = printf('[%.1f', (foldSize*1.0)/lineCount*100) . '%] '
-	let expansionString = repeat('.', w - strwidth(foldSizeStr.line.foldLevelStr.foldPercentage))
-	return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
-endfunction
+"if has('folding')
+"	set foldenable
+"	set foldmethod=marker
+"	set foldlevelstart=0
+"	set foldnestmax=2
+"	set foldtext=FoldText()
+"endif
 
 " }}}
 " Delete hidden buffers {{{

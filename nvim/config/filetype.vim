@@ -65,11 +65,15 @@ augroup MyAutoCmd
 	" https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
 	autocmd FileType html,css,jsx,javascript,javascript.* setlocal backupcopy=yes
 
-	autocmd FileType jsx,javascript,javascript.* setlocal foldmethod=syntax
-	autocmd FileType jsx,javascript,javascript.* let &l:formatprg = "prettier --stdin-filepath " . expand("%")
+	"autocmd FileType jsx,javascript,javascript.*,typescript* setlocal foldmethod=syntax
+	autocmd FileType jsx,javascript,javascript.*,typescript* let &l:formatprg = "prettier --stdin-filepath " . expand("%")
 	autocmd FileType json let &l:formatprg = "prettier --parser json --stdin-filepath " . expand("%")
 
 	autocmd FileType zsh setlocal foldenable foldmethod=marker
+
+  autocmd BufReadPost *.cytest.* setlocal foldenable foldmethod=syntax foldlevelstart=1 foldnestmax=9
+
+	autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp
 
 	" Improved HTML include pattern
 	autocmd FileType html
@@ -170,8 +174,19 @@ autocmd! User vim-jsx let g:jsx_ext_required = 1
 
 " ReasonML {{{
 autocmd filetype reason let b:AutoPairs={'(':')','[':']','{':'}',"'":"'",'"':'"'}
+autocmd FileType reason setlocal foldmethod=syntax
 
 nmap <silent> <leader>ln :call CocRequest("reason", "custom:reasonLanguageServer/createInterface", { 'uri': 'file://' . expand("%:p")})<CR>
+" }}}
+
+" Rescript {{{
+autocmd filetype rescript
+    \ setlocal foldmethod=indent
+    \ foldnestmax=10
+" }}}
+
+" Elixir {{{
+autocmd FileType elixir setlocal foldmethod=syntax
 " }}}
 
 " ocaml {{{
@@ -188,17 +203,26 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 let g:haskellmode_completion_ghc = 0
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+"autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+autocmd FileType haskell setlocal foldmethod=marker
 let g:necoghc_enable_detailed_browse = 1
+
 " }}}
 
 " golang {{{
-let g:go_fmt_command = 'goimports'
+"let g:go_fmt_command = 'goimports'
+let g:go_fmt_experimental = 1
 let g:go_def_mapping_enabled = 0
 let g:go_loaded_gosnippets = 1
 let g:go_snippet_engine = 'ultisnips'
 let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
+"let g:go_fmt_command = "golines"
+"let g:go_fmt_options = {
+			"\ 'golines': '-m 110',
+			"\ }
+autocmd FileType go setlocal foldmethod=syntax
+"autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
 
 " Markdown {{{

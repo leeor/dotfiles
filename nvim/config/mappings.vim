@@ -54,7 +54,6 @@ cnoreabbrev T tabe
 
 " Quick substitute within selected area
 xnoremap s :s//<Left>
-xno f :s/\%V.*\%V./\=system('', submatch(0))[:-2]/<c-r>=setcmdpos(28)[-1]<cr>
 
 " Improve scroll, credits: https://github.com/Shougo
 nnoremap <expr> zz (winline() == (winheight(0)+1) / 2) ?
@@ -197,11 +196,11 @@ nnoremap <silent> [Window]sv :vsplit<CR>:wincmd p<CR>:e#<CR>
 " Plugins {{{
 
 " fugitive {{{
-nnoremap <Leader>gs :Gstatus<CR>
+nnoremap <Leader>gs :vertical Git<CR>
 nnoremap <Leader>gw :Gwrite<CR>
 nnoremap <Leader>go :Gread<CR>
 nnoremap <Leader>gd :Gdiff<CR>
-nnoremap <Leader>gb :Gblame<CR>
+nnoremap <Leader>gb :Git blame<CR>
 nnoremap <Leader>gc :Gcommit<CR>
 nnoremap <Leader>ga :Gcommit --amend<CR>
 nnoremap <Leader>gB :Gbrowse<CR>
@@ -216,16 +215,28 @@ nnoremap <silent> [File]h :<c-u>History<cr>
 nnoremap <silent> [File]H :<c-u>Helptags<cr>
 nnoremap <silent> [File]c :<c-u>BCommits<cr>
 nnoremap <silent> [File]C :<c-u>Commits<cr>
-nnoremap <silent> [File]g :<c-u>execute 'Ag '.input('Pattern: ')<cr>
+"nnoremap <silent> [File]g :<c-u>execute 'Ag '.input('Pattern: ')<cr>
+nnoremap <silent> [File]g :<c-u>execute 'Rg '.input('Pattern: ')<cr>
 nnoremap <silent> [File]l :<c-u>BLines<cr>
 nnoremap <silent> [File]L :<c-u>Lines<cr>
 
-nnoremap <silent> <leader>gg :<c-u>Ag <c-r><c-w><cr>
-vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Ag '.@/<CR>
+nnoremap <silent> <leader>gg :<c-u>Rg <c-r><c-w><cr>
+vnoremap <silent> <Leader>gg :<c-u>call VSetSearch('/')<CR>:execute 'Rg '.@/<CR>
 
 command! -bang -nargs=* Ag
   \ call fzf#vim#ag(<q-args>, '--workers=1', {'options': '--no-sort'},
   \                 <bang>0)
+
+function! RipgrepFzf(query, fullscreen)
+    let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+    let initial_command = printf(command_fmt, shellescape(a:query))
+    let reload_command = printf(command_fmt, '{q}')
+    let spec = {'options': ['--disabled', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    let spec = fzf#vim#with_preview(spec, 'right', 'ctrl-/')
+    call fzf#vim#grep(initial_command, 1, spec, a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
@@ -240,7 +251,7 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit' }
 
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all --layout=reverse'
-let g:fzf_preview_window = ''
+let g:fzf_preview_window = ['down:50%', 'ctrl-p']
 let g:fzf_buffers_jump = 1
 
 function! OpenFloatingWin()
@@ -255,7 +266,8 @@ function! OpenFloatingWin()
         \ 'row': height * 0.2,
         \ 'col': col,
         \ 'width': width * 6 / 7,
-        \ 'height': height * 2 / 3
+        \ 'height': height * 2 / 3,
+        \ 'border': 'rounded'
         \ }
 
   let buf = nvim_create_buf(v:false, v:true)
@@ -326,12 +338,12 @@ nmap <leader>p <plug>(quickr_preview)
 " coc-nvim {{{
 nmap <silent> <leader>ld <Plug>(coc-definition)
 nmap <silent> <leader>li <Plug>(coc-implementation)
-nmap <silent> <leader>lt :call CocAction('doHover')<CR>
-nmap <silent> <leader>la :call CocAction('codeAction')<CR>
+nmap <silent> <leader>lt :call CocActionAsync('doHover')<CR>
+nmap <silent> <leader>la :call CocActionAsync('codeAction')<CR>
+nmap <silent> <leader>lA <Plug>(coc-codelens-action)
 nmap <silent> <leader>ly <Plug>(coc-type-definition)
 nmap <silent> <leader>lR <Plug>(coc-references)
 nmap <silent> <leader>lr <Plug>(coc-rename)
-vmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lf <Plug>(coc-format-selected)
 nmap <silent> <leader>lD :CocList diagnostics<CR>
 "
@@ -357,33 +369,30 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
-    call CocAction('doHover')
+    call CocActionAsync('doHover')
   endif
 endfunction
 
 " Completion {{{
-" Use <c-space> for trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+  function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+  endfunction
 
-" Use <cr> for confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  " Insert <tab> when previous text is space, refresh completion if not.
+  inoremap <silent><expr> <TAB>
+	\ coc#pum#visible() ? coc#pum#next(1):
+	\ <SID>check_back_space() ? "\<Tab>" :
+	\ coc#refresh()
+  inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  if has('nvim')
+    inoremap <silent><expr> <c-space> coc#refresh()
+  else
+    inoremap <silent><expr> <c-@> coc#refresh()
+  endif
 
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Close preview window when completion is done.
-autocmd! CompleteDone * if pumvisible() == 0 | pclose | endif
-
-hi CocUnderline cterm=undercurl gui=undercurl guisp=#db6e8e
+  inoremap <silent><expr> <CR> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 "}}}
 
 " Highlight symbol under cursor on CursorHold
@@ -392,7 +401,7 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 augroup mygroup
   autocmd!
   " Setup formatexpr specified filetype(s).
-  autocmd FileType reason,javascript,typescript,json setl formatexpr=CocAction('formatSelected')
+  autocmd FileType reason,javascript,typescriptreact,typescript,json setl formatexpr=CocActionAsync('formatSelected')
   " Update signature help on jump placeholder
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup end
@@ -418,5 +427,9 @@ function! QuickfixFilenames()
   endfor
   return join(values(buffer_numbers))
 endfunction
+
+" choosewin
+nmap  -  <Plug>(choosewin)
+nmap  <silent> _ :ChooseWinSwapStay<CR>
 
 " vim: set ts=2 sw=2 tw=80 noet :
