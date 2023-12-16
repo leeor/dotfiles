@@ -167,13 +167,10 @@ if has('nvim') && $TERM !~# '^rxvt' && exists('+termguicolors')
 	set termguicolors
 endif
 
-set background=dark
-colorscheme catppuccin-mocha
-
 set noshowmode          " Don't show mode in cmd window
 set shortmess=aoOTI     " Shorten messages and don't show intro
-set scrolloff=5         " Keep at least 2 lines above/below
-set sidescrolloff=5     " Keep at least 2 lines left/right
+set scrolloff=5         " Keep at least 5 lines above/below
+set sidescrolloff=5     " Keep at least 5 lines left/right
 set relativenumber      " Show relative line numbers
 set number              " Show line numbers
 set noruler             " Disable default status ruler

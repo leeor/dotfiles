@@ -18,31 +18,6 @@ function! s:source_file(path) abort
 	execute 'source' fnameescape($VIMPATH.'/config/'.a:path)
 endfunction
 
-function! s:lazy_load_filetype() abort
-	if &l:filetype ==# '' && bufname('%') ==# ''
-		return
-	endif
-	redir => filetype_out
-	silent! filetype
-	redir END
-	if filetype_out =~# 'OFF'
-		silent! filetype plugin indent on
-		syntax enable
-		filetype detect
-		" For some reason this event isn't being
-		" triggered, and theme doesn't load.
-		doautoall ColorScheme
-	endif
-endfunction
-
-" Set augroup
-augroup MyAutoCmd
-	autocmd!
-	" Lazy-loading filetype syntax and highlighting
-	autocmd MyAutoCmd FileType,Syntax,BufNewFile,BufNew,BufRead
-		\ * call s:lazy_load_filetype()
-augroup END
-
 " Initialize base requirements
 if has('vim_starting')
 	call s:source_file('init.vim')
@@ -51,25 +26,10 @@ if has('vim_starting')
 	endif
 endif
 
-let s:plugins_path = 'plugins.vim'
-let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
-if empty(glob(data_dir . '/autoload/plug.vim'))
-	silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-" Run PlugInstall if there are missing plugins
-autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \| PlugInstall --sync | source $MYVIMRC
-  \| endif
-call plug#begin()
-call s:source_file(s:plugins_path)
-call plug#end()
-
 " Loading configuration modules {{{
 call s:source_file('general.vim')
 call s:source_file('terminal.vim')
 call s:source_file('filetype.vim')
-call s:lazy_load_filetype()
 call s:source_file('mappings.vim')
 call s:source_file('highlight.vim')
 " }}}
