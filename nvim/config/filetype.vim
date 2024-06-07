@@ -4,106 +4,107 @@
 
 " Reload vim config automatically {{{
 execute 'autocmd MyAutoCmd BufWritePost '.$VIMPATH.'/config/*,vimrc nested'
-	\ .' source $MYVIMRC | redraw'
+    \ .' source $MYVIMRC | redraw'
 " }}}
 
 autocmd InsertLeave,WinEnter * set cursorline
 autocmd InsertEnter,WinLeave * set nocursorline
 
 function! s:find_project_root()
-	exec "let l:projectRoot=fnamemodify(findfile('package.json','" . expand('%:p') . ";/'), ':p:h')"
-	if l:projectRoot != ''
+    exec "let l:projectRoot=fnamemodify(findfile('package.json','" . expand('%:p') . ";/'), ':p:h')"
+    if l:projectRoot != ''
     call jobstart('find '. l:projectRoot .' -type f -iregex ".*\\.js$" -not -path "'. l:projectRoot . '/node_modules/*" -exec jsctags {} -f \; | sed "/^$/d" | LANG=C sort > '. l:projectRoot .'/tags')
-	endif
+    endif
 endfunction
 
 augroup MyAutoCmd
 
-	" Automatically set read-only for files being edited elsewhere
-	autocmd SwapExists * nested let v:swapchoice = 'o'
+    " Automatically set read-only for files being edited elsewhere
+    autocmd SwapExists * nested let v:swapchoice = 'o'
 
-	" More eager than 'autoread'.
-	autocmd WinEnter * checktime
-"	autocmd WinEnter,FocusGained * checktime
+    " More eager than 'autoread'.
+    autocmd WinEnter * checktime
+"   autocmd WinEnter,FocusGained * checktime
 
-	autocmd Syntax * if 5000 < line('$') | syntax sync minlines=200 | endif
+    autocmd Syntax * if 5000 < line('$') | syntax sync minlines=200 | endif
 
-	" Update filetype on save if empty
-	autocmd BufWritePost * nested
-		\ if &l:filetype ==# '' || exists('b:ftdetect')
-		\ |   unlet! b:ftdetect
-		\ |   filetype detect
-		\ | endif
+    " Update filetype on save if empty
+    autocmd BufWritePost * nested
+        \ if &l:filetype ==# '' || exists('b:ftdetect')
+        \ |   unlet! b:ftdetect
+        \ |   filetype detect
+        \ | endif
 
-	" Reload Vim script automatically if setlocal autoread
-	autocmd BufWritePost,FileWritePost *.vim nested
-		\ if &l:autoread > 0 | source <afile> |
-		\   echo 'source '.bufname('%') |
-		\ endif
+    " Reload Vim script automatically if setlocal autoread
+    autocmd BufWritePost,FileWritePost *.vim nested
+        \ if &l:autoread > 0 | source <afile> |
+        \   echo 'source '.bufname('%') |
+        \ endif
 
-	" When editing a file, always jump to the last known cursor position.
-	" Don't do it when the position is invalid or when inside an event handler
-	autocmd BufReadPost *
-		\ if &ft !~ '^git\c' && ! &diff && line("'\"") > 0 && line("'\"") <= line("$")
-		\|   exe 'normal! g`"zvzz'
-		\| endif
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    autocmd BufReadPost *
+        \ if &ft !~ '^git\c' && ! &diff && line("'\"") > 0 && line("'\"") <= line("$")
+        \|   exe 'normal! g`"zvzz'
+        \| endif
 
-	" Disable paste and/or update diff when leaving insert mode
-	autocmd InsertLeave *
-			\ if &paste | setlocal nopaste mouse=a | echo 'nopaste' | endif |
-			\ if &l:diff | diffupdate | endif
+    " Disable paste and/or update diff when leaving insert mode
+    autocmd InsertLeave *
+            \ if &paste | setlocal nopaste mouse=a | echo 'nopaste' | endif |
+            \ if &l:diff | diffupdate | endif
 
-	autocmd FileType help
-		\ setlocal iskeyword+=: | setlocal iskeyword+=# | setlocal iskeyword+=-
+    autocmd FileType help
+        \ setlocal iskeyword+=: | setlocal iskeyword+=# | setlocal iskeyword+=-
 
-	autocmd FileType crontab setlocal nobackup nowritebackup
+    autocmd FileType crontab setlocal nobackup nowritebackup
 
-	autocmd FileType gitcommit setlocal spell
+    autocmd FileType gitcommit setlocal spell
 
-	autocmd FileType gitcommit,qfreplace setlocal nofoldenable
+    autocmd FileType gitcommit,qfreplace setlocal nofoldenable
 
-	" https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
-	autocmd FileType html,css,jsx,javascript,javascript.* setlocal backupcopy=yes
+    " https://webpack.github.io/docs/webpack-dev-server.html#working-with-editors-ides-supporting-safe-write
+    autocmd FileType html,css,jsx,javascript,javascript.* setlocal backupcopy=yes
 
-	"autocmd FileType jsx,javascript,javascript.*,typescript* setlocal foldmethod=syntax
-	autocmd FileType jsx,javascript,javascript.*,typescript* let &l:formatprg = "prettier --stdin-filepath " . expand("%")
-	autocmd FileType json let &l:formatprg = "prettier --parser json --stdin-filepath " . expand("%")
+    "autocmd FileType jsx,javascript,javascript.*,typescript* setlocal foldmethod=syntax
+    autocmd FileType jsx,javascript,javascript.*,typescript* let &l:formatprg = "prettier --stdin-filepath " . expand("%")
+    autocmd FileType json let &l:formatprg = "prettier --parser json --stdin-filepath " . expand("%")
 
-	autocmd FileType zsh setlocal foldenable foldmethod=marker
+    autocmd FileType zsh setlocal foldenable foldmethod=marker
 
   autocmd BufReadPost *.cytest.* setlocal foldenable foldmethod=syntax foldlevelstart=1 foldnestmax=9
 
-	autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp
+    autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp
 
-	" Improved HTML include pattern
-	autocmd FileType html
-		\ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
-		\ setlocal path+=./;/
+    " Improved HTML include pattern
+    autocmd FileType html
+        \ setlocal includeexpr=substitute(v:fname,'^\\/','','') |
+        \ setlocal path+=./;/
 
-	autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+    autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
-	autocmd FileType markdown
-		\ setlocal spell expandtab autoindent wrap
+    autocmd FileType markdown
+        \ setlocal spell expandtab autoindent wrap
     \ formatoptions-=n
     \ comments=n:>
 
-	autocmd FileType apache setlocal path+=./;/
+    autocmd FileType apache setlocal path+=./;/
 
-	autocmd FileType cam setlocal nonumber synmaxcol=10000
+    autocmd FileType cam setlocal nonumber synmaxcol=10000
 
-	autocmd FileType go highlight default link goErr WarningMsg |
-				\ match goErr /\<err\>/
+    autocmd FileType go highlight default link goErr WarningMsg |
+                \ match goErr /\<err\>/
 
-	" Open Quickfix window automatically
-	autocmd QuickFixCmdPost [^l]* bel copen
-		\ | wincmd p | redraw!
-	autocmd QuickFixCmdPost l* bel lopen
-		\ | wincmd p | redraw!
+    " Open Quickfix window automatically
+    autocmd QuickFixCmdPost [^l]* bel copen
+        \ | wincmd p | redraw!
+    autocmd QuickFixCmdPost l* bel lopen
+        \ | wincmd p | redraw!
 
-	" Fix window position of help/quickfix
-	autocmd FileType help if &l:buftype ==# 'help'
-		\ | wincmd L | endif
+    " Fix window position of help/quickfix
+    autocmd FileType help if &l:buftype ==# 'help'
+        \ | wincmd L | endif
 
+    autocmd FileType aichat setlocal formatoptions=1qnj
 augroup END
 
 " Internal Plugin Settings  {{{
@@ -219,8 +220,8 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_operators = 1
 "let g:go_fmt_command = "golines"
 "let g:go_fmt_options = {
-			"\ 'golines': '-m 110',
-			"\ }
+            "\ 'golines': '-m 110',
+            "\ }
 autocmd FileType go setlocal foldmethod=syntax
 "autocmd BufWritePre *.go :silent call CocAction('runCommand', 'editor.action.organizeImport')
 " }}}
@@ -230,20 +231,20 @@ let g:gfm_syntax_enable_always = 0
 let g:gfm_syntax_enable_filetypes = ['markdown']
 
 let g:markdown_fenced_languages = [
-	\  'css',
-	\  'javascript',
-	\  'js=javascript',
-	\  'json=javascript',
-	\  'python',
-	\  'py=python',
-	\  'sh',
-	\  'sass',
-	\  'xml',
-	\  'vim',
-	\  'git',
-	\  'diff',
+    \  'css',
+    \  'javascript',
+    \  'js=javascript',
+    \  'json=javascript',
+    \  'python',
+    \  'py=python',
+    \  'sh',
+    \  'sass',
+    \  'xml',
+    \  'vim',
+    \  'git',
+    \  'diff',
   \  'html'
-	\]
+    \]
 " }}}
 
 " Folding {{{
