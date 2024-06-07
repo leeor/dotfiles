@@ -73,7 +73,6 @@ rcfiles="
 	nvim=>.config/nvim
 	tmuxifier
 	tmux/tmux.conf
-	nvm/default-packages=>.nvm/default-packages
 	kitty/kitty.conf=>.config/kitty/kitty.conf
 	ag/agignore
 "
