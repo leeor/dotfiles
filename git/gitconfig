@@ -1,6 +1,6 @@
 [alias]
-	outgoing = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\2..\\1/;tx;d;:x')"
-	incoming = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | sed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]:]\\+\\).*/\\1..\\2/;tx;d;:x')"
+	outgoing = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | gsed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]]\\+\\):.*/\\2..\\1/;tx;d;:x')"
+	incoming = "!git log --pretty=format:'%C(yellow)%h%Creset %Cred%an%Creset %s' --reverse --no-merges --stat $(git branch -vv --no-color | grep '^\\* ' | grep -v 'no branch' | gsed -e 's/^\\* \\([^ \t]\\+\\).*\\[\\([^]]\\+\\):.*/\\1..\\2/;tx;d;:x')"
 	lg = "log --pretty=custom"
 	logr = "log --graph --all --full-history --pretty=custom"
 	st = "status -sb"
@@ -67,7 +67,7 @@
 	abbrev = 12
 
 [pager]
-	diff = diff-so-fancy | less --tabs=2 -RFX
+	#diff = diff-so-fancy | less --tabs=2 -RFX
 	show = diff-so-fancy | less --tabs=2 -RFX
 	log = less --tabs=2 -RFX
 
@@ -77,6 +77,7 @@
 [user]
 	name = Leeor Aharon
 	email = leeor.aharon@gmail.com
+	signingkey = CB5D5C5AFB3CB28E
 
 [push]
 	followTags = true
@@ -98,4 +99,7 @@
 [rerere]
 	enabled = true
 [rebase]
+	autosquash = true
 	instructionFormat = (%an <%ae>) %s
+[commit]
+	gpgsign = false
