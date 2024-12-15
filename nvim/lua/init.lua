@@ -1,6 +1,7 @@
 local map = vim.keymap.set
 
 vim.g.mapleader = " "
+vim.opt.laststatus = 3
 
 -- bootstrap lazy.nvim plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
