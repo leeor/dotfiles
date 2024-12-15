@@ -237,7 +237,31 @@ require("lazy").setup({
     },
     'ckipp01/stylua-nvim',
     'elzr/vim-json',
-    'github/copilot.vim',
+    --'github/copilot.vim',
+    {
+        "zbirenbaum/copilot.lua",
+        config = function()
+            require('copilot').setup({
+                panel = {
+                    keymap = {
+                        open = "<M-CR>"
+                    },
+                    layout = {
+                        position = "right"
+                    }
+                },
+                suggestion = {
+                    auto_trigger = true,
+                    keymap = {
+                        accept = "<C-j>",
+                        next = "<C-]>",
+                        prev = "<C-[>",
+                        dismiss = "<C-x>",
+                    }
+                }
+            })
+        end
+    },
     --{
     --   'Exafunction/codeium.vim',
     --   config = function()
@@ -396,7 +420,7 @@ require("lazy").setup({
                     { name = "nvim_lsp" },
                     { name = "vsnip" },
                     --{ name = "codeium" }
-                }, { name = "buffer" }),
+                }, { { name = "buffer" } }),
                 snippet = {
                     expand = function(args)
                         -- Comes from vsnip
@@ -417,6 +441,8 @@ require("lazy").setup({
                     ["<Tab>"] = function(fallback)
                         if cmp.visible() then
                             cmp.select_next_item()
+                        elseif vim.fn["vsnip#jumpable"](1) == 1 then
+                            feedkeys("<Plug>(vsnip-expand-or-jump)", "")
                         else
                             fallback()
                         end
@@ -424,6 +450,8 @@ require("lazy").setup({
                     ["<S-Tab>"] = function(fallback)
                         if cmp.visible() then
                             cmp.select_prev_item()
+                        elseif vim.fn["vsnip#jumpable"](-1) == 1 then
+                            feedkeys("<Plug>(vsnip-jump-prev)", "")
                         else
                             fallback()
                         end
