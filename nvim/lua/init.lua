@@ -105,8 +105,22 @@ require("lazy").setup({
     { 'Vigemus/iron.nvim' },
     {
         'nvim-treesitter/nvim-treesitter',
+        dependencies = {
+            "rescript-lang/tree-sitter-rescript"
+        },
         build = ':TSUpdate',
         config = function()
+            local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+            parser_config.rescript = {
+                install_info = {
+                    url = "https://github.com/rescript-lang/tree-sitter-rescript",
+                    branch = "main",
+                    files = { "src/scanner.c" },
+                    generate_requires_npm = false,
+                    requires_generate_from_grammar = true,
+                    use_makefile = true, -- macOS specific instruction
+                },
+            }
             local configs = require("nvim-treesitter.configs")
 
             configs.setup({
@@ -138,6 +152,7 @@ require("lazy").setup({
                     "ocaml",
                     "python",
                     "query",
+                    "rescript",
                     "ruby",
                     "rust",
                     "scala",
