@@ -1,12 +1,10 @@
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH:/usr/local/opt/coreutils/libexec/gnubin"
 
-notify() {
-    terminal-notifier -activate com.googlecode.iterm2 -title "iTerm2" -message "$@"
-}
-
 if [[ -a "${DIRCOLORS}" ]]; then
     eval $(gdircolors -b $DIRCOLORS)
     zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 fi
 
 alias cat=bat
+
+source $HOME/.cargo/env
