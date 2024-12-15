@@ -71,7 +71,7 @@ augroup MyAutoCmd
 
     autocmd FileType zsh setlocal foldenable foldmethod=marker
 
-  autocmd BufReadPost *.cytest.* setlocal foldenable foldmethod=syntax foldlevelstart=1 foldnestmax=9
+    autocmd BufReadPost *.cytest.*,*.test.* setlocal foldenable foldmethod=syntax foldlevelstart=1 foldnestmax=9
 
     autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp
 
