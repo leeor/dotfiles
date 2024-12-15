@@ -839,3 +839,9 @@ vim.keymap.set("n", "[File]Q", "<cmd>lua require('fzf-lua').quickfix_stack()<CR>
 --  \ 'ctrl-x': 'split',
 --  \ 'ctrl-v': 'vsplit' }
 -- }}}
+
+-- vsnip {{{
+vim.keymap.set("i", "<c-k>", "<Plug>(vsnip-expand-or-jump)", { silent = true })
+vim.keymap.set("s", "<c-k>", "<Plug>(vsnip-expand-or-jump)", { silent = true })
+vim.keymap.set("i", "<c-s-k>", "<Plug>(vsnip-jump-prev)", { silent = true })
+-- }}}
