@@ -106,12 +106,7 @@ set timeoutlen=750  " Time out on mappings
 set updatetime=500 " Idle time to write swap and trigger CursorHold
 
 " Time out on key codes
-if has('nvim')
-	" https://github.com/neovim/neovim/issues/2017
-	set ttimeoutlen=-1
-else
-	set ttimeoutlen=250
-endif
+set ttimeoutlen=250
 
 " }}}
 " Searching {{{
@@ -191,7 +186,7 @@ set cmdheight=2         " Height of the command line
 set cmdwinheight=5      " Command-line lines
 "set noequalalways       " Don't resize windows on split or close
 set laststatus=2        " Always show a status line
-set colorcolumn=100     " Highlight the 100th character limit
+set colorcolumn=120     " Highlight the 120th character limit
 set display=lastline
 
 set showbreak=↪
@@ -225,8 +220,8 @@ endif
 "if has('folding')
 "	set foldenable
 "	set foldmethod=marker
-"	set foldlevelstart=0
-"	set foldnestmax=2
+	set foldlevelstart=2
+  set foldnestmax=2
 "	set foldtext=FoldText()
 "endif
 

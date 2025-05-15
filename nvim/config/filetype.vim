@@ -83,9 +83,7 @@ augroup MyAutoCmd
     autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 
     autocmd FileType markdown
-        \ setlocal spell expandtab autoindent wrap
-    \ formatoptions-=n
-    \ comments=n:>
+        \ setlocal spell expandtab autoindent nosmartindent wrap comments=n:> formatoptions=1jcqnt indentexpr=
 
     autocmd FileType apache setlocal path+=./;/
 

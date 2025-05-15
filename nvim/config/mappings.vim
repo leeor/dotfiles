@@ -148,7 +148,7 @@ vnoremap <Leader>S y:execute @@<CR>:echo 'Sourced selection.'<CR>
 nnoremap <Leader>S ^vg_y:execute @@<CR>:echo 'Sourced line.'<CR>
 
 " Yank buffer's absolute path to X11 clipboard
-nnoremap <Leader>y :let @+=expand("%:p")<CR>:echo 'Copied to clipboard.'<CR>
+nnoremap <Leader>y :let @+=expand("%")<CR>:echo 'Copied to clipboard.'<CR>
 
 augroup MyAutoCmd " {{{
 	if has('mac')
