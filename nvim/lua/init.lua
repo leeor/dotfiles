@@ -39,6 +39,10 @@ require("lazy").setup({
         }
     },
     'nvim-tree/nvim-web-devicons',
+    {
+        'xiyaowong/transparent.nvim',
+        lazy = false,
+    },
 
     -- movement
     --'easymotion/vim-easymotion',
@@ -57,7 +61,86 @@ require("lazy").setup({
     'arthurxavierx/vim-caser',
     'bkad/CamelCaseMotion',
     't9md/vim-choosewin',
-
+    {
+        "3rd/image.nvim",
+        event = "VeryLazy",
+        dependencies = {
+            {
+                "nvim-treesitter/nvim-treesitter",
+                build = ":TSUpdate",
+                config = function()
+                    require("nvim-treesitter.configs").setup({
+                        ensure_installed = { "markdown" },
+                        highlight = { enable = true },
+                    })
+                end,
+            },
+        },
+        opts = {
+            backend = "kitty",
+            integrations = {
+                markdown = {
+                    enabled = true,
+                    clear_in_insert_mode = false,
+                    download_remote_images = true,
+                    only_render_image_at_cursor = false,
+                    filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+                },
+                neorg = {
+                    enabled = true,
+                    clear_in_insert_mode = false,
+                    download_remote_images = true,
+                    only_render_image_at_cursor = false,
+                    filetypes = { "norg" },
+                },
+            },
+            max_width = nil,
+            max_height = nil,
+            max_width_window_percentage = nil,
+            max_height_window_percentage = 50,
+            kitty_method = "normal",
+        },
+    },
+    {
+        "3rd/diagram.nvim",
+        dependencies = {
+            "3rd/image.nvim",
+        },
+        opts = { -- you can just pass {}, defaults below
+            events = {
+                render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
+                clear_buffer = {"BufLeave"},
+            },
+            integrations = {
+                --require("diagram.integrations.markdown"),
+                --require("diagram.integrations.neorg"),
+            },
+            renderer_options = {
+                mermaid = {
+                    background = nil, -- nil | "transparent" | "white" | "#hex"
+                    theme = 'forest', -- nil | "default" | "dark" | "forest" | "neutral"
+                    scale = 1, -- nil | 1 (default) | 2  | 3 | ...
+                    width = nil, -- nil | 800 | 400 | ...
+                    height = nil, -- nil | 600 | 300 | ...
+                },
+                plantuml = {
+                    charset = 'utf-8',
+                },
+                d2 = {
+                    theme_id = 1,
+                    dark_theme_id = nil,
+                    scale = nil,
+                    layout = nil,
+                    sketch = nil,
+                },
+                gnuplot = {
+                    size = '800,600', -- nil | "800,600" | ...
+                    font = nil, -- nil | "Arial,12" | ...
+                    theme = "dark", -- nil | "light" | "dark" | custom theme string
+                },
+            }
+        },
+    },
     -- GIT
     'tpope/vim-fugitive',
     {
@@ -227,15 +310,27 @@ require("lazy").setup({
     },
     { "nvim-treesitter/nvim-treesitter-textobjects" },
     {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+        -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {
+            completions = { blink = { enabled = true} },
+            code = { disable_background = true, language = false },
+            heading = { width = 'block' }
+        },
+    },
+    {
         "pmizio/typescript-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
         opts = {},
         config = function()
-            local lspconfig = require('lspconfig')
             require("typescript-tools").setup({
                 --capabilities = require('cmp_nvim_lsp').default_capabilities(),
                 root_dir = function(startpath)
-                    return (lspconfig.util.root_pattern("package.json")(startpath))
+                    return require('lspconfig.util').root_pattern("package.json")(startpath)
                 end,
                 settings = {
                     -- spawn additional tsserver instance to calculate diagnostics on it
@@ -294,12 +389,11 @@ require("lazy").setup({
         dependencies = { 'saghen/blink.cmp' },
         config = function()
             local capabilities = require('blink.cmp').get_lsp_capabilities()
-            local lspconfig = require('lspconfig')
 
-            lspconfig['gopls'].setup {
+            vim.lsp.config('gopls', {
                 cmd = { 'gopls' },
                 filetypes = { 'go', 'gomod' },
-                root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
+                root_markers = { 'go.mod', '.git' },
                 settings = {
                     gopls = {
                         analyses = {
@@ -309,29 +403,25 @@ require("lazy").setup({
                         staticcheck = true,
                     },
                 }
-            }
+            })
 
-            lspconfig['lua_ls'].setup {
+            vim.lsp.config('lua_ls', {
                 on_init = function(client)
+                    if not client.workspace_folders or not client.workspace_folders[1] then
+                        return true
+                    end
                     local path = client.workspace_folders[1].name
                     if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-                        client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
+                        client.config.settings = vim.tbl_deep_extend('force', client.config.settings or {}, {
                             Lua = {
                                 runtime = {
-                                    -- Tell the language server which version of Lua you're using
-                                    -- (most likely LuaJIT in the case of Neovim)
                                     version = 'LuaJIT'
                                 },
-                                -- Make the server aware of Neovim runtime files
                                 workspace = {
                                     checkThirdParty = false,
                                     library = {
                                         vim.env.VIMRUNTIME
-                                        -- "${3rd}/luv/library"
-                                        -- "${3rd}/busted/library",
                                     }
-                                    -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-                                    -- library = vim.api.nvim_get_runtime_file("", true)
                                 }
                             }
                         })
@@ -340,10 +430,21 @@ require("lazy").setup({
                     end
                     return true
                 end,
-                command = {
-                    Format = { function() require('stylua-nvim').format_file() end }
-                }
-            }
+            })
+
+            vim.lsp.config('eslint', {
+                cmd = { 'vscode-eslint-language-server', '--stdio' },
+                filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact', 'typescript.tsx' },
+                root_markers = { '.eslintrc', '.eslintrc.js', '.eslintrc.cjs', '.eslintrc.json', '.eslintrc.yaml', '.eslintrc.yml', 'eslint.config.js', 'eslint.config.mjs', 'eslint.config.cjs', 'package.json' },
+                settings = {
+                    workingDirectories = { mode = 'auto' },
+                },
+            })
+
+            -- Enable the LSP servers
+            vim.lsp.enable('gopls')
+            vim.lsp.enable('lua_ls')
+            vim.lsp.enable('eslint')
         end
     },
     'ckipp01/stylua-nvim',
@@ -540,8 +641,8 @@ require("lazy").setup({
 require("telescope").load_extension("fzf")
 require("telescope").load_extension("ui-select")
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+-- Configure borders for LSP floating windows
+vim.o.winborder = 'rounded'
 
 local code_companion = require("codecompanion")
 code_companion.setup({
@@ -579,7 +680,6 @@ When writing code, it's important to keep in mind the following:
 map("n", "<leader>cc", code_companion.actions)
 
 --local capabilities = require('cmp_nvim_lsp').default_capabilities
-local lspconfig = require('lspconfig')
 local configs = require('lspconfig.configs')
 
 --local cmp = require("cmp")
@@ -606,27 +706,7 @@ local configs = require('lspconfig.configs')
 --    },
 --})
 
-if not configs.gopls then
-    configs.gopls = {
-        default_config = {
-            cmd = { 'gopls' },
-            filetypes = { 'go', 'gomod' },
-            root_dir = lspconfig.util.root_pattern("go.mod", ".git"),
-            settings = {
-                gopls = {
-                    analyses = {
-                        unusedparams = true,
-                        shadow = true,
-                    },
-                    staticcheck = true,
-                },
-            }
-        }
-    }
-end
-lspconfig['gopls'].setup {}
-
-lspconfig['eslint'].setup {}
+-- gopls config moved to vim.lsp.config() + vim.lsp.enable() in nvim-lspconfig plugin block
 
 --if not configs.tsserver then
 --   configs.tsserver = {
@@ -642,40 +722,6 @@ lspconfig['eslint'].setup {}
 --   }
 --end
 --lspconfig['tsserver'].setup {}
-
-lspconfig['lua_ls'].setup {
-    on_init = function(client)
-        local path = client.workspace_folders[1].name
-        if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-            client.config.settings = vim.tbl_deep_extend('force', client.config.settings, {
-                Lua = {
-                    runtime = {
-                        -- Tell the language server which version of Lua you're using
-                        -- (most likely LuaJIT in the case of Neovim)
-                        version = 'LuaJIT'
-                    },
-                    -- Make the server aware of Neovim runtime files
-                    workspace = {
-                        checkThirdParty = false,
-                        library = {
-                            vim.env.VIMRUNTIME
-                            -- "${3rd}/luv/library"
-                            -- "${3rd}/busted/library",
-                        }
-                        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
-                        -- library = vim.api.nvim_get_runtime_file("", true)
-                    }
-                }
-            })
-
-            client.notify("workspace/didChangeConfiguration", { settings = client.config.settings })
-        end
-        return true
-    end,
-    command = {
-        Format = { function() require('stylua-nvim').format_file() end }
-    }
-}
 
 --lspconfig['rust_analyzer'].setup({
 --   on_attach = function(client, bufnr)
@@ -703,8 +749,13 @@ lspconfig['lua_ls'].setup {
 
 vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = { '*.tsx', '*.ts', '*.jsx', '*.js' },
-    command = 'silent! EslintFixAll',
     group = vim.api.nvim_create_augroup('MyAutocmdsJavaScripFormatting', {}),
+    callback = function()
+        vim.lsp.buf.code_action({
+            context = { only = { 'source.fixAll.eslint' } },
+            apply = true,
+        })
+    end,
 })
 
 -- LSP mappings
@@ -888,4 +939,29 @@ vim.keymap.set("i", "<c-s-k>", "<Plug>(vsnip-jump-prev)", { silent = true })
 
 -- highlights {{{
 vim.api.nvim_set_hl(0, 'WinSeparator', { bg='#1e1e2f', fg='SlateBlue' })
+-- }}}
+
+-- cursorline {{{
+local cursorline_group = vim.api.nvim_create_augroup('CursorLineByFiletype', { clear = true })
+vim.api.nvim_set_hl(0, 'CursorLine', { bold = true })
+vim.opt.cursorline = false
+
+vim.api.nvim_create_autocmd('FileType', {
+    group = cursorline_group,
+    pattern = { 'fugitive' },  -- Add filetypes as needed
+    callback = function()
+        vim.opt_local.cursorline = true
+    end,
+})
+
+vim.api.nvim_create_autocmd('BufEnter', {
+    group = cursorline_group,
+    callback = function()
+        local buftype = vim.bo.buftype
+        -- Enable for non-file buffers (quickfix, help, etc.)
+        if buftype == 'quickfix' or buftype == 'help' then
+            vim.opt_local.cursorline = true
+        end
+    end,
+})
 -- }}}
