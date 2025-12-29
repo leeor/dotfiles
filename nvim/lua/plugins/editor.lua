@@ -19,8 +19,8 @@ return {
             { "<C-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
             -- Hop-like bindings
             { "<Leader><Leader>w", mode = { "n", "x", "o" }, function() require("flash").jump({ search = { mode = "search", max_length = 0 }, label = { after = { 0, 0 } }, pattern = "^" }) end, desc = "Flash line start" },
-            { "<Leader><Leader>j", mode = { "n", "x", "o" }, function() require("flash").jump({ search = { mode = "search", max_length = 0 }, label = { after = { 0, 0 } }, pattern = "^", search = { forward = true, wrap = false } }) end, desc = "Flash lines down" },
-            { "<Leader><Leader>k", mode = { "n", "x", "o" }, function() require("flash").jump({ search = { mode = "search", max_length = 0 }, label = { after = { 0, 0 } }, pattern = "^", search = { forward = false, wrap = false } }) end, desc = "Flash lines up" },
+            { "<Leader><Leader>j", mode = { "n", "x", "o" }, function() require("flash").jump({ search = { mode = "search", max_length = 0, forward = true, wrap = false }, label = { after = { 0, 0 } }, pattern = "^" }) end, desc = "Flash lines down" },
+            { "<Leader><Leader>k", mode = { "n", "x", "o" }, function() require("flash").jump({ search = { mode = "search", max_length = 0, forward = false, wrap = false }, label = { after = { 0, 0 } }, pattern = "^" }) end, desc = "Flash lines up" },
         },
     },
 

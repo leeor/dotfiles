@@ -1,6 +1,6 @@
--- LSP configuration
+-- LSP configuration (Neovim 0.11+ native API)
 return {
-    -- LSP config
+    -- LSP config - only needed for filetype detection patterns
     {
         "neovim/nvim-lspconfig",
         event = { "BufReadPre", "BufNewFile" },
@@ -8,11 +8,10 @@ return {
             "saghen/blink.cmp",
         },
         config = function()
-            local lspconfig = require("lspconfig")
             local capabilities = require("blink.cmp").get_lsp_capabilities()
 
             -- Go
-            lspconfig.gopls.setup({
+            vim.lsp.config("gopls", {
                 capabilities = capabilities,
                 settings = {
                     gopls = {
@@ -25,9 +24,10 @@ return {
                     },
                 },
             })
+            vim.lsp.enable("gopls")
 
             -- Lua
-            lspconfig.lua_ls.setup({
+            vim.lsp.config("lua_ls", {
                 capabilities = capabilities,
                 on_init = function(client)
                     if not client.workspace_folders or not client.workspace_folders[1] then
@@ -49,17 +49,19 @@ return {
                     return true
                 end,
             })
+            vim.lsp.enable("lua_ls")
 
             -- ESLint
-            lspconfig.eslint.setup({
+            vim.lsp.config("eslint", {
                 capabilities = capabilities,
                 settings = {
                     workingDirectories = { mode = "auto" },
                 },
             })
+            vim.lsp.enable("eslint")
 
             -- Rust
-            lspconfig.rust_analyzer.setup({
+            vim.lsp.config("rust_analyzer", {
                 capabilities = capabilities,
                 settings = {
                     ["rust-analyzer"] = {
@@ -73,6 +75,7 @@ return {
                     },
                 },
             })
+            vim.lsp.enable("rust_analyzer")
         end,
     },
 

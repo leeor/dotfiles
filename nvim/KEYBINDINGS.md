@@ -282,7 +282,7 @@
 | Binding | Mode | Description |
 |---------|------|-------------|
 | `<Leader>gu` | n | Toggle undo tree |
-| `<Leader>gg` | n, v | Grep word under cursor |
+| `<Leader>gg` | n, v | Grep word/selection |
 | `<Leader>y` | n | Copy file path to clipboard |
 | `<Leader>?` | n | Show buffer keymaps |
 | `gh` | n | Show highlight groups |

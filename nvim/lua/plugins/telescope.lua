@@ -28,7 +28,23 @@ return {
 
             -- Grep
             { ";g", "<cmd>Telescope live_grep<CR>", desc = "Live grep" },
-            { "<Leader>gg", "<cmd>Telescope grep_string<CR>", mode = { "n", "v" }, desc = "Grep word" },
+            {
+                "<Leader>gg",
+                function()
+                    local mode = vim.fn.mode()
+                    if mode == "v" or mode == "V" or mode == "\22" then
+                        -- Get visual selection
+                        vim.cmd('noau normal! "vy')
+                        local text = vim.fn.getreg("v")
+                        text = text:gsub("\n", "")
+                        require("telescope.builtin").grep_string({ search = text })
+                    else
+                        require("telescope.builtin").grep_string()
+                    end
+                end,
+                mode = { "n", "v" },
+                desc = "Grep word/selection",
+            },
             { ";l", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Buffer lines" },
 
             -- Quickfix
