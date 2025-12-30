@@ -1,5 +1,15 @@
 -- Editor enhancement plugins
 return {
+    -- Word motion (CamelCase and underscore aware w/b/e)
+    {
+        "chaoren/vim-wordmotion",
+        event = "VeryLazy",
+        init = function()
+            -- Use default w/b/e/ge (not <Leader>w etc.)
+            vim.g.wordmotion_prefix = ""
+        end,
+    },
+
     -- Flash (modern motion plugin, replaces hop/easymotion)
     {
         "folke/flash.nvim",
