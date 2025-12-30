@@ -98,20 +98,10 @@ return {
     -- Case conversion
     { "arthurxavierx/vim-caser", event = "VeryLazy" },
 
-    -- Window picker
-    {
-        "t9md/vim-choosewin",
-        keys = {
-            { "-", "<Plug>(choosewin)", desc = "Choose window" },
-            { "_", "<cmd>ChooseWinSwapStay<CR>", desc = "Swap window" },
-        },
-    },
-
     -- Tim Pope essentials
     { "tpope/vim-unimpaired", event = "VeryLazy" },
     { "tpope/vim-abolish", event = "VeryLazy" },
     { "tpope/vim-sleuth", event = "VeryLazy" },
-    { "tpope/vim-vinegar", event = "VeryLazy" },
 
     -- Enhanced text objects (replaces textobj-user)
     {
@@ -147,7 +137,7 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         cmd = "Oil",
         keys = {
-            { "<Leader>o", "<cmd>Oil<CR>", desc = "Open Oil (parent dir)" },
+            { "-", "<cmd>Oil<CR>", desc = "Open Oil (parent dir)" },
             { "<Leader>O", "<cmd>Oil .<CR>", desc = "Open Oil (cwd)" },
         },
         opts = {

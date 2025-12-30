@@ -23,8 +23,6 @@
 ### Windows
 | Binding | Mode | Description |
 |---------|------|-------------|
-| `-` | n | Choose window (pick with letter) |
-| `_` | n | Swap windows |
 | `sh` | n | Split horizontal + previous buffer |
 | `sv` | n | Split vertical + previous buffer |
 | `<Up>` | n | Increase window height |
@@ -304,7 +302,7 @@
 
 | Binding | Mode | Description |
 |---------|------|-------------|
-| `<Leader>o` | n | Open Oil (parent directory) |
+| `-` | n | Open Oil (parent directory) |
 | `<Leader>O` | n | Open Oil (cwd) |
 
 ### Inside Oil
