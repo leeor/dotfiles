@@ -33,12 +33,6 @@ return {
                 timeout_ms = 500,
                 lsp_fallback = true,
             },
-            -- Customize formatters
-            formatters = {
-                prettier = {
-                    prepend_args = { "--tab-width", "4" },
-                },
-            },
         },
         init = function()
             -- Use conform for gq
