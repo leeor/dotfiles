@@ -1,5 +1,50 @@
 -- Git plugins
 return {
+    -- Diffview for comprehensive diffs
+    {
+        "sindrets/diffview.nvim",
+        cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
+        keys = {
+            { "<Leader>gv", "<cmd>DiffviewOpen<CR>", desc = "Diffview open" },
+            { "<Leader>gV", "<cmd>DiffviewClose<CR>", desc = "Diffview close" },
+            { "<Leader>gf", "<cmd>DiffviewFileHistory %<CR>", desc = "File history" },
+            { "<Leader>gF", "<cmd>DiffviewFileHistory<CR>", desc = "Branch history" },
+        },
+        opts = {
+            enhanced_diff_hl = true,
+            view = {
+                default = { layout = "diff2_horizontal" },
+                merge_tool = { layout = "diff3_mixed" },
+            },
+            file_panel = {
+                listing_style = "tree",
+                win_config = { position = "left", width = 35 },
+            },
+        },
+    },
+
+    -- Git conflict resolution
+    {
+        "akinsho/git-conflict.nvim",
+        version = "*",
+        event = "BufReadPre",
+        opts = {
+            default_mappings = {
+                ours = "co",
+                theirs = "ct",
+                none = "c0",
+                both = "cb",
+                next = "]x",
+                prev = "[x",
+            },
+            disable_diagnostics = true,
+            highlights = {
+                incoming = "DiffAdd",
+                current = "DiffText",
+            },
+        },
+    },
+
     -- Fugitive
     {
         "tpope/vim-fugitive",

@@ -88,6 +88,7 @@
 | `<Leader>lc` | n | Run codelens |
 | `<Leader>sh` | n | Signature help |
 | `<Leader>f` | n | Format buffer |
+| `<Leader>cf` | n, v | Format buffer (conform) |
 
 ---
 
@@ -148,6 +149,24 @@
 | `<Leader>htd` | n | Toggle deleted |
 | `ih` | o, x | Select hunk (text object) |
 
+### Diffview
+| Binding | Mode | Description |
+|---------|------|-------------|
+| `<Leader>gv` | n | Open diffview |
+| `<Leader>gV` | n | Close diffview |
+| `<Leader>gf` | n | File history (current file) |
+| `<Leader>gF` | n | Branch history |
+
+### Git Conflict (in conflict markers)
+| Binding | Mode | Description |
+|---------|------|-------------|
+| `co` | n | Choose ours |
+| `ct` | n | Choose theirs |
+| `c0` | n | Choose none |
+| `cb` | n | Choose both |
+| `]x` | n | Next conflict |
+| `[x` | n | Previous conflict |
+
 ---
 
 ## Editing
@@ -203,33 +222,37 @@
 
 ---
 
-## Treesitter Text Objects
+## Text Objects (mini.ai + Treesitter)
 
 ### Selection
 | Binding | Mode | Description |
 |---------|------|-------------|
-| `af` | o, x | Outer function |
-| `if` | o, x | Inner function |
-| `ac` | o, x | Outer class |
-| `ic` | o, x | Inner class |
-| `aa` | o, x | Outer parameter |
-| `ia` | o, x | Inner parameter |
-| `ab` | o, x | Outer block |
-| `ib` | o, x | Inner block |
+| `af` / `if` | o, x | Outer/inner function |
+| `ac` / `ic` | o, x | Outer/inner class |
+| `aa` / `ia` | o, x | Outer/inner parameter |
+| `ab` / `ib` | o, x | Outer/inner block |
+| `ao` / `io` | o, x | Outer/inner block/conditional/loop |
+| `at` / `it` | o, x | Outer/inner HTML tag |
+| `ad` / `id` | o, x | Digits |
+| `ae` / `ie` | o, x | Word with case (camelCase parts) |
+| `au` / `iu` | o, x | Function call |
+| `aU` / `iU` | o, x | Function call (without dot) |
+| `a"` / `i"` | o, x | Double quotes |
+| `a'` / `i'` | o, x | Single quotes |
+| `` a` `` / `` i` `` | o, x | Backticks |
+| `a(` / `i(` | o, x | Parentheses |
+| `a{` / `i{` | o, x | Braces |
+| `a[` / `i[` | o, x | Brackets |
 
 ### Movement
 | Binding | Mode | Description |
 |---------|------|-------------|
-| `]f` | n | Next function start |
-| `]F` | n | Next function end |
-| `[f` | n | Previous function start |
-| `[F` | n | Previous function end |
-| `]c` | n | Next class start |
-| `]C` | n | Next class end |
-| `[c` | n | Previous class start |
-| `[C` | n | Previous class end |
-| `]a` | n | Next parameter |
-| `[a` | n | Previous parameter |
+| `]f` / `[f` | n | Next/previous function start |
+| `]F` / `[F` | n | Next/previous function end |
+| `]c` / `[c` | n | Next/previous class start |
+| `]C` / `[C` | n | Next/previous class end |
+| `]a` / `[a` | n | Next/previous parameter |
+| `[x` | n | Jump to treesitter context |
 
 ### Swap
 | Binding | Mode | Description |
@@ -274,6 +297,55 @@
 | `<Leader>ts` | n | Toggle spell |
 | `<Leader>th` | n | Clear search highlight |
 | `<Leader>tw` | n | Toggle wrap |
+
+---
+
+## File Explorer (Oil)
+
+| Binding | Mode | Description |
+|---------|------|-------------|
+| `<Leader>o` | n | Open Oil (parent directory) |
+| `<Leader>O` | n | Open Oil (cwd) |
+
+### Inside Oil
+| Binding | Description |
+|---------|-------------|
+| `<CR>` | Open file/directory |
+| `-` | Go to parent directory |
+| `<C-v>` | Open in vertical split |
+| `<C-s>` | Open in horizontal split |
+| `<C-t>` | Open in new tab |
+| `<C-p>` | Preview |
+| `g.` | Toggle hidden files |
+| `g?` | Show help |
+
+---
+
+## Search & Replace (Grug-far)
+
+| Binding | Mode | Description |
+|---------|------|-------------|
+| `<Leader>sr` | n | Search and replace |
+| `<Leader>sr` | v | Search and replace (selection) |
+| `<Leader>sR` | n | Search and replace (current file) |
+
+---
+
+## Testing (Neotest)
+
+| Binding | Mode | Description |
+|---------|------|-------------|
+| `<Leader>tn` | n | Run nearest test |
+| `<Leader>tf` | n | Run file tests |
+| `<Leader>ts` | n | Run test suite |
+| `<Leader>tl` | n | Run last test |
+| `<Leader>td` | n | Debug nearest test |
+| `<Leader>to` | n | Show test output |
+| `<Leader>tO` | n | Toggle output panel |
+| `<Leader>tS` | n | Toggle test summary |
+| `<Leader>tw` | n | Toggle watch mode |
+| `<Leader>tx` | n | Stop test |
+| `]t` / `[t` | n | Next/previous failed test |
 
 ---
 

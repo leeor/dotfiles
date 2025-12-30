@@ -1,5 +1,36 @@
 -- UI plugins
 return {
+    -- Indent guides (subtle)
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        event = { "BufReadPost", "BufNewFile" },
+        opts = {
+            indent = {
+                char = "│",
+                tab_char = "│",
+            },
+            scope = {
+                enabled = true,
+                show_start = false,
+                show_end = false,
+                highlight = { "Function", "Label" },
+            },
+            exclude = {
+                filetypes = {
+                    "help", "dashboard", "lazy", "mason", "notify", "toggleterm",
+                    "lazyterm", "trouble", "Trouble", "neo-tree", "oil",
+                },
+            },
+        },
+        config = function(_, opts)
+            -- Make it subtle - use a dim color
+            vim.api.nvim_set_hl(0, "IblIndent", { fg = "#3b4261", nocombine = true })
+            vim.api.nvim_set_hl(0, "IblScope", { fg = "#565f89", nocombine = true })
+            require("ibl").setup(opts)
+        end,
+    },
+
     -- Status line
     {
         "nvim-lualine/lualine.nvim",

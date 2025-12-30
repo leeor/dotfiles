@@ -103,12 +103,105 @@ return {
     { "tpope/vim-sleuth", event = "VeryLazy" },
     { "tpope/vim-vinegar", event = "VeryLazy" },
 
-    -- Text objects
+    -- Enhanced text objects (replaces textobj-user)
     {
-        "kana/vim-textobj-user",
+        "echasnovski/mini.ai",
         event = "VeryLazy",
-        dependencies = {
-            "rhysd/vim-textobj-anyblock",
+        opts = function()
+            local ai = require("mini.ai")
+            return {
+                n_lines = 500,
+                custom_textobjects = {
+                    o = ai.gen_spec.treesitter({
+                        a = { "@block.outer", "@conditional.outer", "@loop.outer" },
+                        i = { "@block.inner", "@conditional.inner", "@loop.inner" },
+                    }, {}),
+                    f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+                    c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+                    t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().googletag<googletag./%1>" },
+                    d = { "%f[%d]%d+" }, -- digits
+                    e = { -- Word with case
+                        { "%u[%l%d]+%f[^%l%d]", "%f[%S][%l%d]+%f[^%l%d]", "%f[%P][%l%d]+%f[^%l%d]", "^[%l%d]+%f[^%l%d]" },
+                        "^().*googletag",
+                    },
+                    u = ai.gen_spec.function_call(), -- function calls
+                    U = ai.gen_spec.function_call({ name_pattern = "[%w_]" }), -- without dot
+                },
+            }
+        end,
+    },
+
+    -- Oil file explorer
+    {
+        "stevearc/oil.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons" },
+        cmd = "Oil",
+        keys = {
+            { "<Leader>o", "<cmd>Oil<CR>", desc = "Open Oil (parent dir)" },
+            { "<Leader>O", "<cmd>Oil .<CR>", desc = "Open Oil (cwd)" },
+        },
+        opts = {
+            default_file_explorer = true,
+            columns = { "icon" },
+            keymaps = {
+                ["g?"] = "actions.show_help",
+                ["<CR>"] = "actions.select",
+                ["<C-v>"] = "actions.select_vsplit",
+                ["<C-s>"] = "actions.select_split",
+                ["<C-t>"] = "actions.select_tab",
+                ["<C-p>"] = "actions.preview",
+                ["<C-c>"] = "actions.close",
+                ["<C-r>"] = "actions.refresh",
+                ["-"] = "actions.parent",
+                ["_"] = "actions.open_cwd",
+                ["`"] = "actions.cd",
+                ["~"] = "actions.tcd",
+                ["gs"] = "actions.change_sort",
+                ["gx"] = "actions.open_external",
+                ["g."] = "actions.toggle_hidden",
+                ["g\\"] = "actions.toggle_trash",
+            },
+            view_options = {
+                show_hidden = false,
+            },
+            float = {
+                padding = 2,
+                max_width = 120,
+                max_height = 40,
+            },
+        },
+    },
+
+    -- Search and replace
+    {
+        "MagicDuck/grug-far.nvim",
+        cmd = "GrugFar",
+        keys = {
+            {
+                "<Leader>sr",
+                function()
+                    require("grug-far").open({ transient = true })
+                end,
+                desc = "Search and replace",
+            },
+            {
+                "<Leader>sr",
+                function()
+                    require("grug-far").open({ transient = true, prefills = { search = vim.fn.expand("<cword>") } })
+                end,
+                mode = "v",
+                desc = "Search and replace (selection)",
+            },
+            {
+                "<Leader>sR",
+                function()
+                    require("grug-far").open({ transient = true, prefills = { paths = vim.fn.expand("%") } })
+                end,
+                desc = "Search and replace (current file)",
+            },
+        },
+        opts = {
+            headerMaxWidth = 80,
         },
     },
 }
