@@ -253,7 +253,7 @@ autocmd("FileType", {
         vim.opt_local.cursorline = true
         vim.opt_local.buflisted = false
 
-        vim.keymap.set("n", "<CR>", "<CR>zz<C-w>p", opts)
+        vim.keymap.set("n", "<CR>", "<CR>zz", opts)
         vim.keymap.set("n", "sv", "<C-w><CR>", opts)
         vim.keymap.set("n", "sg", "<C-w><Enter><C-w>L", opts)
         vim.keymap.set("n", "st", "<C-w><CR><C-w>T", opts)

@@ -369,7 +369,7 @@
 
 | Binding | Mode | Description |
 |---------|------|-------------|
-| `<CR>` | n | Open + center + return |
+| `<CR>` | n | Open + center |
 | `sv` | n | Open in split |
 | `sg` | n | Open in vertical split |
 | `st` | n | Open in new tab |
