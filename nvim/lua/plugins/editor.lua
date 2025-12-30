@@ -98,6 +98,47 @@ return {
     -- Case conversion
     { "arthurxavierx/vim-caser", event = "VeryLazy" },
 
+    -- Window picker
+    {
+        "s1n7ax/nvim-window-picker",
+        version = "2.*",
+        keys = {
+            {
+                "<Leader>w",
+                function()
+                    local win = require("window-picker").pick_window()
+                    if win then
+                        vim.api.nvim_set_current_win(win)
+                    end
+                end,
+                desc = "Pick window",
+            },
+            {
+                "<Leader>W",
+                function()
+                    local win = require("window-picker").pick_window()
+                    if win then
+                        local current = vim.api.nvim_get_current_win()
+                        local current_buf = vim.api.nvim_win_get_buf(current)
+                        local target_buf = vim.api.nvim_win_get_buf(win)
+                        vim.api.nvim_win_set_buf(current, target_buf)
+                        vim.api.nvim_win_set_buf(win, current_buf)
+                    end
+                end,
+                desc = "Swap window",
+            },
+        },
+        opts = {
+            hint = "floating-big-letter",
+            filter_rules = {
+                bo = {
+                    filetype = { "notify", "noice", "neo-tree-popup" },
+                    buftype = { "terminal", "quickfix" },
+                },
+            },
+        },
+    },
+
     -- Tim Pope essentials
     { "tpope/vim-unimpaired", event = "VeryLazy" },
     { "tpope/vim-abolish", event = "VeryLazy" },

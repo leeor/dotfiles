@@ -23,6 +23,8 @@
 ### Windows
 | Binding | Mode | Description |
 |---------|------|-------------|
+| `<Leader>w` | n | Pick window (jump to it) |
+| `<Leader>W` | n | Swap window buffers |
 | `sh` | n | Split horizontal + previous buffer |
 | `sv` | n | Split vertical + previous buffer |
 | `<Up>` | n | Increase window height |
