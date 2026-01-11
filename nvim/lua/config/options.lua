@@ -143,9 +143,10 @@ opt.conceallevel = 2
 opt.concealcursor = "niv"
 opt.winborder = "rounded"
 
--- Folds
-opt.foldlevelstart = 2
-opt.foldnestmax = 2
+-- Folds (disabled by default, toggle with zi)
+opt.foldenable = false
+opt.foldlevelstart = 99
+opt.foldnestmax = 10
 
 -- Cursorline (disabled by default, enabled for specific filetypes via autocmds)
 opt.cursorline = false
