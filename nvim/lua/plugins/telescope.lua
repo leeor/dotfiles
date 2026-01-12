@@ -83,6 +83,15 @@ return {
                     },
                 },
                 pickers = {
+                    find_files = {
+                        hidden = true,
+                    },
+                    live_grep = {
+                        additional_args = { "--hidden" },
+                    },
+                    grep_string = {
+                        additional_args = { "--hidden" },
+                    },
                     buffers = {
                         ignore_current_buffer = true,
                         sort_mru = true,
