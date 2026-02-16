@@ -41,6 +41,40 @@
 	}; f"
 	conflicted = !nvim +Conflicted
 
+	wadd = "!git worktree add ../$1 #"
+	wrm = "!git worktree remove ../$1 #"
+	wls = worktree list
+	ffmrg = merge --ff-only
+
+	find-blob = "!f() { \
+          hint=\"$1\"; \
+          if [[ -n \"$hint\" ]]; then \
+              echo \"Searching for blobs containing: '$hint'\"; \
+          fi; \
+          for blob in $(git fsck --lost-found | grep 'dangling blob' | awk '{print $3}'); do \
+              if [[ -n \"$hint\" ]] && ! git show $blob 2>/dev/null | grep -q \"$hint\"; then \
+                  continue; \
+              fi; \
+              echo '===================='; \
+              echo \"Blob: $blob\"; \
+              echo 'Content preview:'; \
+              git show $blob | head -20; \
+              echo '===================='; \
+              echo -n 'Is this the file you are looking for? (y/n/q): '; \
+              read answer; \
+              if [[ $answer == 'y' ]]; then \
+                  echo -n 'Enter filename to save as: '; \
+                  read filename; \
+                  git show $blob > \"$filename\"; \
+                  echo \"Saved to $filename\"; \
+                  break; \
+              elif [[ $answer == 'q' ]]; then \
+                  echo 'Search cancelled'; \
+                  break; \
+              fi; \
+          done; \
+      }; f"
+
 [color]
 	ui = true
 
@@ -68,7 +102,7 @@
 
 [pager]
 	#diff = diff-so-fancy | less --tabs=2 -RFX
-	show = diff-so-fancy | less --tabs=2 -RFX
+	#show = diff-so-fancy | less --tabs=2 -RFX
 	log = less --tabs=2 -RFX
 
 [branch]

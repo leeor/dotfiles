@@ -107,7 +107,7 @@ vim.api.nvim_set_hl(0, "CursorLine", { bold = true })
 
 autocmd("FileType", {
     group = cursorline_group,
-    pattern = { "fugitive", "qf", "help" },
+    pattern = { "fugitive", "qf", "help", "gitrebase" },
     callback = function()
         vim.opt_local.cursorline = true
     end,
@@ -203,6 +203,8 @@ autocmd("FileType", {
         vim.opt_local.wrap = true
         vim.opt_local.comments = "n:>"
         vim.opt_local.formatoptions = "1jcqnt"
+        -- Pattern for markdown lists: bullets (-, *, +) and numbered (1., 2), etc.)
+        vim.opt_local.formatlistpat = [[^\s*\(\d\+[.)]\|[-*+]\)\s\+]]
     end,
 })
 
@@ -226,15 +228,35 @@ autocmd("FileType", {
     end,
 })
 
--- ESLint auto-fix on save for JS/TS files
+-- ESLint auto-fix on save for JS/TS files (synchronous to prevent corruption)
 autocmd("BufWritePre", {
     group = filetype_group,
     pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
-    callback = function()
-        vim.lsp.buf.code_action({
-            context = { only = { "source.fixAll.eslint" } },
-            apply = true,
-        })
+    callback = function(args)
+        local clients = vim.lsp.get_clients({ bufnr = args.buf, name = "eslint" })
+        if #clients == 0 then
+            return
+        end
+        local client = clients[1]
+        local result = client:request_sync("textDocument/codeAction", {
+            textDocument = vim.lsp.util.make_text_document_params(args.buf),
+            range = {
+                start = { line = 0, character = 0 },
+                ["end"] = { line = vim.api.nvim_buf_line_count(args.buf), character = 0 },
+            },
+            context = {
+                only = { "source.fixAll.eslint" },
+                diagnostics = {},
+            },
+        }, 1000, args.buf)
+        if not result or not result.result then
+            return
+        end
+        for _, action in ipairs(result.result) do
+            if action.edit then
+                vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+            end
+        end
     end,
 })
 

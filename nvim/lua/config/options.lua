@@ -148,5 +148,10 @@ opt.foldenable = false
 opt.foldlevelstart = 99
 opt.foldnestmax = 10
 
+-- Diagnostics
+vim.diagnostic.config({
+    jump = { float = true },
+})
+
 -- Cursorline (disabled by default, enabled for specific filetypes via autocmds)
 opt.cursorline = false

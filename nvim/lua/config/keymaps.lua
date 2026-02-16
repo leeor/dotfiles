@@ -180,8 +180,6 @@ map("n", "<Leader>aa", vim.diagnostic.setqflist, { desc = "All diagnostics to qu
 map("n", "<Leader>ae", function() vim.diagnostic.setqflist({ severity = "E" }) end, { desc = "Errors to quickfix" })
 map("n", "<Leader>aw", function() vim.diagnostic.setqflist({ severity = "W" }) end, { desc = "Warnings to quickfix" })
 map("n", "<Leader>d", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
-map("n", "[c", function() vim.diagnostic.goto_prev({ wrap = false }) end, { desc = "Previous diagnostic" })
-map("n", "]c", function() vim.diagnostic.goto_next({ wrap = false }) end, { desc = "Next diagnostic" })
 
 -- Quickfix helpers
 vim.api.nvim_create_user_command("Qargs", function()
