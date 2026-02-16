@@ -1,3 +1,5 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/Users/leeor/.zsh/completions:"* ]]; then export FPATH="/Users/leeor/.zsh/completions:$FPATH"; fi
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
@@ -134,3 +136,13 @@ if [ -f '/Users/leeor/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/leeor/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/leeor/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+[ -f ~/.secrets ] && source ~/.secrets
+
+export MONO_REPO_PATH=../mono/master
+
+_git_ffmrg() { _git_merge "$@" }
+_git_wrm() { _git_merge "$@" }
+
+. "$HOME/.local/bin/env"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
