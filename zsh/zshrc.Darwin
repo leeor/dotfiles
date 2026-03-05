@@ -1,4 +1,5 @@
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH:/usr/local/opt/coreutils/libexec/gnubin"
+export PATH="$PATH:/opt/homebrew/opt/libpq/bin"
 
 if [[ -a "${DIRCOLORS}" ]]; then
     eval $(gdircolors -b $DIRCOLORS)
@@ -7,4 +8,20 @@ fi
 
 alias cat=bat
 
-source $HOME/.cargo/env
+[ -f $HOME/.cargo/env ] && source $HOME/.cargo/env
+
+# gcloud SDK
+if [ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]; then
+  source "$HOME/Downloads/google-cloud-sdk/path.zsh.inc"
+fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then
+  source "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# OPAM
+[ -f $HOME/.opam/opam-init/init.zsh ] && source $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null
+
+[ -f ~/.secrets ] && source ~/.secrets
+
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+[ -f "$HOME/.local/bin/env" ] && source "$HOME/.local/bin/env"
