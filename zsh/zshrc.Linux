@@ -7,4 +7,9 @@ fi
 alias pbcopy='xclip -selection clipboard'
 alias tmux-attach='tmux new-session -A -D -s'
 
+# Use a fixed auth sock path so tmux sessions pick up forwarded SSH agent
+if [[ -S ~/.ssh/auth_sock ]]; then
+    export SSH_AUTH_SOCK=~/.ssh/auth_sock
+fi
+
 [ -f ~/.secrets ] && source ~/.secrets
