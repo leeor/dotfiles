@@ -19,8 +19,7 @@ export GOPATH=$HOME/go
 export PATH="/usr/local/go/bin:$GOPATH/bin:$PATH"
 
 # fnm (Node.js)
-if [[ -d $HOME/.local/share/fnm ]]; then
-  export PATH="$HOME/.local/share/fnm:$PATH"
+if [[ -e /opt/homebrew/bin/fnm ]]; then
   eval "$(fnm env --use-on-cd 2>/dev/null)"
 fi
 
